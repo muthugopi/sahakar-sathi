@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import { healthRouter } from './health.routes.js';
 import { authRouter } from './auth.routes.js';
+import { chatRouter, feedbackRouter } from './chat.routes.js';
 
 /**
  * API v1 router. Feature routers are mounted here as milestones land:
- *   auth ✓, chat, voice, schemes, cooperative, grievances, feedback, admin.
+ *   auth ✓, chat ✓, feedback ✓, voice, schemes, cooperative, grievances, admin.
  */
 export const apiRouter = Router();
 
 apiRouter.use('/health', healthRouter);
 apiRouter.use('/auth', authRouter);
+apiRouter.use('/chat', chatRouter);
+apiRouter.use('/feedback', feedbackRouter);
 
 apiRouter.get('/', (_req, res) => {
   res.json({

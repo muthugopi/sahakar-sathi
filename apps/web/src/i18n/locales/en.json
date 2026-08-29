@@ -44,6 +44,45 @@
     "money": { "title": "Money basics", "desc": "Saving, interest, loans, EMI, insurance and avoiding fraud." },
     "grievance": { "title": "Grievance help", "desc": "How to raise a complaint and what happens after you submit it." }
   },
+  "assistant": {
+    "title": "Ask the assistant",
+    "intro": "Ask about cooperative services, schemes, crop insurance, PACS, money matters or grievances. Answers use official sources where available.",
+    "placeholder": "Type your question…",
+    "send": "Send",
+    "thinking": "Finding an answer…",
+    "you": "You",
+    "assistantName": "Sahakar Sathi",
+    "sourcesLabel_one": "1 source",
+    "sourcesLabel_other": "{{count}} sources",
+    "showSources": "Show sources",
+    "hideSources": "Hide sources",
+    "verifiedOn": "Verified {{date}}",
+    "openSource": "Open official source",
+    "confidence": {
+      "HIGH": "Well supported by official sources",
+      "MEDIUM": "Partly supported by official sources",
+      "LOW": "Limited support in official sources",
+      "NO_SOURCE": "No verified source — general guidance only"
+    },
+    "helpful": "Was this helpful?",
+    "yes": "Yes",
+    "no": "No",
+    "feedbackThanks": "Thank you for the feedback.",
+    "errorSend": "The answer could not be sent. Check your connection and try again.",
+    "retry": "Try again",
+    "newChat": "Start a new chat",
+    "categoriesLabel": "Focus the answer on",
+    "category": {
+      "MINISTRY_SCHEME": "Schemes",
+      "PMFBY_AGRICULTURE": "Crop insurance",
+      "PACS_SERVICE": "PACS",
+      "COOPERATIVE_LAW": "Cooperative law",
+      "FINANCIAL_LITERACY": "Money basics",
+      "GRIEVANCE_PROCESS": "Grievances"
+    },
+    "voiceComingSoon": "Voice input is coming soon.",
+    "offlineNote": "The assistant needs an internet connection. Educational pages still work offline."
+  },
   "auth": {
     "signInTitle": "Sign in",
     "registerTitle": "Create an account",
