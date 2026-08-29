@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  /* Visible focus for keyboard users everywhere. */
+  :focus-visible {
+    outline: 3px solid theme('colors.field.DEFAULT');
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold tracking-tight text-ink;
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* The "register line": a ruled row, evoking a cooperative passbook/ledger.
+     Used for help topics, service lists, scheme rows. */
+  .register {
+    @apply divide-y divide-line border-y border-line;
+  }
+
+  .register-row {
+    @apply flex items-baseline gap-4 py-4 px-1 transition-colors;
+    min-height: 3.25rem; /* generous touch target */
+  }
+
+  a.register-row:hover,
+  button.register-row:hover {
+    @apply bg-field-wash;
+  }
+
+  .register-index {
+    @apply shrink-0 font-mono text-sm text-muted tabular-nums pt-0.5;
+    width: 2ch;
+  }
+
+  /* Eyebrow label sitting on a rule, like a section heading in a handbook. */
+  .eyebrow {
+    @apply inline-block text-xs font-semibold uppercase tracking-[0.14em] text-field-deep;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded font-semibold
+           px-5 py-3 text-base transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+    min-height: 3rem;
+  }
+
+  .btn-primary {
+    @apply btn bg-field text-white hover:bg-field-deep;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-field text-field-deep hover:bg-field-wash bg-transparent;
+  }
+
+  .btn-voice {
+    @apply btn bg-marigold text-ink hover:brightness-95;
+  }
+
+  .card {
+    @apply rounded-lg border border-line bg-panel p-5;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-5xl px-4 sm:px-6;
+  }
+}

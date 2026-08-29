@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# builds
+dist/
+build/
+*.tsbuildinfo
+
+# env & secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# runtime data
+uploads/
+storage/
+*.sqlite
+*.sqlite-journal
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# test / coverage
+coverage/
+
+# prisma
+apps/api/prisma/*.db
+
+# ML model cache
+.cache/
+models/

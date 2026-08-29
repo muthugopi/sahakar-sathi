@@ -1,0 +1,61 @@
+{
+  "app": {
+    "name": "Sahakar Sathi",
+    "tagline": "Your multilingual digital assistant for cooperative services, schemes, insurance and financial guidance."
+  },
+  "nav": {
+    "home": "Home",
+    "assistant": "Ask the assistant",
+    "schemes": "Schemes",
+    "cooperative": "Cooperative law",
+    "pacs": "PACS services",
+    "pmfby": "Crop insurance",
+    "money": "Money basics",
+    "grievance": "File a grievance",
+    "track": "Track a grievance",
+    "language": "Language",
+    "signIn": "Sign in"
+  },
+  "home": {
+    "heroHeading": "Get clear answers about cooperative services in your language.",
+    "heroSub": "Ask about schemes, crop insurance, PACS, cooperative rules, money matters, or how to file a grievance. You can type or speak.",
+    "askPlaceholder": "Type your question, for example: Am I eligible for PMFBY?",
+    "askButton": "Ask",
+    "speakButton": "Speak your question",
+    "examplesLabel": "Try asking",
+    "examples": [
+      "What is a PACS?",
+      "Am I eligible for PMFBY crop insurance?",
+      "How do I become a cooperative member?",
+      "How can I file a cooperative grievance?"
+    ],
+    "quickHelpLabel": "Quick help",
+    "schemesLabel": "Popular schemes",
+    "grievanceCalloutTitle": "Have a complaint about a cooperative or PACS?",
+    "grievanceCalloutBody": "Raise it here. You will get a tracking number and can check the status any time.",
+    "grievanceCalloutAction": "Start a grievance",
+    "trustNote": "Answers are drawn from official government and cooperative sources where available. The assistant clearly marks what is verified and what is a plain-language explanation."
+  },
+  "quickHelp": {
+    "schemes": { "title": "Government schemes", "desc": "Find schemes for farmers and cooperative members, and check who can apply." },
+    "pmfby": { "title": "Crop insurance (PMFBY)", "desc": "Eligibility, premium, documents, and how to report crop loss." },
+    "pacs": { "title": "PACS services", "desc": "Membership, credit, deposits, inputs, storage and procurement." },
+    "cooperative": { "title": "Cooperative rules", "desc": "Membership rights, duties, elections, meetings and by-laws in simple words." },
+    "money": { "title": "Money basics", "desc": "Saving, interest, loans, EMI, insurance and avoiding fraud." },
+    "grievance": { "title": "Grievance help", "desc": "How to raise a complaint and what happens after you submit it." }
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "comingSoon": "This section is being prepared.",
+    "offlineTitle": "You appear to be offline",
+    "offlineBody": "Educational pages still work. The assistant needs an internet connection.",
+    "errorTitle": "Something went wrong",
+    "backHome": "Back to home"
+  },
+  "footer": {
+    "disclaimer": "Sahakar Sathi provides general guidance and links to official sources. It is not a substitute for official government or legal advice.",
+    "sources": "Official sources",
+    "accessibility": "Accessibility"
+  }
+}

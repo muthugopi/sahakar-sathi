@@ -1,0 +1,28 @@
+import { createApp } from './app.js';
+import { env } from './config/env.js';
+import { logger } from './config/logger.js';
+import { prisma } from './config/prisma.js';
+
+const app = createApp();
+
+const server = app.listen(env.API_PORT, () => {
+  logger.info(`Sahakar Sathi API listening on http://localhost:${env.API_PORT}/api/v1`);
+});
+
+async function shutdown(signal: string) {
+  logger.info(`${signal} received — shutting down`);
+  server.close(async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
+  // Force-exit if connections do not drain in time.
+  setTimeout(() => process.exit(1), 10_000).unref();
+}
+
+for (const sig of ['SIGINT', 'SIGTERM'] as const) {
+  process.on(sig, () => void shutdown(sig));
+}
+
+process.on('unhandledRejection', (reason) => {
+  logger.error({ reason }, 'Unhandled promise rejection');
+});
