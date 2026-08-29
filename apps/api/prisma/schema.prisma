@@ -269,6 +269,7 @@ model Feedback {
   comment    String?
   createdAt  DateTime       @default(now())
 
+  @@unique([userId, messageId])
   @@index([messageId])
 }
 

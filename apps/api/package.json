@@ -14,13 +14,15 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:knowledge": "tsx prisma/seeds/knowledge.ts",
     "db:studio": "prisma studio"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.32.1",
+    "@anthropic-ai/sdk": "^0.65.0",
+    "@huggingface/transformers": "^4.2.0",
     "@prisma/client": "^6.1.0",
     "@sahakar/shared": "*",
     "argon2": "^0.41.1",
@@ -48,6 +50,6 @@
     "prisma": "^6.1.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
-    "vitest": "^2.1.8"
+    "vitest": "^3.2.4"
   }
 }

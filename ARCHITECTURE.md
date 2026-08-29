@@ -25,7 +25,7 @@ frontend; Node 22 + Express + TS + Prisma on the backend; PostgreSQL 16 with `pg
 for both relational data and embeddings (one datastore keeps rural/low-budget
 deployments simple). Anthropic Claude for generation behind an `LLMClient` interface
 with a deterministic mock adapter so the system runs with no API key. Embeddings from a
-local `bge-small` model (384-dim, no key, ~90 MB one-time download) with a hosted Voyage
+local `multilingual-e5-small` model (384-dim, no key, ~120 MB one-time download) with a hosted Voyage
 option.
 
 ## 3. Frontend approach
@@ -64,29 +64,33 @@ option.
 
 ```
 user question
-  → language detection (server; overridable by explicit selection)
-  → query normalisation + translate-to-English for retrieval
-  → embed query (bge-small)
-  → pgvector similarity search over DocumentChunk
-       filtered by: isPublished + isVerified, category (if provided), language
-  → top-k chunks + parent KnowledgeDocument metadata
-  → if best score < threshold → NO_SOURCE path:
-       "I don't have verified information on this" + official contact channel
-  → build grounded prompt: numbered sources, system rules ("cite or refuse",
-       never invent schemes/laws/eligibility/deadlines, mark facts vs explanation,
-       cautious wording for legal/financial/agricultural topics)
-  → Claude (low temperature)
-  → post-process: attach SourceRef[] cards, attach disclaimers[], set confidence
-       (HIGH / MEDIUM / LOW / NO_SOURCE)
-  → translate answer to the user's selected language
-  → persist Message (with sources + confidence) on the Conversation
-  → return; optional client-side TTS
+  → language detection (script-based: en / ta / hi) — overridable by explicit selection
+  → embed query with multilingual-e5-small (384-dim, "query: " prefix)
+       one shared multilingual vector space → a Tamil/Hindi question matches
+       English source docs directly, no translation hop
+  → pgvector cosine search over DocumentChunk (<=> operator, bound params)
+       filtered by: isPublished + isVerified, category (if provided)
+  → keep chunks with similarity ≥ 0.80 (a false source is worse than NO_SOURCE)
+  → none kept → NO_SOURCE path: "I don't have verified information on this"
+       + the appropriate official channel
+  → build grounded prompt: numbered [n] sources + system rules
+       (answer only from sources; never invent schemes/laws/eligibility/deadlines/
+        contacts; cite [n]; separate fact from plain-language explanation; cautious
+        wording for legal/financial/agri; ask one clarifying question when needed;
+        reply in the user's language)
+  → Claude (claude-sonnet-5 by default; deterministic mock adapter when no API key)
+  → post-process: parse [n] → SourceRef[] cards (dedup by document),
+       rule-based disclaimers[] by category, confidence from retrieval scores
+       (HIGH ≥0.85 · MEDIUM ≥0.78 · LOW · NO_SOURCE)
+  → persist Message (content, confidence, sources, disclaimers) on the Conversation
+  → return; client-side TTS in M4
 ```
 
 Retrieved official text always outranks the model's own knowledge. The system prompt
 forbids fabricating laws, schemes, eligibility rules, deadlines, benefits, or grievance
 contacts, and requires the assistant to admit uncertainty and point to official
-channels.
+channels. The embedding model (~120 MB) runs on-device, downloading once to `.cache/`;
+a hosted Voyage option sits behind `EMBEDDINGS_PROVIDER`.
 
 ## 6. Database design
 
@@ -152,8 +156,8 @@ Full audit + `npm audit` gate + dependency review scheduled for M8.
 | Milestone | Contents |
 |---|---|
 | **M1** ✅ | Monorepo, TS config, Prisma schema + `pgvector`, env/logging/error middleware, health checks, web shell + language selector + home page |
-| **M2** | Registration/login/refresh/logout, role guards, admin seed, `/auth/me`, web auth flows |
-| **M3** | Knowledge doc model + ingestion (PDF → text → chunk → embed), retrieval service, `/chat` with grounding + sources + confidence, feedback, web chat UI (text, history, suggested questions, loading/error/offline states, source cards) |
+| **M2** ✅ | Registration/login/refresh/logout, argon2id, rotating refresh tokens + reuse detection, role guards, admin seed, `/auth/me`, web auth flows |
+| **M3** ✅ | Knowledge doc model + ingestion (chunk → embed → pgvector), retrieval service, `/chat` grounded answers (cite-or-refuse, confidence, source cards, disclaimers), `/feedback`, seed KB, web chat UI (text, history, suggestions, category focus, loading/error/offline). PDF upload lands with admin (M7) |
 | **M4** | Server language detection, translation layer, Web Speech STT/TTS integration (play/pause/stop/replay), `/voice/*` fallback stubs |
 | **M5** | Scheme Explorer (filter by category/state/target/eligibility), Cooperative Law & Governance (simple + legal view), PACS services, PMFBY assistance, Financial Literacy lessons — all data-driven from verified seed content |
 | **M6** | Grievance submit → tracking ID → status workflow (`SUBMITTED…CLOSED`) → tracking UI, attachments, voice description |

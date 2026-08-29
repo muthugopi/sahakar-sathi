@@ -46,13 +46,23 @@ cp .env.example apps/api/.env
 #   - (optional) set ANTHROPIC_API_KEY — without it the assistant uses a mock adapter
 
 # 3. database
-npm run db:up            # starts Postgres in Docker
-npm run db:migrate       # applies Prisma migrations
-npm run db:seed          # creates the admin account
+npm run db:up                          # starts Postgres in Docker (or use a hosted DATABASE_URL)
+npm run db:migrate                     # applies Prisma migrations
+npm run db:seed                        # creates the admin account
+npm run db:seed:knowledge --workspace apps/api   # loads the seed knowledge base
+#   (first run downloads the ~120MB local embedding model to .cache/)
 
 # 4. run
 npm run dev              # web on :5173, api on :4000
 ```
+
+### AI provider
+
+Without `ANTHROPIC_API_KEY`, the assistant runs a **mock adapter**: it performs real
+retrieval over the knowledge base and returns the matched official text verbatim with a
+"limited offline response" note — it never invents facts. Set `ANTHROPIC_API_KEY` in
+`apps/api/.env` for full plain-language answers in the user's language. Model is
+`LLM_MODEL` (default `claude-sonnet-5`).
 
 Health check: <http://localhost:4000/api/v1/health/ready>
 
@@ -75,8 +85,12 @@ Health check: <http://localhost:4000/api/v1/health/ready>
 
 - [x] **M1 — Foundation:** monorepo, config, Prisma schema, error/logging middleware,
       health checks, web shell with working language selector, home page.
-- [ ] M2 — Auth & roles
-- [ ] M3 — Knowledge base + RAG chatbot
+- [x] **M2 — Auth & roles:** register/login/refresh/logout, argon2id, rotating refresh
+      tokens with reuse detection, role guards, web sign-in/register.
+- [x] **M3 — Knowledge base + RAG chatbot:** local multilingual embeddings + pgvector
+      retrieval, grounded `/chat` (cite-or-refuse, confidence, source cards, disclaimers),
+      feedback, seed knowledge base, chat UI (text, history, suggestions, category focus,
+      loading/error/offline states).
 - [ ] M4 — Multilingual processing + voice
 - [ ] M5 — Scheme explorer, cooperative law, PACS, PMFBY, financial literacy
 - [ ] M6 — Grievance workflow

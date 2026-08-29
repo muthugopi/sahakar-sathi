@@ -5,6 +5,7 @@ import { PlaceholderPage } from './pages/PlaceholderPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { SignInPage } from './pages/SignInPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { AssistantPage } from './pages/AssistantPage';
 
 /**
  * Routes are stubbed with PlaceholderPage until their milestone lands:
@@ -19,7 +20,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/assistant" element={<PlaceholderPage titleKey="nav.assistant" />} />
+        <Route path="/assistant" element={<AssistantPage />} />
         <Route path="/schemes" element={<PlaceholderPage titleKey="nav.schemes" />} />
         <Route path="/cooperative" element={<PlaceholderPage titleKey="nav.cooperative" />} />
         <Route path="/pacs" element={<PlaceholderPage titleKey="nav.pacs" />} />
