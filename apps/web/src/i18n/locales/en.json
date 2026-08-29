@@ -83,6 +83,68 @@
     "voiceComingSoon": "Voice input is coming soon.",
     "offlineNote": "The assistant needs an internet connection. Educational pages still work offline."
   },
+  "sections": {
+    "schemes": {
+      "eyebrow": "Schemes",
+      "title": "Government schemes",
+      "intro": "Find schemes for farmers and cooperative members. Filter by who can apply, then open a scheme to see eligibility, benefits, documents and how to apply.",
+      "askExample": "Which government schemes am I eligible for as a farmer?"
+    },
+    "cooperative_law": {
+      "eyebrow": "Cooperative law",
+      "title": "Cooperative law & governance",
+      "intro": "How cooperative societies work — membership, rights, duties, elections, meetings, by-laws and disputes. Each topic has a simple explanation and a detailed reference.",
+      "askExample": "Explain cooperative society by-laws in simple words."
+    },
+    "pacs": {
+      "eyebrow": "PACS services",
+      "title": "PACS services",
+      "intro": "What your village Primary Agricultural Credit Society can do for members — membership, crop loans, deposits, inputs, procurement, storage and newer services.",
+      "askExample": "What services does a PACS provide to its members?"
+    },
+    "financial_literacy": {
+      "eyebrow": "Money basics",
+      "title": "Money basics",
+      "intro": "Simple lessons on saving, interest, loans and EMI, choosing a lender, bank accounts, insurance, budgeting for a farm household, and avoiding fraud — with real examples.",
+      "askExample": "How do I compare two loan offers?"
+    },
+    "pmfby": {
+      "eyebrow": "Crop insurance",
+      "title": "PMFBY — crop insurance help",
+      "intro": "Common questions about Pradhan Mantri Fasal Bima Yojana — eligibility, premium, enrolment, reporting crop loss, checking a claim, and the important dates.",
+      "askExample": "Am I eligible for PMFBY crop insurance?"
+    }
+  },
+  "content": {
+    "askAssistant": "Ask the assistant about this",
+    "simple": "Simple",
+    "detailed": "Detailed",
+    "example": "Example",
+    "officialSource": "Official source",
+    "loadError": "This content could not be loaded. Please try again.",
+    "stillNeedHelpTitle": "Still need help?",
+    "stillNeedHelpBody": "Ask the assistant in your own words — by text or voice — and get an answer in your language."
+  },
+  "schemes": {
+    "national": "All India",
+    "search": "Search schemes",
+    "forWhom": "Who can apply",
+    "category": "Category",
+    "state": "State",
+    "clearFilters": "Clear filters",
+    "none": "No schemes match those filters.",
+    "backToAll": "All schemes",
+    "disclaimer": "This is a plain-language summary. Amounts, dates and rules change — always confirm on the official portal before applying.",
+    "askExample": "Am I eligible for {{title}}?",
+    "field": {
+      "purpose": "Purpose",
+      "eligibility": "Who can apply / eligibility",
+      "benefits": "Benefits",
+      "documents": "Documents needed",
+      "process": "How to apply",
+      "source": "Official source"
+    }
+  },
   "voice": {
     "speak": "Speak your question",
     "stopListening": "Stop listening",

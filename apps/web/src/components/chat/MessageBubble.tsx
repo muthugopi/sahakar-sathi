@@ -4,7 +4,7 @@ import type { ChatMessage } from '@sahakar/shared';
 import { sendFeedback } from '../../lib/chat';
 import { ConfidenceTag } from './ConfidenceTag';
 import { SourceList } from './SourceList';
-import { RichText } from './RichText';
+import { RichText } from '../RichText';
 import { ListenButton } from './ListenButton';
 
 export function MessageBubble({ message }: { message: ChatMessage }) {

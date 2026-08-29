@@ -50,6 +50,7 @@ npm run db:up                          # starts Postgres in Docker (or use a hos
 npm run db:migrate                     # applies Prisma migrations
 npm run db:seed                        # creates the admin account
 npm run db:seed:knowledge --workspace apps/api   # loads the seed knowledge base
+npm run db:seed:content --workspace apps/api      # loads schemes + explainer topics (also into the KB)
 #   (first run downloads the ~120MB local embedding model to .cache/)
 
 # 4. run
@@ -94,7 +95,10 @@ Health check: <http://localhost:4000/api/v1/health/ready>
 - [x] **M4 — Voice:** browser speech-to-text (mic → dictate into the composer) and
       text-to-speech (play/pause/stop/replay per answer, "read answers aloud" toggle),
       `en-IN`/`ta-IN`/`hi-IN`; `/voice/config` + reserved server STT/TTS endpoints.
-- [ ] M5 — Scheme explorer, cooperative law, PACS, PMFBY, financial literacy
+- [x] **M5 — Content sections:** Scheme Explorer (filter by who-can-apply / category /
+      state, search), scheme detail pages, and Cooperative Law · PACS · Money Basics ·
+      PMFBY-FAQ as browsable topics (Simple / Detailed views, rural examples, official
+      links); every item also grounds the assistant.
 - [ ] M6 — Grievance workflow
 - [ ] M7 — Admin dashboard
 - [ ] M8 — PWA/offline, mobile, security & accessibility audits
