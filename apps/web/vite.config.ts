@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react';
 // Low-bandwidth target: keep the initial chunk small and proxy the API in dev.
 export default defineConfig({
   plugins: [react()],
+  // Local workspace package — let Vite follow its source/dist rather than pre-bundling it.
+  optimizeDeps: { exclude: ['@sahakar/shared'] },
   server: {
     port: 5173,
     proxy: {
