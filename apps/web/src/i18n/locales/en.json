@@ -83,6 +83,20 @@
     "voiceComingSoon": "Voice input is coming soon.",
     "offlineNote": "The assistant needs an internet connection. Educational pages still work offline."
   },
+  "voice": {
+    "speak": "Speak your question",
+    "stopListening": "Stop listening",
+    "listening": "Listening… speak now, then tap the square to stop.",
+    "micDenied": "Microphone access was blocked. Allow it in your browser settings to use voice.",
+    "noSpeech": "I didn't catch that. Tap the microphone and try again.",
+    "error": "Voice input isn't working right now. You can type instead.",
+    "listen": "Listen",
+    "pause": "Pause",
+    "resume": "Resume",
+    "stop": "Stop",
+    "replay": "Replay",
+    "autoRead": "Read answers aloud"
+  },
   "auth": {
     "signInTitle": "Sign in",
     "registerTitle": "Create an account",

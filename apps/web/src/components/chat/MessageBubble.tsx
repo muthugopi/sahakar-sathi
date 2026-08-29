@@ -5,6 +5,7 @@ import { sendFeedback } from '../../lib/chat';
 import { ConfidenceTag } from './ConfidenceTag';
 import { SourceList } from './SourceList';
 import { RichText } from './RichText';
+import { ListenButton } from './ListenButton';
 
 export function MessageBubble({ message }: { message: ChatMessage }) {
   const { t } = useTranslation();
@@ -49,6 +50,8 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
         {message.sources && message.sources.length > 0 && (
           <SourceList sources={message.sources} />
         )}
+
+        <ListenButton id={message.id} text={message.content} language={message.language} />
 
         <FeedbackRow messageId={message.id} />
       </div>

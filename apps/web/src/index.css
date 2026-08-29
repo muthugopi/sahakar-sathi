@@ -88,6 +88,13 @@
     @apply rounded-lg border border-line bg-panel p-5;
   }
 
+  /* Compact control used by the "listen" (text-to-speech) buttons. */
+  .voice-ctrl {
+    @apply inline-flex items-center gap-1.5 rounded border border-line bg-paper px-2.5 py-1.5
+           font-medium hover:bg-field-wash;
+    min-height: 2.5rem;
+  }
+
   .container-page {
     @apply mx-auto w-full max-w-5xl px-4 sm:px-6;
   }
