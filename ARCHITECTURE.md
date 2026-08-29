@@ -122,7 +122,7 @@ POST   /api/v1/auth/register | login | refresh | logout      (M2)
 GET    /api/v1/auth/me                                        (M2)
 POST   /api/v1/chat            GET /api/v1/chat/history        (M3)
 POST   /api/v1/feedback                                       (M3)
-POST   /api/v1/voice/transcribe | speak   (fallback only)     (M4)
+GET    /api/v1/voice/config    POST /voice/transcribe | speak (M4; server STT/TTS reserved)
 GET    /api/v1/schemes         GET /api/v1/schemes/:slug       (M5)
 GET    /api/v1/cooperative/laws | services                    (M5)
 GET    /api/v1/pacs/services   GET /api/v1/finance/lessons     (M5)
@@ -158,7 +158,7 @@ Full audit + `npm audit` gate + dependency review scheduled for M8.
 | **M1** ✅ | Monorepo, TS config, Prisma schema + `pgvector`, env/logging/error middleware, health checks, web shell + language selector + home page |
 | **M2** ✅ | Registration/login/refresh/logout, argon2id, rotating refresh tokens + reuse detection, role guards, admin seed, `/auth/me`, web auth flows |
 | **M3** ✅ | Knowledge doc model + ingestion (chunk → embed → pgvector), retrieval service, `/chat` grounded answers (cite-or-refuse, confidence, source cards, disclaimers), `/feedback`, seed KB, web chat UI (text, history, suggestions, category focus, loading/error/offline). PDF upload lands with admin (M7) |
-| **M4** | Server language detection, translation layer, Web Speech STT/TTS integration (play/pause/stop/replay), `/voice/*` fallback stubs |
+| **M4** ✅ | Browser Web Speech STT (dictation into the composer, auto-start from the home "Speak" button) + TTS (play/pause/stop/replay per answer, shared engine, "read aloud" toggle, markdown/citation stripping), `en-IN`/`ta-IN`/`hi-IN`; `GET /voice/config` capability descriptor + reserved `POST /voice/transcribe|speak` (501 until a hosted provider such as Bhashini is wired) |
 | **M5** | Scheme Explorer (filter by category/state/target/eligibility), Cooperative Law & Governance (simple + legal view), PACS services, PMFBY assistance, Financial Literacy lessons — all data-driven from verified seed content |
 | **M6** | Grievance submit → tracking ID → status workflow (`SUBMITTED…CLOSED`) → tracking UI, attachments, voice description |
 | **M7** | Admin dashboard: analytics (users, conversations, languages, top questions, grievances), knowledge management (upload/verify/version/categorise), scheme management (create/edit/verify/archive), grievance management (assign/update/respond/resolve) |

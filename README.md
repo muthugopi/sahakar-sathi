@@ -91,7 +91,9 @@ Health check: <http://localhost:4000/api/v1/health/ready>
       retrieval, grounded `/chat` (cite-or-refuse, confidence, source cards, disclaimers),
       feedback, seed knowledge base, chat UI (text, history, suggestions, category focus,
       loading/error/offline states).
-- [ ] M4 — Multilingual processing + voice
+- [x] **M4 — Voice:** browser speech-to-text (mic → dictate into the composer) and
+      text-to-speech (play/pause/stop/replay per answer, "read answers aloud" toggle),
+      `en-IN`/`ta-IN`/`hi-IN`; `/voice/config` + reserved server STT/TTS endpoints.
 - [ ] M5 — Scheme explorer, cooperative law, PACS, PMFBY, financial literacy
 - [ ] M6 — Grievance workflow
 - [ ] M7 — Admin dashboard

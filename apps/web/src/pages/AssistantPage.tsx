@@ -13,6 +13,7 @@ import {
 import { useOnlineStatus } from '../lib/useOnlineStatus';
 import { MessageBubble } from '../components/chat/MessageBubble';
 import { Composer } from '../components/chat/Composer';
+import { SpeechProvider, useSpeech } from '../components/chat/SpeechContext';
 
 const CATEGORIES: KnowledgeCategory[] = [
   'MINISTRY_SCHEME',
@@ -23,23 +24,54 @@ const CATEGORIES: KnowledgeCategory[] = [
   'GRIEVANCE_PROCESS',
 ];
 
+const AUTO_READ_KEY = 'sahakar.autoRead';
+
 let tempId = 0;
 const nextTempId = () => `local-${++tempId}`;
 
 export function AssistantPage() {
+  return (
+    <SpeechProvider>
+      <AssistantView />
+    </SpeechProvider>
+  );
+}
+
+function AssistantView() {
   const { t, i18n } = useTranslation();
   const online = useOnlineStatus();
   const [params, setParams] = useSearchParams();
+  const speech = useSpeech();
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [conversationId, setConversationId] = useState<string | null>(() => loadConversationId());
   const [category, setCategory] = useState<KnowledgeCategory | undefined>();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [autoRead, setAutoRead] = useState(() => {
+    try {
+      return localStorage.getItem(AUTO_READ_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const bootstrapped = useRef(false);
 
   const language = (i18n.resolvedLanguage ?? 'en') as LanguageCode;
+
+  const toggleAutoRead = () => {
+    setAutoRead((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem(AUTO_READ_KEY, next ? '1' : '0');
+      } catch {
+        /* ignore */
+      }
+      if (!next) speech.stop();
+      return next;
+    });
+  };
 
   const scrollToEnd = useCallback(() => {
     requestAnimationFrame(() => {
@@ -72,6 +104,7 @@ export function AssistantPage() {
         saveConversationId(res.conversationId);
         setMessages((m) => [...m, res.reply]);
         scrollToEnd();
+        if (autoRead) speech.speak(res.reply.id, res.reply.content, res.reply.language);
       } catch (err) {
         setMessages((m) => m.filter((x) => x.id !== userMsg.id));
         setError(err instanceof ApiRequestError ? err.message : t('assistant.errorSend'));
@@ -79,10 +112,9 @@ export function AssistantPage() {
         setBusy(false);
       }
     },
-    [category, conversationId, language, scrollToEnd, t],
+    [autoRead, category, conversationId, language, scrollToEnd, speech, t],
   );
 
-  // Load prior conversation, then act on ?q= from the home page.
   useEffect(() => {
     if (bootstrapped.current) return;
     bootstrapped.current = true;
@@ -110,6 +142,7 @@ export function AssistantPage() {
   }, []);
 
   const newChat = () => {
+    speech.stop();
     clearConversationId();
     setConversationId(null);
     setMessages([]);
@@ -136,29 +169,41 @@ export function AssistantPage() {
         )}
       </div>
 
-      {/* Category focus */}
-      <div className="mt-4">
-        <p className="eyebrow mb-2">{t('assistant.categoriesLabel')}</p>
-        <div className="flex flex-wrap gap-2">
-          {CATEGORIES.map((c) => (
-            <button
-              key={c}
-              type="button"
-              aria-pressed={category === c}
-              onClick={() => setCategory((cur) => (cur === c ? undefined : c))}
-              className={`rounded border px-3 py-1.5 text-sm transition-colors ${
-                category === c
-                  ? 'border-field bg-field text-white'
-                  : 'border-line bg-panel hover:bg-field-wash'
-              }`}
-            >
-              {t(`assistant.category.${c}`)}
-            </button>
-          ))}
+      <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="eyebrow mb-2">{t('assistant.categoriesLabel')}</p>
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-pressed={category === c}
+                onClick={() => setCategory((cur) => (cur === c ? undefined : c))}
+                className={`rounded border px-3 py-1.5 text-sm transition-colors ${
+                  category === c
+                    ? 'border-field bg-field text-white'
+                    : 'border-line bg-panel hover:bg-field-wash'
+                }`}
+              >
+                {t(`assistant.category.${c}`)}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {speech.supported && (
+          <label className="flex cursor-pointer items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={autoRead}
+              onChange={toggleAutoRead}
+              className="h-5 w-5 rounded border-line text-field focus-visible:outline-field"
+            />
+            {t('voice.autoRead')}
+          </label>
+        )}
       </div>
 
-      {/* Conversation */}
       <div
         ref={scrollRef}
         className="mt-4 flex-1 space-y-5 overflow-y-auto rounded-lg border border-line bg-paper p-4"
@@ -224,7 +269,13 @@ export function AssistantPage() {
       )}
 
       <div className="mt-2">
-        <Composer onSend={(text) => void submit(text)} disabled={!online || busy} busy={busy} />
+        <Composer
+          onSend={(text) => void submit(text)}
+          language={language}
+          disabled={!online || busy}
+          busy={busy}
+          autoListen={params.get('voice') === '1'}
+        />
       </div>
     </div>
   );
