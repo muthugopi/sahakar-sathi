@@ -10,6 +10,10 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
+  // Direct (non-pooled) connection for migrations. Falls back to DATABASE_URL
+  // via the config loader when not set. Required when DATABASE_URL points at a
+  // PgBouncer/pooled endpoint (e.g. Neon's -pooler host).
+  directUrl  = env("DIRECT_URL")
   extensions = [vector]
 }
 

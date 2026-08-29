@@ -14,6 +14,8 @@ const schema = z.object({
     .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
 
   DATABASE_URL: z.string().url(),
+  // Non-pooled connection for Prisma migrations; defaults to DATABASE_URL.
+  DIRECT_URL: z.string().url().optional(),
 
   JWT_ACCESS_SECRET: z.string().min(16, 'JWT_ACCESS_SECRET must be at least 16 chars'),
   JWT_REFRESH_SECRET: z.string().min(16, 'JWT_REFRESH_SECRET must be at least 16 chars'),
