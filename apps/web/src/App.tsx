@@ -3,6 +3,8 @@ import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { SignInPage } from './pages/SignInPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 /**
  * Routes are stubbed with PlaceholderPage until their milestone lands:
@@ -15,6 +17,8 @@ export function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/assistant" element={<PlaceholderPage titleKey="nav.assistant" />} />
         <Route path="/schemes" element={<PlaceholderPage titleKey="nav.schemes" />} />
         <Route path="/cooperative" element={<PlaceholderPage titleKey="nav.cooperative" />} />

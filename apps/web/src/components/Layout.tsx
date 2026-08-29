@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LanguageSelector } from './LanguageSelector';
 import { useOnlineStatus } from '../lib/useOnlineStatus';
+import { useAuth } from '../lib/auth';
 
 const NAV = [
   { to: '/assistant', key: 'nav.assistant' },
@@ -16,6 +17,7 @@ const NAV = [
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
   const online = useOnlineStatus();
+  const { status, user, logout } = useAuth();
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -46,8 +48,29 @@ export function Layout({ children }: { children: ReactNode }) {
               Cooperative Support
             </span>
           </Link>
-          <div className="ms-auto">
+          <div className="ms-auto flex flex-wrap items-center gap-x-4 gap-y-2">
             <LanguageSelector id="lang-header" />
+            {status === 'authenticated' && user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-ink">{t('auth.greeting', { name: user.name })}</span>
+                <button
+                  type="button"
+                  onClick={() => void logout()}
+                  className="rounded border border-line px-3 py-1.5 text-sm font-medium hover:bg-field-wash"
+                >
+                  {t('auth.signOut')}
+                </button>
+              </div>
+            ) : (
+              status === 'anonymous' && (
+                <Link
+                  to="/signin"
+                  className="rounded border border-field px-3 py-1.5 text-sm font-semibold text-field-deep hover:bg-field-wash"
+                >
+                  {t('nav.signIn')}
+                </Link>
+              )
+            )}
           </div>
         </div>
 

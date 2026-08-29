@@ -8,14 +8,25 @@ import {
   LANGUAGE_CODES,
   SELF_ASSIGNABLE_ROLES,
   USER_ROLES,
+  type AnswerConfidence,
+  type ApiErrorCode,
+  type GrievanceCategory,
+  type GrievanceStatus,
+  type KnowledgeCategory,
+  type LanguageCode,
+  type UserRole,
 } from './constants.js';
+
+/** Build a Zod enum from a readonly string-literal list, preserving literal types. */
+const literalEnum = <T extends string>(values: readonly T[]) =>
+  z.enum(values as unknown as [T, ...T[]]);
 
 /* -------------------------------------------------------------------------- */
 /*  Primitives                                                                 */
 /* -------------------------------------------------------------------------- */
 
-export const languageSchema = z.enum(LANGUAGE_CODES as [string, ...string[]]);
-export const roleSchema = z.enum(USER_ROLES as unknown as [string, ...string[]]);
+export const languageSchema = literalEnum<LanguageCode>(LANGUAGE_CODES);
+export const roleSchema = literalEnum<UserRole>(USER_ROLES);
 
 /** Accept e.164-ish phone OR email; at least one identifier is required. */
 const phoneSchema = z
@@ -29,7 +40,7 @@ const phoneSchema = z
 
 export const apiErrorSchema = z.object({
   error: z.object({
-    code: z.enum(API_ERROR_CODES as unknown as [string, ...string[]]),
+    code: literalEnum<ApiErrorCode>(API_ERROR_CODES),
     message: z.string(),
     details: z.unknown().optional(),
     requestId: z.string().optional(),
@@ -53,7 +64,7 @@ export const registerSchema = z
       .regex(/[a-zA-Z]/, 'Include a letter')
       .regex(/\d/, 'Include a number'),
     preferredLanguage: languageSchema.default('en'),
-    role: z.enum(SELF_ASSIGNABLE_ROLES as unknown as [string, ...string[]]).default('USER'),
+    role: literalEnum<UserRole>(SELF_ASSIGNABLE_ROLES).default('USER'),
     district: z.string().trim().max(120).optional(),
     state: z.string().trim().max(120).optional(),
   })
@@ -96,7 +107,7 @@ export const chatRequestSchema = z.object({
   conversationId: z.string().optional(),
   message: z.string().trim().min(1).max(2000),
   language: languageSchema.optional(), // if omitted, server detects
-  category: z.enum(KNOWLEDGE_CATEGORIES as unknown as [string, ...string[]]).optional(),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES).optional(),
 });
 export type ChatRequest = z.infer<typeof chatRequestSchema>;
 
@@ -105,7 +116,7 @@ export const sourceRefSchema = z.object({
   title: z.string(),
   authority: z.string(),
   sourceUrl: z.string().url().nullable(),
-  category: z.enum(KNOWLEDGE_CATEGORIES as unknown as [string, ...string[]]),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES),
   verifiedAt: z.string().nullable(),
   snippet: z.string(),
 });
@@ -117,7 +128,7 @@ export const chatMessageSchema = z.object({
   content: z.string(),
   language: languageSchema,
   createdAt: z.string(),
-  confidence: z.enum(ANSWER_CONFIDENCE as unknown as [string, ...string[]]).optional(),
+  confidence: literalEnum<AnswerConfidence>(ANSWER_CONFIDENCE).optional(),
   sources: z.array(sourceRefSchema).optional(),
   disclaimers: z.array(z.string()).optional(),
 });
@@ -133,12 +144,8 @@ export type ChatResponse = z.infer<typeof chatResponseSchema>;
 /*  Grievances                                                                 */
 /* -------------------------------------------------------------------------- */
 
-export const grievanceCategorySchema = z.enum(
-  GRIEVANCE_CATEGORIES as unknown as [string, ...string[]],
-);
-export const grievanceStatusSchema = z.enum(
-  GRIEVANCE_STATUSES as unknown as [string, ...string[]],
-);
+export const grievanceCategorySchema = literalEnum<GrievanceCategory>(GRIEVANCE_CATEGORIES);
+export const grievanceStatusSchema = literalEnum<GrievanceStatus>(GRIEVANCE_STATUSES);
 
 export const createGrievanceSchema = z.object({
   category: grievanceCategorySchema,

@@ -16,14 +16,32 @@ export class ApiRequestError extends Error {
   }
 }
 
-type Options = Omit<RequestInit, 'body'> & { body?: unknown; timeoutMs?: number };
+/* --- in-memory access token (never persisted to storage) --- */
+
+let accessToken: string | null = null;
+export const setAccessToken = (token: string | null) => {
+  accessToken = token;
+};
+export const getAccessToken = () => accessToken;
 
 /**
- * Thin fetch wrapper: JSON in/out, credentials included (cookie auth),
- * timeout, and the shared error envelope surfaced as ApiRequestError.
+ * Called on a 401 to attempt a silent refresh using the httpOnly cookie.
+ * Wired up by the AuthProvider to avoid a circular import.
  */
-export async function api<T>(path: string, opts: Options = {}): Promise<T> {
-  const { body, timeoutMs = 20_000, headers, ...rest } = opts;
+let refreshFn: (() => Promise<boolean>) | null = null;
+export const setRefreshHandler = (fn: (() => Promise<boolean>) | null) => {
+  refreshFn = fn;
+};
+
+type Options = Omit<RequestInit, 'body'> & {
+  body?: unknown;
+  timeoutMs?: number;
+  auth?: boolean; // attach bearer token (default true)
+  _retry?: boolean;
+};
+
+async function raw<T>(path: string, opts: Options): Promise<T> {
+  const { body, timeoutMs = 20_000, headers, auth = true, _retry, ...rest } = opts;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -35,19 +53,23 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
       headers: {
         Accept: 'application/json',
         ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...(auth && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...headers,
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
     });
+
+    if (res.status === 401 && auth && !_retry && refreshFn) {
+      const ok = await refreshFn();
+      if (ok) return raw<T>(path, { ...opts, _retry: true });
+    }
 
     if (res.status === 204) return undefined as T;
 
     const text = await res.text();
     const parsed = text ? JSON.parse(text) : undefined;
 
-    if (!res.ok) {
-      throw new ApiRequestError(res.status, parsed as ApiError, 'Request failed');
-    }
+    if (!res.ok) throw new ApiRequestError(res.status, parsed as ApiError, 'Request failed');
     return parsed as T;
   } catch (err) {
     if (err instanceof ApiRequestError) throw err;
@@ -59,3 +81,5 @@ export async function api<T>(path: string, opts: Options = {}): Promise<T> {
     clearTimeout(timer);
   }
 }
+
+export const api = <T>(path: string, opts: Options = {}) => raw<T>(path, opts);
