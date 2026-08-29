@@ -6,12 +6,12 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { SignInPage } from './pages/SignInPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { AssistantPage } from './pages/AssistantPage';
+import { SchemesPage } from './pages/SchemesPage';
+import { SchemeDetailPage } from './pages/SchemeDetailPage';
+import { ContentSectionPage } from './pages/ContentSectionPage';
 
 /**
- * Routes are stubbed with PlaceholderPage until their milestone lands:
- *  - /assistant  (M3)   - /schemes (M5)     - /cooperative (M5)
- *  - /pacs (M5)          - /pmfby (M5)       - /money (M5)
- *  - /grievance (M6)     - /track (M6)       - /admin (M7)
+ * Remaining stubs: /grievance (M6), /track (M6), /admin (M7).
  */
 export function App() {
   return (
@@ -21,11 +21,12 @@ export function App() {
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/assistant" element={<AssistantPage />} />
-        <Route path="/schemes" element={<PlaceholderPage titleKey="nav.schemes" />} />
-        <Route path="/cooperative" element={<PlaceholderPage titleKey="nav.cooperative" />} />
-        <Route path="/pacs" element={<PlaceholderPage titleKey="nav.pacs" />} />
-        <Route path="/pmfby" element={<PlaceholderPage titleKey="nav.pmfby" />} />
-        <Route path="/money" element={<PlaceholderPage titleKey="nav.money" />} />
+        <Route path="/schemes" element={<SchemesPage />} />
+        <Route path="/schemes/:slug" element={<SchemeDetailPage />} />
+        <Route path="/cooperative" element={<ContentSectionPage section="COOPERATIVE_LAW" />} />
+        <Route path="/pacs" element={<ContentSectionPage section="PACS" />} />
+        <Route path="/pmfby" element={<ContentSectionPage section="PMFBY" />} />
+        <Route path="/money" element={<ContentSectionPage section="FINANCIAL_LITERACY" />} />
         <Route path="/grievance" element={<PlaceholderPage titleKey="nav.grievance" />} />
         <Route path="/track" element={<PlaceholderPage titleKey="nav.track" />} />
         <Route path="*" element={<NotFoundPage />} />

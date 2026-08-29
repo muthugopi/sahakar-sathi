@@ -103,6 +103,7 @@ Prisma models (`apps/api/prisma/schema.prisma`):
 | `Conversation` / `Message` | chat history; `Message` stores `sources` (JSON), `confidence`, `disclaimers` |
 | `Scheme` | title, purpose, eligibility, benefits, documents, official source, `verifiedAt`, per-state, `isArchived` |
 | `KnowledgeDocument` | title, category, authority, source URL/file, language, `version`, `isVerified`/`verifiedAt`, `isPublished` |
+| `ContentTopic` | browsable explainer (cooperative law / PACS / finance / PMFBY-FAQ): `section`, `topic`, `simpleExplanation`, `detailedExplanation?`, `example?`, authority, source, `order`, `verifiedAt` |
 | `DocumentChunk` | chunk text + `vector(384)` embedding (`Unsupported`, queried via raw SQL) |
 | `Grievance` / `GrievanceEvent` | grievance + status-history timeline; `trackingId` for public lookup |
 | `Attachment` | uploaded supporting files (validated) |
@@ -123,9 +124,10 @@ GET    /api/v1/auth/me                                        (M2)
 POST   /api/v1/chat            GET /api/v1/chat/history        (M3)
 POST   /api/v1/feedback                                       (M3)
 GET    /api/v1/voice/config    POST /voice/transcribe | speak (M4; server STT/TTS reserved)
-GET    /api/v1/schemes         GET /api/v1/schemes/:slug       (M5)
-GET    /api/v1/cooperative/laws | services                    (M5)
-GET    /api/v1/pacs/services   GET /api/v1/finance/lessons     (M5)
+GET    /api/v1/schemes  ?category&state&targetUser&q          (M5)
+GET    /api/v1/schemes/:slug                                  (M5)
+GET    /api/v1/content/:section   (COOPERATIVE_LAW|PACS|FINANCIAL_LITERACY|PMFBY)  (M5)
+GET    /api/v1/content/topics/:slug                           (M5)
 POST   /api/v1/grievances      GET /api/v1/grievances/:trackingId   (M6)
 GET    /api/v1/grievances      (own, authed)                  (M6)
 GET    /api/v1/admin/analytics                                (M7)
@@ -159,7 +161,7 @@ Full audit + `npm audit` gate + dependency review scheduled for M8.
 | **M2** ✅ | Registration/login/refresh/logout, argon2id, rotating refresh tokens + reuse detection, role guards, admin seed, `/auth/me`, web auth flows |
 | **M3** ✅ | Knowledge doc model + ingestion (chunk → embed → pgvector), retrieval service, `/chat` grounded answers (cite-or-refuse, confidence, source cards, disclaimers), `/feedback`, seed KB, web chat UI (text, history, suggestions, category focus, loading/error/offline). PDF upload lands with admin (M7) |
 | **M4** ✅ | Browser Web Speech STT (dictation into the composer, auto-start from the home "Speak" button) + TTS (play/pause/stop/replay per answer, shared engine, "read aloud" toggle, markdown/citation stripping), `en-IN`/`ta-IN`/`hi-IN`; `GET /voice/config` capability descriptor + reserved `POST /voice/transcribe|speak` (501 until a hosted provider such as Bhashini is wired) |
-| **M5** | Scheme Explorer (filter by category/state/target/eligibility), Cooperative Law & Governance (simple + legal view), PACS services, PMFBY assistance, Financial Literacy lessons — all data-driven from verified seed content |
+| **M5** ✅ | `Scheme` API (`GET /schemes` — who-can-apply / category / state / search filters + facets — and `GET /schemes/:slug`) plus a `ContentTopic` model with `GET /content/:section` and `/content/topics/:slug` serving Cooperative Law, PACS, Financial Literacy and PMFBY-FAQ (Simple + Detailed views, rural examples, official links). Public + cache-headed. Web: Scheme Explorer + detail pages, one generic `ContentSectionPage` + `TopicList` accordion, `AskAssistantLink` deep-links, popular schemes on the home page. `db:seed:content` seeds 5 schemes + 29 topics and ingests each into the KB so the assistant grounds on the same verified text |
 | **M6** | Grievance submit → tracking ID → status workflow (`SUBMITTED…CLOSED`) → tracking UI, attachments, voice description |
 | **M7** | Admin dashboard: analytics (users, conversations, languages, top questions, grievances), knowledge management (upload/verify/version/categorise), scheme management (create/edit/verify/archive), grievance management (assign/update/respond/resolve) |
 | **M8** | PWA precache + offline routes, retry/backoff, asset compression, mobile pass, security audit, accessibility + UX audit |

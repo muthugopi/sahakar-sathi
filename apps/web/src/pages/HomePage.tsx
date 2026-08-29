@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { fetchSchemes } from '../lib/content';
 
 const QUICK_HELP = [
   { key: 'schemes', to: '/schemes' },
@@ -17,6 +19,11 @@ export function HomePage() {
   const [question, setQuestion] = useState('');
 
   const examples = t('home.examples', { returnObjects: true }) as string[];
+  const popularSchemes = useQuery({
+    queryKey: ['schemes', {}],
+    queryFn: () => fetchSchemes(),
+    staleTime: 30 * 60_000,
+  });
 
   const ask = (q: string) => {
     const trimmed = q.trim();
@@ -94,7 +101,7 @@ export function HomePage() {
         <ul className="register">
           {QUICK_HELP.map((item, i) => (
             <li key={item.key}>
-              <a href={item.to} className="register-row">
+              <Link to={item.to} className="register-row">
                 <span className="register-index" aria-hidden>
                   {String(i + 1).padStart(2, '0')}
                 </span>
@@ -109,19 +116,51 @@ export function HomePage() {
                 <span className="ms-auto shrink-0 text-field-deep" aria-hidden>
                   →
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
       </section>
 
+      {/* Popular schemes */}
+      {popularSchemes.data && popularSchemes.data.schemes.length > 0 && (
+        <section className="mb-12" aria-labelledby="popular-schemes-heading">
+          <div className="mb-3 flex items-baseline justify-between">
+            <h2 id="popular-schemes-heading" className="eyebrow">
+              {t('home.schemesLabel')}
+            </h2>
+            <Link to="/schemes" className="text-sm font-medium text-field-deep underline">
+              {t('schemes.backToAll')} →
+            </Link>
+          </div>
+          <ul className="register">
+            {popularSchemes.data.schemes.slice(0, 4).map((s, i) => (
+              <li key={s.slug}>
+                <Link to={`/schemes/${s.slug}`} className="register-row">
+                  <span className="register-index" aria-hidden>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-semibold">{s.title}</span>
+                    <span className="block text-sm text-muted">{s.summary}</span>
+                  </span>
+                  <span className="ms-auto shrink-0 text-field-deep" aria-hidden>
+                    →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Grievance callout */}
       <section className="mb-12 rounded-lg border border-clay/30 bg-clay/5 p-6">
         <h2 className="text-xl">{t('home.grievanceCalloutTitle')}</h2>
         <p className="mt-2 max-w-prose text-muted">{t('home.grievanceCalloutBody')}</p>
-        <a href="/grievance" className="btn-outline mt-4 border-clay text-clay hover:bg-clay/10">
+        <Link to="/grievance" className="btn-outline mt-4 border-clay text-clay hover:bg-clay/10">
           {t('home.grievanceCalloutAction')}
-        </a>
+        </Link>
       </section>
 
       <p className="mb-12 max-w-prose border-l-4 border-field pl-4 text-sm text-muted">

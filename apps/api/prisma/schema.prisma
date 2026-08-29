@@ -175,6 +175,38 @@ model Scheme {
   @@index([state])
 }
 
+enum ContentSection {
+  COOPERATIVE_LAW
+  PACS
+  FINANCIAL_LITERACY
+  PMFBY
+}
+
+/// Browsable explainer content: cooperative law/governance, PACS services,
+/// financial-literacy lessons, PMFBY FAQ. Each topic carries a plain-language
+/// explanation and an optional detailed/legal reference.
+model ContentTopic {
+  id                   String         @id @default(cuid())
+  section              ContentSection
+  slug                 String         @unique
+  topic                String         // grouping label, e.g. "Membership", "Elections"
+  title                String
+  summary              String
+  simpleExplanation    String         // markdown
+  detailedExplanation  String?        // markdown — legal / reference view
+  example              String?        // rural scenario, mainly for FINANCIAL_LITERACY
+  authority            String
+  sourceUrl            String?
+  language             Language       @default(en)
+  order                Int            @default(0)
+  isPublished          Boolean        @default(true)
+  verifiedAt           DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  @@index([section, order])
+}
+
 model KnowledgeDocument {
   id            String            @id @default(cuid())
   title         String

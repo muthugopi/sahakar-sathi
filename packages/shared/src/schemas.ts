@@ -141,6 +141,66 @@ export const chatResponseSchema = z.object({
 export type ChatResponse = z.infer<typeof chatResponseSchema>;
 
 /* -------------------------------------------------------------------------- */
+/*  Schemes                                                                    */
+/* -------------------------------------------------------------------------- */
+
+export const schemeSummarySchema = z.object({
+  slug: z.string(),
+  title: z.string(),
+  summary: z.string(),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES),
+  targetUsers: z.array(z.string()),
+  state: z.string().nullable(),
+  verifiedAt: z.string().nullable(),
+});
+export type SchemeSummary = z.infer<typeof schemeSummarySchema>;
+
+export const schemeDetailSchema = schemeSummarySchema.extend({
+  purpose: z.string(),
+  eligibility: z.string(),
+  benefits: z.string(),
+  requiredDocuments: z.array(z.string()),
+  applicationProcess: z.string(),
+  officialSource: z.string(),
+  officialUrl: z.string().url().nullable(),
+  language: languageSchema,
+});
+export type SchemeDetail = z.infer<typeof schemeDetailSchema>;
+
+export const schemeQuerySchema = z.object({
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES).optional(),
+  state: z.string().trim().max(120).optional(),
+  targetUser: z.string().trim().max(60).optional(),
+  q: z.string().trim().max(120).optional(),
+});
+export type SchemeQuery = z.infer<typeof schemeQuerySchema>;
+
+/* -------------------------------------------------------------------------- */
+/*  Content topics (cooperative law / PACS / financial literacy / PMFBY)       */
+/* -------------------------------------------------------------------------- */
+
+export const CONTENT_SECTIONS = ['COOPERATIVE_LAW', 'PACS', 'FINANCIAL_LITERACY', 'PMFBY'] as const;
+export type ContentSectionCode = (typeof CONTENT_SECTIONS)[number];
+export const contentSectionSchema = literalEnum<ContentSectionCode>(CONTENT_SECTIONS);
+
+export const contentTopicSchema = z.object({
+  section: contentSectionSchema,
+  slug: z.string(),
+  topic: z.string(),
+  title: z.string(),
+  summary: z.string(),
+  simpleExplanation: z.string(),
+  detailedExplanation: z.string().nullable(),
+  example: z.string().nullable(),
+  authority: z.string(),
+  sourceUrl: z.string().url().nullable(),
+  language: languageSchema,
+  order: z.number().int(),
+  verifiedAt: z.string().nullable(),
+});
+export type ContentTopic = z.infer<typeof contentTopicSchema>;
+
+/* -------------------------------------------------------------------------- */
 /*  Grievances                                                                 */
 /* -------------------------------------------------------------------------- */
 
