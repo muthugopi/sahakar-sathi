@@ -32,3 +32,21 @@ export const chatLimiter = rateLimit({
   legacyHeaders: false,
   message: json429,
 });
+
+/** Grievance submission — deter spam / abuse. */
+export const grievanceLimiter = rateLimit({
+  windowMs: 60 * 60_000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: json429,
+});
+
+/** File uploads — tighter still. */
+export const uploadLimiter = rateLimit({
+  windowMs: 60 * 60_000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: json429,
+});

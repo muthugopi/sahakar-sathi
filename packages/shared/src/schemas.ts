@@ -223,21 +223,70 @@ export const grievanceEventSchema = z.object({
   note: z.string().nullable(),
   createdAt: z.string(),
 });
+export type GrievanceEvent = z.infer<typeof grievanceEventSchema>;
 
-export const grievanceSchema = z.object({
+export const grievanceAttachmentSchema = z.object({
   id: z.string(),
+  originalName: z.string(),
+  mimeType: z.string(),
+  sizeBytes: z.number().int(),
+});
+export type GrievanceAttachment = z.infer<typeof grievanceAttachmentSchema>;
+
+/** What anyone holding the tracking ID can see — no personal detail. */
+export const grievancePublicSchema = z.object({
   trackingId: z.string(),
   category: grievanceCategorySchema,
-  description: z.string(),
   status: grievanceStatusSchema,
-  language: languageSchema,
-  district: z.string().nullable(),
-  state: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
   timeline: z.array(grievanceEventSchema),
 });
-export type Grievance = z.infer<typeof grievanceSchema>;
+export type GrievancePublic = z.infer<typeof grievancePublicSchema>;
+
+/** Full record — returned only to the grievance owner or an admin. */
+export const grievanceDetailSchema = grievancePublicSchema.extend({
+  id: z.string(),
+  description: z.string(),
+  language: languageSchema,
+  district: z.string().nullable(),
+  state: z.string().nullable(),
+  contactPhone: z.string().nullable(),
+  attachments: z.array(grievanceAttachmentSchema),
+  isOwner: z.boolean(),
+});
+export type GrievanceDetail = z.infer<typeof grievanceDetailSchema>;
+
+export const grievanceListItemSchema = z.object({
+  trackingId: z.string(),
+  category: grievanceCategorySchema,
+  status: grievanceStatusSchema,
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export type GrievanceListItem = z.infer<typeof grievanceListItemSchema>;
+
+export const createGrievanceResponseSchema = z.object({
+  trackingId: z.string(),
+  status: grievanceStatusSchema,
+});
+
+/** Admin: advance a grievance. */
+export const updateGrievanceStatusSchema = z.object({
+  status: grievanceStatusSchema,
+  note: z.string().trim().max(2000).optional(),
+});
+export type UpdateGrievanceStatusInput = z.infer<typeof updateGrievanceStatusSchema>;
+
+/** Ordered lifecycle — used by the status stepper and transition validation. */
+export const GRIEVANCE_LIFECYCLE = [
+  'SUBMITTED',
+  'UNDER_REVIEW',
+  'ASSIGNED',
+  'IN_PROGRESS',
+  'RESOLVED',
+  'CLOSED',
+] as const;
 
 /* -------------------------------------------------------------------------- */
 /*  Feedback                                                                   */
