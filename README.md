@@ -51,6 +51,7 @@ npm run db:migrate                     # applies Prisma migrations
 npm run db:seed                        # creates the admin account
 npm run db:seed:knowledge --workspace apps/api   # loads the seed knowledge base
 npm run db:seed:content --workspace apps/api      # loads schemes + explainer topics (also into the KB)
+npm run db:seed:content:i18n --workspace apps/api # adds Hindi + Tamil text to the key explainer topics
 #   (first run downloads the ~120MB local embedding model to .cache/)
 
 # 4. run
