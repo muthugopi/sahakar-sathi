@@ -18,7 +18,13 @@
     "track": "Track a grievance",
     "language": "Language",
     "signIn": "Sign in",
-    "admin": "Admin"
+    "admin": "Admin",
+    "services": "Services",
+    "knowledge": "Knowledge",
+    "grievances": "Grievances",
+    "about": "About",
+    "askAssistant": "Ask the assistant",
+    "menu": "Menu"
   },
   "home": {
     "heroHeading": "Get clear answers about cooperative services in your language.",
@@ -41,7 +47,28 @@
     "trustNote": "Answers are drawn from official government and cooperative sources where available. The assistant clearly marks what is verified and what is a plain-language explanation.",
     "askLabel": "Ask a question",
     "askHint": "For example: Am I eligible for PMFBY? · What is a PACS? · How do I file a grievance?",
-    "tasksHeading": "What you can get help with"
+    "tasksHeading": "What you can get help with",
+    "quickHeading": "Start with what you need",
+    "assistantHeading": "The assistant",
+    "assistantBody1": "Ask a question in your own words, by typing or by speaking, and get an answer in English, Hindi or Tamil.",
+    "assistantBody2": "Answers are drawn from official government and cooperative documents. Each answer shows how well it is supported and links to the source. Where there is no verified information, the assistant says so and points you to the right office.",
+    "assistantPoint1": "Eligibility, benefits and how to apply for schemes",
+    "assistantPoint2": "Cooperative membership, by-laws, elections and meetings",
+    "assistantPoint3": "Crop insurance, PACS services, money matters and grievances",
+    "directoryHeading": "Services",
+    "dir": {
+      "cooperative": "Cooperative & PACS services",
+      "schemes": "Government schemes",
+      "money": "Financial guidance",
+      "pmfby": "Crop insurance",
+      "law": "Cooperative law",
+      "grievance": "Grievance support"
+    },
+    "seeAllServices": "See all services",
+    "updatesHeading": "Recently updated information",
+    "aboutHeading": "About this platform",
+    "aboutBody": "Sahakar Sathi helps cooperative members, farmers and rural citizens find clear information about cooperative services, government schemes, crop insurance, financial matters and how to raise a grievance.",
+    "aboutMore": "Read more about the platform"
   },
   "quickHelp": {
     "schemes": {
@@ -67,6 +94,10 @@
     "grievance": {
       "title": "Grievance help",
       "desc": "How to raise a complaint and what happens after you submit it."
+    },
+    "assistant": {
+      "title": "Ask the assistant",
+      "desc": "Type or speak a question and get an answer in your language."
     }
   },
   "assistant": {
@@ -320,5 +351,36 @@
     "smaller": "Make text smaller",
     "larger": "Make text larger",
     "resetSize": "Reset text size"
+  },
+  "services": {
+    "title": "Services",
+    "intro": "What you can do here, grouped by area. Open any topic for details, or ask the assistant a direct question.",
+    "desc": {
+      "cooperative": "Joining a cooperative, member rights and duties, and what your Primary Agricultural Credit Society (PACS) offers.",
+      "schemes": "Find central and state schemes for farmers and cooperative members, and check who can apply.",
+      "money": "Simple guidance on saving, interest, loans, EMI, insurance and avoiding fraud.",
+      "insurance": "Pradhan Mantri Fasal Bima Yojana — eligibility, premium, enrolment, and reporting crop loss.",
+      "law": "Cooperative society law and governance explained in plain words, with a detailed reference.",
+      "grievance": "Raise a complaint about a cooperative or PACS, get a tracking number, and check the status."
+    },
+    "assistantNote": "Not sure where to look? Ask the assistant in your own words."
+  },
+  "knowledge": {
+    "title": "Knowledge",
+    "intro": "Plain-language explanations of the rules and services that matter to cooperative members and farmers. Each topic has a simple version and a detailed reference.",
+    "sourceNote": "These are plain-language summaries of well-established, publicly documented rules. Confirm current details on the official source before acting."
+  },
+  "about": {
+    "title": "About Sahakar Sathi",
+    "lead": "A multilingual assistant and information service for cooperative members, farmers and rural citizens in India.",
+    "whatHeading": "What it does",
+    "what": "It answers questions about cooperative governance and law, Ministry of Cooperation schemes, PACS services, PMFBY crop insurance, financial literacy and grievance redressal — in English, Hindi and Tamil, by text or voice. It also lets you file and track a grievance.",
+    "whoHeading": "Who it is for",
+    "who": "Cooperative members, farmers and rural citizens who want reliable guidance without a language barrier. It is designed for use on a basic mobile phone and for people with limited reading ability.",
+    "sourcesHeading": "How information is sourced",
+    "sources1": "Information comes from official government and cooperative documents. Every answer marks what is stated in an official source and what is a plain-language explanation, and links to the source where one is available.",
+    "sources2": "The assistant does not invent schemes, laws, eligibility rules, deadlines, amounts or contact details. When it has no verified information, it says so and points you to the appropriate office.",
+    "limitsHeading": "Limitations",
+    "limits": "This is a prototype built for the Smart India Hackathon. It is not an official government service, it does not have real-time access to government systems, and the explanatory content is currently available in English only."
   }
 }

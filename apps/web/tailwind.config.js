@@ -1,69 +1,73 @@
 /** @type {import('tailwindcss').Config}
  *
- * Government-service visual language (adapted from the GOV.UK Design System):
- * white page, near-black text, one green brand colour, yellow focus, square
- * corners, no decorative shadow. Tuned for older and low-literacy rural users —
- * large type, generous spacing, high contrast.
+ * "Navy ink on paper" — the visual language of an official Indian cooperative
+ * record (passbook / certificate / Registrar's notification): navy on cream-white
+ * paper, gazette serif for headings, one restrained marigold accent, 4px radius,
+ * flat surfaces. See docs/design-plan.md.
  */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
-    // Deliberately small, restrained scale.
     borderRadius: {
       none: '0',
-      DEFAULT: '0',
-      sm: '0',
-      md: '0',
-      lg: '0',
-      full: '9999px', // only for the language/status dots
+      DEFAULT: '4px',
+      sm: '3px',
+      md: '4px',
+      lg: '4px',
+      full: '9999px', // status dots only
     },
     boxShadow: {
       none: 'none',
-      button: '0 3px 0 #00401d', // the pressed-button affordance
+      menu: '0 2px 8px rgba(23, 50, 77, 0.14)', // reserved for floating layers
     },
     extend: {
       colors: {
-        ink: '#0b0c0c', // primary text
-        muted: '#505a54', // secondary text
-        paper: '#ffffff', // page background
+        ink: '#1b1b1f',
+        muted: '#55565c',
+        paper: '#fbfbf8',
+        surface: '#f1f1ec',
         panel: '#ffffff',
-        soft: '#f3f2f1', // secondary surface / inset blocks
-        line: '#a9b0ad', // borders / rules
-        'line-strong': '#0b0c0c', // input borders
-        field: {
-          DEFAULT: '#00703c', // brand / primary button
-          deep: '#005a30', // link, headings accent
-          text: '#00461f', // link hover / pressed
-          wash: '#e8f1ec', // faint green wash (used sparingly)
+        line: '#d3d3ca',
+        primary: {
+          DEFAULT: '#17324d',
+          hover: '#0f2338',
+          tint: '#eef2f6',
+        },
+        accent: {
+          DEFAULT: '#c9772a',
+          soft: '#f6ece1',
         },
         focus: '#ffdd00',
-        marigold: '#d9a63a',
-        clay: '#d4351c', // error / alert
-        // legacy aliases still referenced by a few components
-        'field-soft': '#e8f1ec',
-        slate: '#eef1f0',
+        error: '#b3261e',
+        resolved: '#1f6f43',
+        // aliases kept so components from the previous pass still resolve
+        field: { DEFAULT: '#17324d', deep: '#17324d', text: '#0f2338', wash: '#eef2f6', soft: '#eef2f6' },
+        clay: '#b3261e',
+        marigold: '#c9772a',
       },
       fontFamily: {
+        serif: ['"IBM Plex Serif"', 'Georgia', 'Cambria', 'serif'],
         sans: [
+          '"IBM Plex Sans"',
+          '"IBM Plex Sans Devanagari"',
+          '"Noto Sans Tamil"',
           'system-ui',
-          '"Segoe UI"',
-          'Roboto',
-          '"Noto Sans"',
-          'Arial',
           'sans-serif',
         ],
       },
       fontSize: {
-        // base 19px / 1.32 line-height, matching GOV.UK body
-        base: ['1.1875rem', { lineHeight: '1.45' }],
-        lg: ['1.3125rem', { lineHeight: '1.4' }],
-        xl: ['1.5rem', { lineHeight: '1.35' }],
-        '2xl': ['1.6875rem', { lineHeight: '1.25' }],
-        '3xl': ['2rem', { lineHeight: '1.15' }],
-        '4xl': ['2.25rem', { lineHeight: '1.1' }],
+        sm: ['0.9375rem', { lineHeight: '1.5' }],
+        base: ['1.125rem', { lineHeight: '1.6' }],
+        lg: ['1.1875rem', { lineHeight: '1.5' }],
+        xl: ['1.25rem', { lineHeight: '1.4' }],
+        '2xl': ['1.5rem', { lineHeight: '1.25' }],
+        '3xl': ['1.75rem', { lineHeight: '1.2' }],
+        '4xl': ['2rem', { lineHeight: '1.15' }],
+        '5xl': ['2.5rem', { lineHeight: '1.1' }],
       },
       maxWidth: {
-        prose: '44rem', // ~66 character measure at 19px
+        container: '1080px',
+        prose: '64ch',
         text: '38rem',
       },
       spacing: {

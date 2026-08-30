@@ -38,3 +38,8 @@ export const getContentTopic = asyncHandler(async (req, res) => {
   res.setHeader('Cache-Control', PUBLIC_CACHE);
   res.json({ topic: await contentService.getTopic(slug) });
 });
+
+export const getUpdates = asyncHandler(async (_req, res) => {
+  res.setHeader('Cache-Control', PUBLIC_CACHE);
+  res.json({ updates: await contentService.recentUpdates(6) });
+});

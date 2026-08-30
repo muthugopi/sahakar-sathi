@@ -30,8 +30,19 @@ export default defineConfig({
         navigateFallback: '/index.html',
         // Never let the SW serve a stale API response for auth/chat/grievance actions.
         navigateFallbackDenylist: [/^\/api\//],
-        globPatterns: ['**/*.{js,css,html,woff2,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,png,svg}', 'assets/ibm-plex-*-latin-*.woff2'],
+        // The Devanagari / Tamil faces are large and only needed in those languages —
+        // fetch and cache them on first use rather than precaching for everyone.
         runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.endsWith('.woff2'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'sahakar-fonts',
+              expiration: { maxEntries: 12, maxAgeSeconds: 180 * 24 * 60 * 60 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
           {
             // Reference content — read after first visit, even offline.
             urlPattern: ({ url }) =>
