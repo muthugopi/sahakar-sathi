@@ -30,7 +30,9 @@ export default defineConfig({
         navigateFallback: '/index.html',
         // Never let the SW serve a stale API response for auth/chat/grievance actions.
         navigateFallbackDenylist: [/^\/api\//],
-        globPatterns: ['**/*.{js,css,html,png,svg}', 'assets/ibm-plex-*-latin-*.woff2'],
+        // Precache the Latin UI faces (Archivo + Noto Sans); Indic faces are
+        // runtime-cached below since they're only needed per language.
+        globPatterns: ['**/*.{js,css,html,png,svg}', 'assets/{archivo,noto-sans}-latin-*.woff2'],
         // The Devanagari / Tamil faces are large and only needed in those languages —
         // fetch and cache them on first use rather than precaching for everyone.
         runtimeCaching: [
