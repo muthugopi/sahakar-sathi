@@ -104,4 +104,6 @@ Health check: <http://localhost:4000/api/v1/health/ready>
       status timeline; anonymous tracking shows status only, owner/admin see full
       detail; admin status transitions with notes.
 - [x] **M7 — Admin dashboard:** analytics, knowledge management (paste or PDF upload, verify, delete), scheme management (create/edit/verify/archive), grievance management (filter, assign, status + notes); ADMIN-only, audit-logged.
-- [ ] M8 — PWA/offline, mobile, security & accessibility audits
+- [x] **M8 — Hardening:** route-level code-splitting (initial JS 248 KB → 144 KB), PWA
+      (installable, static content pages work offline), focus moves to the page on route
+      change, locked-down API CSP + strict CORS allow-list, `SECURITY.md`.
