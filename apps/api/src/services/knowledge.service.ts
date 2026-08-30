@@ -15,6 +15,8 @@ export interface IngestInput {
   verified?: boolean;
   verifiedAt?: Date;
   uploadedById?: string | null;
+  /** Update this exact document (allows a title change); else match on title+authority. */
+  existingId?: string;
 }
 
 const TARGET_CHARS = 1100; // ~250-300 tokens per chunk
@@ -69,16 +71,23 @@ export async function ingestDocument(input: IngestInput): Promise<{ documentId: 
 
   const embeddings = await embedPassages(chunks);
 
-  const existing = await prisma.knowledgeDocument.findFirst({
-    where: { title: input.title, authority: input.authority },
-    select: { id: true, version: true },
-  });
+  const existing = input.existingId
+    ? await prisma.knowledgeDocument.findUnique({
+        where: { id: input.existingId },
+        select: { id: true, version: true },
+      })
+    : await prisma.knowledgeDocument.findFirst({
+        where: { title: input.title, authority: input.authority },
+        select: { id: true, version: true },
+      });
 
   const documentId = await prisma.$transaction(async (tx) => {
     const doc = existing
       ? await tx.knowledgeDocument.update({
           where: { id: existing.id },
           data: {
+            title: input.title,
+            authority: input.authority,
             category: input.category,
             sourceUrl: input.sourceUrl ?? null,
             language,
