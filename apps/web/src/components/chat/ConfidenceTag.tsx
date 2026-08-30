@@ -19,10 +19,8 @@ const DOT: Record<AnswerConfidence, string> = {
 export function ConfidenceTag({ value }: { value: AnswerConfidence }) {
   const { t } = useTranslation();
   return (
-    <span
-      className={`inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 font-sans text-sm font-semibold ${STYLE[value]}`}
-    >
-      <span aria-hidden className="font-mono">
+    <span className={`inline-flex items-baseline gap-2 font-sans text-sm font-semibold ${STYLE[value]}`}>
+      <span aria-hidden className="font-mono text-xs">
         {DOT[value]}
       </span>
       {t(`assistant.confidence.${value}`)}

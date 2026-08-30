@@ -86,7 +86,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
       )}
 
       <form
-        className="flex items-end gap-2"
+        className="flex flex-wrap items-end gap-2 sm:flex-nowrap"
         onSubmit={(e) => {
           e.preventDefault();
           submit();
@@ -113,7 +113,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             }
           }}
           placeholder={t('assistant.placeholder')}
-          className="field-shell min-h-0 flex-1 resize-none py-2.5"
+          className="field-shell order-1 min-h-0 flex-1 basis-full resize-none py-2.5 sm:basis-auto"
         />
 
         {speech.supported && (
@@ -123,7 +123,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             disabled={disabled}
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
-            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border text-base transition-colors ${
+            className={`order-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border text-base transition-colors ${
               speech.listening
                 ? 'border-error bg-error text-white'
                 : 'border-line bg-panel hover:border-ink/25'
@@ -135,7 +135,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
 
         <button
           type="submit"
-          className="btn-primary h-11 min-h-0 shrink-0 px-4"
+          className="btn-primary order-3 h-11 min-h-0 flex-1 px-4 sm:flex-none sm:shrink-0"
           disabled={disabled || busy || !value.trim()}
         >
           {busy ? '…' : t('assistant.send')}
