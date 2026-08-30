@@ -32,47 +32,49 @@ export function SignInPage() {
   };
 
   return (
-    <div className="container-page max-w-md py-12">
-      <h1 className="text-2xl">{t('auth.signInTitle')}</h1>
+    <div className="container-page max-w-lg py-12">
+      <div className="section-shell p-6 sm:p-7">
+        <h1 className="text-3xl tracking-[-0.05em] text-field-deep sm:text-4xl">{t('auth.signInTitle')}</h1>
 
-      <form className="mt-6 flex flex-col gap-4" onSubmit={onSubmit} noValidate>
-        {error && (
-          <p role="alert" className="rounded border border-clay/40 bg-clay/5 px-3 py-2 text-clay">
-            {error}
-          </p>
-        )}
+        <form className="mt-6 flex flex-col gap-4" onSubmit={onSubmit} noValidate>
+          {error && (
+            <p role="alert" className="rounded-2xl border border-clay/40 bg-clay/5 px-3 py-2 text-sm font-medium text-clay">
+              {error}
+            </p>
+          )}
 
-        <Field id="identifier" label={t('auth.identifier')}>
-          <input
-            id="identifier"
-            className={inputClass}
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            autoComplete="username"
-            required
-          />
-        </Field>
+          <Field id="identifier" label={t('auth.identifier')}>
+            <input
+              id="identifier"
+              className={inputClass}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              autoComplete="username"
+              required
+            />
+          </Field>
 
-        <Field id="password" label={t('auth.password')}>
-          <input
-            id="password"
-            type="password"
-            className={inputClass}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            required
-          />
-        </Field>
+          <Field id="password" label={t('auth.password')}>
+            <input
+              id="password"
+              type="password"
+              className={inputClass}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+            />
+          </Field>
 
-        <button type="submit" className="btn-primary mt-2" disabled={busy}>
-          {busy ? t('common.loading') : t('auth.submitSignIn')}
-        </button>
-      </form>
+          <button type="submit" className="btn-primary mt-2" disabled={busy}>
+            {busy ? t('common.loading') : t('auth.submitSignIn')}
+          </button>
+        </form>
 
-      <Link to="/register" className="mt-6 inline-block underline hover:text-field-deep">
-        {t('auth.needAccount')}
-      </Link>
+        <Link to="/register" className="mt-6 inline-block text-sm font-medium text-field-deep underline hover:text-field">
+          {t('auth.needAccount')}
+        </Link>
+      </div>
     </div>
   );
 }

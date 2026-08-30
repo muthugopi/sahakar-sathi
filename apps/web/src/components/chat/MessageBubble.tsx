@@ -14,10 +14,10 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
   if (isUser) {
     return (
       <div className="flex flex-col items-end">
-        <span className="mb-1 text-xs font-medium uppercase tracking-wide text-muted">
+        <span className="mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-muted">
           {t('assistant.you')}
         </span>
-        <div className="max-w-[85%] rounded-lg rounded-tr-sm bg-field text-white px-4 py-2.5">
+        <div className="max-w-[85%] rounded-[1.35rem] rounded-tr-sm bg-field px-4 py-2.5 text-sm leading-6 text-white shadow-sm">
           {message.content}
         </div>
       </div>
@@ -26,32 +26,38 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
 
   return (
     <div className="flex flex-col items-start">
-      <span className="mb-1 text-xs font-medium uppercase tracking-wide text-field-deep">
+      <span className="mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-field-deep">
         {t('assistant.assistantName')}
       </span>
-      <div className="max-w-[92%] border-s-2 border-field bg-panel ps-4 pe-3 py-3">
+      <div className="max-w-[92%] rounded-[1.5rem] border border-line bg-panel p-4 shadow-sm">
         {message.confidence && (
-          <div className="mb-2">
+          <div className="mb-3">
             <ConfidenceTag value={message.confidence} />
           </div>
         )}
 
-        <RichText text={message.content} />
+        <div className="text-[0.98rem] leading-7 text-ink">
+          <RichText text={message.content} />
+        </div>
 
         {message.disclaimers?.map((d, i) => (
           <p
             key={i}
-            className="mt-3 rounded border border-marigold/40 bg-marigold/10 px-3 py-2 text-sm text-ink"
+            className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
           >
             {d}
           </p>
         ))}
 
         {message.sources && message.sources.length > 0 && (
-          <SourceList sources={message.sources} />
+          <div className="mt-3">
+            <SourceList sources={message.sources} />
+          </div>
         )}
 
-        <ListenButton id={message.id} text={message.content} language={message.language} />
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <ListenButton id={message.id} text={message.content} language={message.language} />
+        </div>
 
         <FeedbackRow messageId={message.id} />
       </div>
@@ -84,7 +90,7 @@ function FeedbackRow({ messageId }: { messageId: string }) {
         type="button"
         disabled={state === 'sending'}
         onClick={() => void rate('UP')}
-        className="rounded border border-line px-2 py-1 hover:bg-field-wash disabled:opacity-50"
+        className="rounded-full border border-line bg-soft px-2.5 py-1 text-xs font-medium text-ink hover:bg-field-soft disabled:opacity-50"
       >
         {t('assistant.yes')}
       </button>
@@ -92,7 +98,7 @@ function FeedbackRow({ messageId }: { messageId: string }) {
         type="button"
         disabled={state === 'sending'}
         onClick={() => void rate('DOWN')}
-        className="rounded border border-line px-2 py-1 hover:bg-field-wash disabled:opacity-50"
+        className="rounded-full border border-line bg-soft px-2.5 py-1 text-xs font-medium text-ink hover:bg-field-soft disabled:opacity-50"
       >
         {t('assistant.no')}
       </button>

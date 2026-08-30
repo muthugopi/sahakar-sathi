@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-/** Deep-link into the assistant with a prefilled question. */
 export function AskAssistantLink({
   question,
   label,
@@ -16,15 +15,17 @@ export function AskAssistantLink({
 
   if (variant === 'plain') {
     return (
-      <Link to={to} className="font-medium text-field-deep underline">
+      <Link to={to} className="inline-flex items-center gap-2 font-semibold text-field-deep hover:text-field">
         {label ?? t('content.askAssistant')}
+        <span aria-hidden>→</span>
       </Link>
     );
   }
 
   return (
-    <Link to={to} className="btn-outline">
-      <span aria-hidden>💬</span> {label ?? t('content.askAssistant')}
+    <Link to={to} className="btn-primary">
+      <span aria-hidden>💬</span>
+      {label ?? t('content.askAssistant')}
     </Link>
   );
 }

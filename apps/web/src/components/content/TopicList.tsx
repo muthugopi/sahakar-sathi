@@ -8,7 +8,7 @@ export function TopicList({ topics }: { topics: ContentTopic[] }) {
   const [openSlug, setOpenSlug] = useState<string | null>(topics[0]?.slug ?? null);
 
   return (
-    <div className="register">
+    <div className="space-y-4">
       {topics.map((topic) => (
         <TopicRow
           key={topic.slug}
@@ -36,37 +36,37 @@ function TopicRow({
   const panelId = `topic-${topic.slug}`;
 
   return (
-    <div className="py-1">
-      <h3>
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-controls={panelId}
-          onClick={onToggle}
-          className="flex w-full items-baseline gap-3 py-3 text-start"
-        >
-          <span className="eyebrow shrink-0">{topic.topic}</span>
-          <span className="min-w-0 flex-1 font-semibold">{topic.title}</span>
-          <span aria-hidden className="shrink-0 text-field-deep">
-            {open ? '−' : '+'}
-          </span>
-        </button>
-      </h3>
+    <article className={`rounded-[1.5rem] border p-4 sm:p-5 ${open ? 'border-field/20 bg-panel shadow-subtle' : 'border-line bg-soft/60'}`}>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={onToggle}
+        className="flex w-full items-start justify-between gap-4 text-left"
+      >
+        <div className="min-w-0 flex-1">
+          <p className="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-muted">{topic.topic}</p>
+          <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-field-deep">{topic.title}</h3>
+        </div>
+        <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-panel text-xl text-field-deep">
+          {open ? '−' : '+'}
+        </span>
+      </button>
 
       {open && (
-        <div id={panelId} className="pb-5 ps-1">
+        <div id={panelId} className="mt-5 border-t border-line pt-4">
           {hasDetailed && (
             <div
               role="tablist"
               aria-label={topic.title}
-              className="mb-3 inline-flex rounded border border-line bg-paper p-0.5 text-sm"
+              className="mb-4 inline-flex rounded-full border border-line bg-soft p-1 text-sm"
             >
               <button
                 role="tab"
                 aria-selected={view === 'simple'}
                 onClick={() => setView('simple')}
-                className={`rounded px-3 py-1.5 font-medium ${
-                  view === 'simple' ? 'bg-field text-white' : 'text-ink'
+                className={`rounded-full px-3 py-1.5 font-medium ${
+                  view === 'simple' ? 'bg-field text-white' : 'text-muted'
                 }`}
               >
                 {t('content.simple')}
@@ -75,8 +75,8 @@ function TopicRow({
                 role="tab"
                 aria-selected={view === 'detailed'}
                 onClick={() => setView('detailed')}
-                className={`rounded px-3 py-1.5 font-medium ${
-                  view === 'detailed' ? 'bg-field text-white' : 'text-ink'
+                className={`rounded-full px-3 py-1.5 font-medium ${
+                  view === 'detailed' ? 'bg-field text-white' : 'text-muted'
                 }`}
               >
                 {t('content.detailed')}
@@ -84,22 +84,26 @@ function TopicRow({
             </div>
           )}
 
-          <RichText
-            text={
-              view === 'detailed' && topic.detailedExplanation
-                ? topic.detailedExplanation
-                : topic.simpleExplanation
-            }
-          />
+          <div className="space-y-4">
+            <RichText
+              text={
+                view === 'detailed' && topic.detailedExplanation
+                  ? topic.detailedExplanation
+                  : topic.simpleExplanation
+              }
+            />
 
-          {topic.example && (
-            <div className="mt-4 rounded border border-field/30 bg-field-wash p-3">
-              <p className="eyebrow mb-1">{t('content.example')}</p>
-              <RichText text={topic.example} />
-            </div>
-          )}
+            {topic.example && (
+              <div className="rounded-2xl border border-field/10 bg-field-soft p-4">
+                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-field-deep">{t('content.example')}</p>
+                <div className="mt-2">
+                  <RichText text={topic.example} />
+                </div>
+              </div>
+            )}
+          </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
+          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
             <span>{topic.authority}</span>
             {topic.sourceUrl && (
               <a
@@ -116,11 +120,11 @@ function TopicRow({
             )}
           </div>
 
-          <div className="mt-3">
+          <div className="mt-4">
             <AskAssistantLink question={topic.title} variant="plain" />
           </div>
         </div>
       )}
-    </div>
+    </article>
   );
 }

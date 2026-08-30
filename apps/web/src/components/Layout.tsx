@@ -23,94 +23,77 @@ export function Layout({ children }: { children: ReactNode }) {
     <div className="flex min-h-dvh flex-col">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50
-                   focus:rounded focus:bg-field focus:px-4 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-field focus:px-3 focus:py-2 focus:text-white"
       >
         Skip to content
       </a>
 
       {!online && (
-        <div
-          role="status"
-          className="bg-marigold/25 px-4 py-2 text-center text-sm font-medium text-ink"
-        >
+        <div role="status" className="border-b border-line bg-[#fff8ea] px-4 py-2 text-center text-sm font-medium text-ink">
           {t('common.offlineTitle')} — {t('common.offlineBody')}
         </div>
       )}
 
-      <header className="border-b border-line bg-panel">
-        <div className="container-page flex flex-wrap items-center gap-x-6 gap-y-3 py-3">
-          <Link to="/" className="flex items-baseline gap-2">
-            <span className="text-xl font-semibold tracking-tight text-field-deep">
-              {t('app.name')}
+      <header className="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur-sm">
+        <div className="container-page flex items-center justify-between gap-4 py-4">
+          <Link to="/" className="flex items-center gap-3 text-ink no-underline">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-field text-sm font-bold text-white">
+              S
             </span>
-            <span className="hidden text-xs uppercase tracking-[0.14em] text-muted sm:inline">
-              Cooperative Support
+            <span className="leading-none">
+              <span className="block text-lg font-semibold tracking-[-0.04em] text-field-deep">{t('app.name')}</span>
+              <span className="mt-1 block text-[0.62rem] uppercase tracking-[0.16em] text-muted">Cooperative support</span>
             </span>
           </Link>
-          <div className="ms-auto flex flex-wrap items-center gap-x-4 gap-y-2">
+
+          <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+            {NAV.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `inline-flex items-center px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive ? 'text-field-deep' : 'text-muted hover:text-field-deep'
+                  }`
+                }
+              >
+                {t(item.key)}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="ml-auto flex items-center gap-2 sm:gap-3">
             <LanguageSelector id="lang-header" />
             {status === 'authenticated' && user ? (
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-ink">{t('auth.greeting', { name: user.name })}</span>
-                <button
-                  type="button"
-                  onClick={() => void logout()}
-                  className="rounded border border-line px-3 py-1.5 text-sm font-medium hover:bg-field-wash"
-                >
+              <div className="flex items-center gap-2 border-l border-line pl-2">
+                <span className="hidden text-sm font-medium text-ink sm:inline">{t('auth.greeting', { name: user.name })}</span>
+                <button type="button" onClick={() => void logout()} className="btn-secondary px-2.5 py-1.5 text-xs">
                   {t('auth.signOut')}
                 </button>
               </div>
             ) : (
               status === 'anonymous' && (
-                <Link
-                  to="/signin"
-                  className="rounded border border-field px-3 py-1.5 text-sm font-semibold text-field-deep hover:bg-field-wash"
-                >
+                <Link to="/signin" className="btn-secondary px-3 py-2 text-sm">
                   {t('nav.signIn')}
                 </Link>
               )
             )}
           </div>
         </div>
-
-        <nav
-          aria-label="Primary"
-          className="border-t border-line bg-paper"
-        >
-          <ul className="container-page flex gap-1 overflow-x-auto py-1 text-[0.95rem]">
-            {NAV.map((item) => (
-              <li key={item.to} className="shrink-0">
-                <NavLink
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `block rounded px-3 py-2 font-medium transition-colors ${
-                      isActive
-                        ? 'bg-field-wash text-field-deep'
-                        : 'text-ink hover:bg-field-wash'
-                    }`
-                  }
-                >
-                  {t(item.key)}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </header>
 
       <main id="main" className="flex-1">
         {children}
       </main>
 
-      <footer className="mt-16 border-t border-line bg-panel">
+      <footer className="mt-16 border-t border-line bg-panel/80">
         <div className="container-page grid gap-6 py-8 text-sm text-muted sm:grid-cols-[1fr_auto]">
           <p className="max-w-prose">{t('footer.disclaimer')}</p>
-          <nav aria-label="Footer" className="flex gap-4">
-            <Link to="/schemes" className="underline hover:text-field-deep">
+          <nav aria-label="Footer" className="flex flex-wrap gap-4">
+            <Link to="/schemes" className="font-medium text-field-deep hover:text-field">
               {t('footer.sources')}
             </Link>
-            <Link to="/track" className="underline hover:text-field-deep">
+            <Link to="/track" className="font-medium text-field-deep hover:text-field">
               {t('nav.track')}
             </Link>
           </nav>
