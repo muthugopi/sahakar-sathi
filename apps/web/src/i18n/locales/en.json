@@ -24,6 +24,9 @@
     "grievances": "Grievances",
     "about": "About",
     "askAssistant": "Ask the assistant",
+    "askSathi": "Ask Sathi",
+    "cooperatives": "Cooperatives",
+    "resources": "Resources",
     "menu": "Menu"
   },
   "home": {
@@ -68,7 +71,16 @@
     "updatesHeading": "Recently updated information",
     "aboutHeading": "About this platform",
     "aboutBody": "Sahakar Sathi helps cooperative members, farmers and rural citizens find clear information about cooperative services, government schemes, crop insurance, financial matters and how to raise a grievance.",
-    "aboutMore": "Read more about the platform"
+    "aboutMore": "Read more about the platform",
+    "browseSchemes": "Browse schemes",
+    "trackGrievance": "Track a grievance",
+    "exploreHeading": "Explore",
+    "exploreSub": "Find a scheme, understand how cooperatives and PACS work, or raise a problem.",
+    "updatesSub": "The latest verified guidance and reference material.",
+    "seeAllUpdates": "See all resources",
+    "trustHeading": "Where the information comes from",
+    "trustBody": "Every answer and topic is drawn from official government and cooperative documents. Each one shows what is stated in an official source, what is a plain-language explanation, and links to where it comes from. Where there is no verified information, Sahakar Sathi says so.",
+    "trustLink": "Read more about the platform"
   },
   "quickHelp": {
     "schemes": {
@@ -144,6 +156,13 @@
     "title": "File a grievance",
     "intro": "Raise a complaint about a cooperative society, a PACS, a scheme benefit, or related services. You will get a tracking number and can check the status any time.",
     "alreadyHaveId": "I already have a tracking number — check status",
+    "steps": {
+      "describe": "Describe the issue",
+      "documents": "Add documents",
+      "submit": "Submit",
+      "tracking": "Get a tracking ID",
+      "track": "Track the status"
+    },
     "categoryLabel": "What is the grievance about?",
     "category": {
       "MEMBERSHIP": "Membership (joining, rights, records)",

@@ -37,7 +37,7 @@ export function AdminKnowledgePage() {
     <div>
       <div className="flex items-baseline justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-ink">Knowledge documents</h2>
+          <h2 className="font-display text-2xl">Knowledge documents</h2>
           <p className="mt-1 text-sm text-ink-2">
             Sources the assistant is allowed to quote. Only verified documents are used in answers.
           </p>

@@ -20,16 +20,16 @@ export function HomePage() {
 
   return (
     <div className="container-page">
-      {/* Hero — one thing to do */}
-      <section className="pb-14 pt-2 motion-safe:animate-fade-up sm:pb-24">
+      {/* Hero — ask a question */}
+      <section className="pb-12 pt-2 motion-safe:animate-fade-up sm:pb-16">
         <p className="eyebrow">{t('app.department')}</p>
-        <h1 className="mt-4 max-w-4xl text-[2rem] leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
+        <h1 className="mt-4 max-w-3xl text-[2rem] leading-[1.12] tracking-tight sm:text-5xl">
           {t('home.heroHeading')}
         </h1>
-        <p className="mt-5 max-w-2xl text-lg text-ink-2 sm:mt-6 sm:text-xl">{t('home.heroSub')}</p>
+        <p className="mt-5 max-w-2xl text-lg text-ink-2 sm:text-xl">{t('home.heroSub')}</p>
 
         <form
-          className="mt-10 max-w-2xl"
+          className="mt-9 max-w-2xl"
           onSubmit={(e) => {
             e.preventDefault();
             ask(question);
@@ -52,13 +52,17 @@ export function HomePage() {
               {t('home.askButton')}
             </button>
           </div>
-          <button
-            type="button"
-            onClick={() => navigate('/assistant?voice=1')}
-            className="btn-link mt-4 text-base"
-          >
-            {t('home.speakButton')}
-          </button>
+          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+            <button type="button" onClick={() => navigate('/assistant?voice=1')} className="btn-link">
+              {t('home.speakButton')}
+            </button>
+            <Link to="/schemes" className="font-medium text-ink-2 no-underline hover:text-ink">
+              {t('home.browseSchemes')}
+            </Link>
+            <Link to="/track" className="font-medium text-ink-2 no-underline hover:text-ink">
+              {t('home.trackGrievance')}
+            </Link>
+          </div>
         </form>
 
         <div className="mt-8 max-w-2xl text-sm">
@@ -80,24 +84,26 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Start with what you need */}
-      <section className="border-t border-line py-14 sm:py-20" aria-labelledby="quick-heading">
-        <h2 id="quick-heading" className="text-2xl sm:text-3xl">
-          {t('home.quickHeading')}
-        </h2>
+      {/* Explore — one section, not five cards */}
+      <section className="border-t border-line py-12 sm:py-16" aria-labelledby="explore-heading">
+        <div className="max-w-prose">
+          <h2 id="explore-heading" className="text-2xl sm:text-3xl">
+            {t('home.exploreHeading')}
+          </h2>
+          <p className="mt-3 text-ink-2">{t('home.exploreSub')}</p>
+        </div>
         <div className="signpost-grid mt-8 border-t border-line">
-          <Signpost
-            icon="assistant"
-            primary
-            to="/assistant"
-            label={t('quickHelp.assistant.title')}
-            sub={t('quickHelp.assistant.desc')}
-          />
           <Signpost
             icon="scheme"
             to="/schemes"
             label={t('quickHelp.schemes.title')}
             sub={t('quickHelp.schemes.desc')}
+          />
+          <Signpost
+            icon="knowledge"
+            to="/cooperative"
+            label={t('sections.cooperative_law.title')}
+            sub={t('quickHelp.cooperative.desc')}
           />
           <Signpost
             icon="services"
@@ -106,135 +112,79 @@ export function HomePage() {
             sub={t('quickHelp.pacs.desc')}
           />
           <Signpost
+            icon="track"
+            to="/money"
+            label={t('quickHelp.money.title')}
+            sub={t('quickHelp.money.desc')}
+          />
+          <Signpost
             icon="grievance"
             to="/grievance"
             label={t('quickHelp.grievance.title')}
             sub={t('quickHelp.grievance.desc')}
           />
-        </div>
-      </section>
-
-      {/* The assistant, explained */}
-      <section
-        className="grid gap-10 border-t border-line py-14 sm:py-20 lg:grid-cols-2 lg:gap-16"
-        aria-labelledby="assistant-heading"
-      >
-        <div>
-          <h2 id="assistant-heading" className="text-2xl sm:text-3xl">
-            {t('home.assistantHeading')}
-          </h2>
-          <p className="mt-4 text-ink-2">{t('home.assistantBody1')}</p>
-          <p className="mt-4 text-ink-2">{t('home.assistantBody2')}</p>
-          <Link to="/assistant" className="btn-primary mt-8">
-            {t('nav.askAssistant')}
-          </Link>
-        </div>
-        <ul className="space-y-4 lg:mt-1">
-          {[t('home.assistantPoint1'), t('home.assistantPoint2'), t('home.assistantPoint3')].map(
-            (point) => (
-              <li key={point} className="flex gap-3 border-b border-line pb-4 text-ink-2">
-                <span aria-hidden className="mt-0.5 shrink-0 font-semibold text-primary">
-                  —
-                </span>
-                {point}
-              </li>
-            ),
-          )}
-        </ul>
-      </section>
-
-      {/* Services directory */}
-      <section className="border-t border-line py-14 sm:py-20" aria-labelledby="directory-heading">
-        <h2 id="directory-heading" className="text-2xl sm:text-3xl">
-          {t('home.directoryHeading')}
-        </h2>
-        <div className="mt-8 grid gap-x-14 gap-y-8 sm:grid-cols-2">
-          <DirGroup
-            title={t('home.dir.cooperative')}
-            links={[
-              ['/cooperative', t('sections.cooperative_law.title')],
-              ['/pacs', t('sections.pacs.title')],
-            ]}
-          />
-          <DirGroup title={t('home.dir.schemes')} links={[['/schemes', t('sections.schemes.title')]]} />
-          <DirGroup
-            title={t('home.dir.money')}
-            links={[['/money', t('sections.financial_literacy.title')]]}
-          />
-          <DirGroup title={t('home.dir.pmfby')} links={[['/pmfby', t('sections.pmfby.title')]]} />
-          <DirGroup
-            title={t('home.dir.grievance')}
-            links={[
-              ['/grievance', t('grievance.title')],
-              ['/track', t('grievance.trackTitle')],
-            ]}
+          <Signpost
+            icon="assistant"
+            primary
+            to="/assistant"
+            label={t('quickHelp.assistant.title')}
+            sub={t('quickHelp.assistant.desc')}
           />
         </div>
-        <p className="mt-10">
-          <Link to="/services" className="font-semibold">
-            {t('home.seeAllServices')}
-          </Link>
-        </p>
       </section>
 
       {/* Recently updated (real data) */}
       {updates.data && updates.data.updates.length > 0 && (
-        <section className="border-t border-line py-14 sm:py-20" aria-labelledby="updates-heading">
-          <h2 id="updates-heading" className="text-2xl sm:text-3xl">
-            {t('home.updatesHeading')}
-          </h2>
+        <section className="border-t border-line py-12 sm:py-16" aria-labelledby="updates-heading">
+          <div className="max-w-prose">
+            <h2 id="updates-heading" className="text-2xl sm:text-3xl">
+              {t('home.updatesHeading')}
+            </h2>
+            <p className="mt-3 text-ink-2">{t('home.updatesSub')}</p>
+          </div>
           <ul className="mt-8 max-w-prose border-t border-line">
             {updates.data.updates.map((u) => (
               <li key={u.href + u.title}>
                 <Link
                   to={u.href}
-                  className="block border-b border-line py-4 no-underline transition-colors hover:bg-primary-tint/40"
+                  className="flex flex-col gap-1 border-b border-line py-4 no-underline transition-colors hover:bg-primary-tint/40 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
                 >
-                  <span className="block text-sm text-ink-2">
+                  <span className="font-semibold text-ink">{u.title}</span>
+                  <span className="shrink-0 text-sm text-ink-2">
                     {new Date(u.date).toLocaleDateString(undefined, {
                       day: 'numeric',
-                      month: 'long',
+                      month: 'short',
                       year: 'numeric',
-                    })}{' '}
-                    · {u.category}
+                    })}
+                    {' · '}
+                    {u.category}
                   </span>
-                  <span className="mt-1 block font-semibold text-ink">{u.title}</span>
                 </Link>
               </li>
             ))}
           </ul>
+          <p className="mt-6">
+            <Link to="/knowledge" className="font-semibold">
+              {t('home.seeAllUpdates')}
+            </Link>
+          </p>
         </section>
       )}
 
-      {/* About */}
-      <section className="border-t border-line py-14 sm:py-20" aria-labelledby="about-heading">
-        <h2 id="about-heading" className="text-2xl sm:text-3xl">
-          {t('home.aboutHeading')}
-        </h2>
-        <p className="mt-4 max-w-prose text-ink-2">{t('home.aboutBody')}</p>
-        <p className="mt-6">
-          <Link to="/about" className="font-semibold">
-            {t('home.aboutMore')}
-          </Link>
-        </p>
-      </section>
-    </div>
-  );
-}
-
-function DirGroup({ title, links }: { title: string; links: [string, string][] }) {
-  return (
-    <div>
-      <h3 className="text-base">{title}</h3>
-      <ul className="mt-2 space-y-1.5">
-        {links.map(([to, label]) => (
-          <li key={to + label}>
-            <Link to={to} className="text-ink-2 no-underline hover:text-ink">
-              {label}
+      {/* Where the information comes from */}
+      <section className="border-t border-line py-12 sm:py-16" aria-labelledby="trust-heading">
+        <div className="max-w-prose">
+          <h2 id="trust-heading" className="text-2xl sm:text-3xl">
+            {t('home.trustHeading')}
+          </h2>
+          <p className="mt-4 text-ink-2">{t('home.trustBody')}</p>
+          <p className="mt-6">
+            <Link to="/about" className="font-semibold">
+              {t('home.trustLink')}
             </Link>
-          </li>
-        ))}
-      </ul>
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

@@ -98,7 +98,10 @@ export function GrievancePage() {
   if (result) {
     return (
       <div className="container-page max-w-prose">
-        <div className="notice border-primary/25 bg-primary-tint/40 text-center">
+        <Breadcrumbs trail={[{ label: t('grievance.title') }]} />
+        <h1 className="text-3xl sm:text-4xl">{t('grievance.title')}</h1>
+        <GrievanceSteps active={4} />
+        <div className="mt-10 notice border-primary/25 bg-primary-tint/40 text-center">
           <p className="eyebrow text-primary">{t('grievance.submittedTitle')}</p>
           <p className="mt-3 font-display text-4xl font-semibold tracking-wide text-ink">
             {result.trackingId}
@@ -136,9 +139,10 @@ export function GrievancePage() {
       <Breadcrumbs trail={[{ label: t('grievance.title') }]} />
 
       <h1 className="text-3xl sm:text-4xl">{t('grievance.title')}</h1>
-      <p className="mt-4 text-lg text-ink-2">{t('grievance.intro')}</p>
+      <GrievanceSteps active={1} />
+      <p className="mt-8 text-lg text-ink-2">{t('grievance.intro')}</p>
       <p className="mt-3">
-        <Link to="/track" className="font-bold">
+        <Link to="/track" className="font-semibold">
           {t('grievance.alreadyHaveId')}
         </Link>
       </p>
@@ -258,5 +262,38 @@ export function GrievancePage() {
         </div>
       </form>
     </div>
+  );
+}
+
+/** Orientation strip: where filing a grievance sits in the whole process. */
+function GrievanceSteps({ active }: { active: number }) {
+  const { t } = useTranslation();
+  const steps = ['describe', 'documents', 'submit', 'tracking', 'track'] as const;
+  return (
+    <ol className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+      {steps.map((s, i) => {
+        const n = i + 1;
+        const done = n < active;
+        const current = n === active;
+        return (
+          <li key={s} className="flex items-center gap-2">
+            <span
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                current
+                  ? 'bg-primary text-white'
+                  : done
+                    ? 'bg-primary-tint text-primary'
+                    : 'border border-line text-ink-2'
+              }`}
+            >
+              {n}
+            </span>
+            <span className={current ? 'font-semibold text-ink' : 'text-ink-2'}>
+              {t(`grievance.steps.${s}`)}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

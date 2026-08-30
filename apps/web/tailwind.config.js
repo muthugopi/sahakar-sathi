@@ -84,9 +84,9 @@ export default {
     },
     extend: {
       maxWidth: {
-        container: '1120px',
-        wide: '1280px',
-        prose: '66ch',
+        container: '1200px',
+        wide: '1360px',
+        prose: '68ch',
         text: '36rem',
         form: '36rem',
       },

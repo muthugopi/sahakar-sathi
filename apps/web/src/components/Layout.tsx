@@ -8,11 +8,11 @@ import { useAuth } from '../lib/auth';
 
 const NAV: { to: string; key: string; end?: boolean }[] = [
   { to: '/', key: 'nav.home', end: true },
-  { to: '/services', key: 'nav.services' },
+  { to: '/assistant', key: 'nav.askSathi' },
   { to: '/schemes', key: 'nav.schemes' },
-  { to: '/knowledge', key: 'nav.knowledge' },
+  { to: '/cooperative', key: 'nav.cooperatives' },
   { to: '/grievance', key: 'nav.grievances' },
-  { to: '/about', key: 'nav.about' },
+  { to: '/knowledge', key: 'nav.resources' },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -100,15 +100,9 @@ export function Layout({ children }: { children: ReactNode }) {
             ))}
           </nav>
 
-          <div className="hidden shrink-0 items-center gap-3 lg:flex xl:gap-4">
-            {account}
+          <div className="hidden shrink-0 items-center gap-4 lg:flex">
             <LanguageSelector id="lang-header" hideLabel />
-            <Link
-              to="/assistant"
-              className="btn-primary h-10 min-h-0 whitespace-nowrap px-4 text-sm"
-            >
-              {t('nav.askAssistant')}
-            </Link>
+            {account}
           </div>
 
           <button
@@ -147,11 +141,7 @@ export function Layout({ children }: { children: ReactNode }) {
             aria-label="Primary"
             className="container-page flex-1 overflow-y-auto border-t border-line py-2"
           >
-            {[
-              ...NAV,
-              { to: '/assistant', key: 'nav.askAssistant' },
-              { to: '/track', key: 'nav.track' },
-            ].map((item) => (
+            {[...NAV, { to: '/track', key: 'nav.track' }].map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -186,7 +176,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </main>
 
       <footer className="mt-24 border-t border-line">
-        <div className="container-page grid gap-10 py-14 sm:grid-cols-[1fr_auto]">
+        <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div className="max-w-prose">
             <p className="font-display text-lg font-semibold tracking-tight text-ink">
               {t('app.name')}
@@ -195,16 +185,37 @@ export function Layout({ children }: { children: ReactNode }) {
             <p className="mt-4 text-sm text-ink-2">{t('footer.disclaimer')}</p>
             <p className="mt-2 text-sm text-ink-2">{t('footer.builtFor')}</p>
           </div>
-          <nav aria-label="Footer" className="text-sm">
-            <ul className="space-y-2.5">
+          <nav aria-label="Services" className="text-sm">
+            <p className="font-semibold text-ink">{t('nav.resources')}</p>
+            <ul className="mt-3 space-y-2.5">
               <li>
-                <Link to="/about" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.about')}
+                <Link to="/schemes" className="no-underline text-ink-2 hover:text-ink">
+                  {t('nav.schemes')}
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.services')}
+                <Link to="/cooperative" className="no-underline text-ink-2 hover:text-ink">
+                  {t('nav.cooperatives')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/pacs" className="no-underline text-ink-2 hover:text-ink">
+                  {t('sections.pacs.title')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/money" className="no-underline text-ink-2 hover:text-ink">
+                  {t('sections.financial_literacy.title')}
+                </Link>
+              </li>
+            </ul>
+          </nav>
+          <nav aria-label="Help" className="text-sm">
+            <p className="font-semibold text-ink">{t('nav.grievances')}</p>
+            <ul className="mt-3 space-y-2.5">
+              <li>
+                <Link to="/grievance" className="no-underline text-ink-2 hover:text-ink">
+                  {t('grievance.title')}
                 </Link>
               </li>
               <li>
@@ -213,8 +224,13 @@ export function Layout({ children }: { children: ReactNode }) {
                 </Link>
               </li>
               <li>
-                <Link to="/grievance" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.grievances')}
+                <Link to="/assistant" className="no-underline text-ink-2 hover:text-ink">
+                  {t('nav.askSathi')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="no-underline text-ink-2 hover:text-ink">
+                  {t('nav.about')}
                 </Link>
               </li>
             </ul>

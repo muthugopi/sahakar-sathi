@@ -14,14 +14,14 @@ export function AdminSchemesPage() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-ink">Schemes</h2>
+          <h2 className="font-display text-2xl">Schemes</h2>
           <p className="mt-1 text-sm text-ink-2">
             Structured scheme pages. Verified schemes appear in the explorer and ground the assistant.
           </p>
         </div>
-        <Link to="/admin/schemes/new" className="text-sm font-medium text-primary underline">
+        <Link to="/admin/schemes/new" className="btn-primary h-10 min-h-0 shrink-0 px-4 text-sm">
           New scheme
         </Link>
       </div>
@@ -31,14 +31,14 @@ export function AdminSchemesPage() {
         isError={query.isError}
         onRetry={() => void query.refetch()}
       >
-        <div className="overflow-x-auto">
-          <table className="mt-6 w-full text-sm">
+        <div className="table-scroll mt-6">
+          <table className="data-table">
             <thead>
-              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-ink-2">
-                <th className="py-2 pe-4 font-medium">Title</th>
-                <th className="py-2 pe-4 font-medium">Scope</th>
-                <th className="py-2 pe-4 font-medium">Status</th>
-                <th className="py-2 font-medium">Actions</th>
+              <tr>
+                <th>Title</th>
+                <th>Scope</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -71,23 +71,23 @@ function SchemeRow({ scheme, onChange }: { scheme: SchemeAdmin; onChange: () => 
   });
 
   return (
-    <tr className="border-b border-line">
-      <td className="py-3 pe-4">
-        <Link to={`/admin/schemes/${scheme.slug}`} className="text-ink underline">
+    <tr className="hover:bg-primary-tint/30">
+      <td>
+        <Link to={`/admin/schemes/${scheme.slug}`} className="font-medium text-ink">
           {scheme.title}
         </Link>
         {scheme.isArchived && <span className="ms-2 text-xs text-ink-2">archived</span>}
       </td>
-      <td className="py-3 pe-4 text-ink-2">{scheme.state ?? 'All India'}</td>
-      <td className="py-3 pe-4">
+      <td className="whitespace-nowrap text-ink-2">{scheme.state ?? 'All India'}</td>
+      <td>
         {scheme.isVerified ? (
-          <span className="text-primary">verified</span>
+          <span className="font-medium text-ok">verified</span>
         ) : (
-          <span className="text-error">draft</span>
+          <span className="font-medium text-accent">draft</span>
         )}
       </td>
-      <td className="py-3">
-        <div className="flex gap-3">
+      <td>
+        <div className="flex gap-3 whitespace-nowrap">
           <button
             type="button"
             onClick={() => verify.mutate(!scheme.isVerified)}
