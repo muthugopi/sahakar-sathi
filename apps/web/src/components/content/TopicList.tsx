@@ -48,8 +48,8 @@ function TopicRow({
           onClick={onToggle}
           className="flex w-full items-baseline justify-between gap-4 py-4 text-left"
         >
-          <span className="text-lg font-bold text-field-deep underline">{topic.title}</span>
-          <span className="shrink-0 font-bold text-field-deep">
+          <span className="text-lg font-bold text-primary underline">{topic.title}</span>
+          <span className="shrink-0 font-bold text-primary">
             {open ? t('content.hide') : t('content.show')}
           </span>
         </button>
@@ -63,7 +63,7 @@ function TopicRow({
                 type="button"
                 aria-pressed={view === 'simple'}
                 onClick={() => setView('simple')}
-                className={view === 'simple' ? 'font-bold text-ink underline' : 'text-field-deep underline'}
+                className={view === 'simple' ? 'font-bold text-ink underline' : 'text-primary underline'}
               >
                 {t('content.simple')}
               </button>
@@ -71,7 +71,7 @@ function TopicRow({
                 type="button"
                 aria-pressed={view === 'detailed'}
                 onClick={() => setView('detailed')}
-                className={view === 'detailed' ? 'font-bold text-ink underline' : 'text-field-deep underline'}
+                className={view === 'detailed' ? 'font-bold text-ink underline' : 'text-primary underline'}
               >
                 {t('content.detailed')}
               </button>
@@ -95,7 +95,7 @@ function TopicRow({
             </div>
           )}
 
-          <p className="mt-5 text-muted">
+          <p className="mt-5 text-ink-2">
             {t('content.sourceLine', { authority: topic.authority })}
             {topic.sourceUrl && (
               <>

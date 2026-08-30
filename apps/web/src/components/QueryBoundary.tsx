@@ -16,7 +16,7 @@ export function QueryBoundary({ isLoading, isError, onRetry, children }: QueryBo
 
   if (isLoading) {
     return (
-      <p className="py-8 text-muted" role="status">
+      <p className="py-8 text-ink-2" role="status">
         {t('common.loading')}
       </p>
     );
@@ -24,11 +24,11 @@ export function QueryBoundary({ isLoading, isError, onRetry, children }: QueryBo
 
   if (isError) {
     return (
-      <div className="my-6 border-l-4 border-clay ps-4" role="alert">
-        <h2 className="text-lg font-bold text-ink">
+      <div className="notice notice--error my-6" role="alert">
+        <h2 className="text-xl">
           {online ? t('common.errorTitle') : t('common.offlineTitle')}
         </h2>
-        <p className="mt-1 text-muted">
+        <p className="mt-2 text-ink-2">
           {online ? t('content.loadError') : t('common.offlineBody')}
         </p>
         {onRetry && (

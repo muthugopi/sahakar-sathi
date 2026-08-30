@@ -75,12 +75,12 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
   return (
     <div className="border-t-2 border-ink pt-3">
       {speech.listening && (
-        <p className="mb-2 font-bold text-clay" role="status">
+        <p className="mb-2 font-bold text-error" role="status">
           {t('voice.listening')}
         </p>
       )}
       {micError && (
-        <p className="mb-2 font-bold text-clay" role="alert">
+        <p className="mb-2 font-bold text-error" role="alert">
           {micError}
         </p>
       )}
@@ -124,7 +124,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
             className={`flex h-12 w-12 shrink-0 items-center justify-center border-2 text-lg ${
-              speech.listening ? 'border-clay bg-clay text-white' : 'border-ink bg-white'
+              speech.listening ? 'border-error bg-error text-white' : 'border-ink bg-white'
             }`}
           >
             <span aria-hidden>{speech.listening ? '■' : '🎙'}</span>

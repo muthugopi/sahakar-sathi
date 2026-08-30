@@ -20,7 +20,7 @@ export function ConfidenceTag({ value }: { value: AnswerConfidence }) {
   const { t } = useTranslation();
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded border-s-4 bg-surface px-2 py-1 font-sans text-sm font-semibold ${STYLE[value]}`}
+      className={`inline-flex items-center gap-2 rounded border-s-4 bg-bg px-2 py-1 font-sans text-sm font-semibold ${STYLE[value]}`}
     >
       <span aria-hidden className="font-mono">
         {DOT[value]}

@@ -24,7 +24,7 @@ export function AdminGrievancesPage() {
   return (
     <div>
       <h2 className="text-lg font-semibold text-ink">Grievances</h2>
-      <p className="mt-1 text-sm text-muted">
+      <p className="mt-1 text-sm text-ink-2">
         Every grievance filed through the platform. Open one to record progress.
       </p>
 
@@ -70,7 +70,7 @@ export function AdminGrievancesPage() {
         <div className="overflow-x-auto">
           <table className="mt-4 w-full text-sm">
             <thead>
-              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
+              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-ink-2">
                 <th className="py-2 pe-4 font-medium">Tracking ID</th>
                 <th className="py-2 pe-4 font-medium">Category</th>
                 <th className="py-2 pe-4 font-medium">District</th>
@@ -85,25 +85,25 @@ export function AdminGrievancesPage() {
                   <td className="py-3 pe-4">
                     <Link
                       to={`/admin/grievances/${g.trackingId}`}
-                      className="font-mono text-field-deep underline"
+                      className="font-mono text-primary underline"
                     >
                       {g.trackingId}
                     </Link>
                   </td>
-                  <td className="py-3 pe-4 text-muted">
+                  <td className="py-3 pe-4 text-ink-2">
                     {g.category.toLowerCase().replace(/_/g, ' ')}
                   </td>
-                  <td className="py-3 pe-4 text-muted">{g.district ?? '—'}</td>
-                  <td className="py-3 pe-4 text-muted">{g.assignee ?? '—'}</td>
+                  <td className="py-3 pe-4 text-ink-2">{g.district ?? '—'}</td>
+                  <td className="py-3 pe-4 text-ink-2">{g.assignee ?? '—'}</td>
                   <td className="py-3 pe-4">
                     <StatusBadge status={g.status} />
                   </td>
-                  <td className="py-3 text-muted">{new Date(g.updatedAt).toLocaleDateString()}</td>
+                  <td className="py-3 text-ink-2">{new Date(g.updatedAt).toLocaleDateString()}</td>
                 </tr>
               ))}
               {query.data && query.data.grievances.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-6 text-muted">
+                  <td colSpan={6} className="py-6 text-ink-2">
                     No grievances match.
                   </td>
                 </tr>

@@ -19,7 +19,7 @@ function inline(text: string, keyBase: string): ReactNode[] {
     else if (tok.startsWith('_')) nodes.push(<em key={key}>{tok.slice(1, -1)}</em>);
     else
       nodes.push(
-        <sup key={key} className="text-field-deep font-semibold">
+        <sup key={key} className="text-primary font-semibold">
           {tok}
         </sup>,
       );

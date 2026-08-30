@@ -66,18 +66,18 @@ export function AdminSchemeEditPage() {
   const set = <K extends keyof SchemeInput>(k: K, v: SchemeInput[K]) =>
     setForm((f) => ({ ...f, [k]: v }));
 
-  if (!isNew && existing.isLoading) return <p className="text-muted">Loading…</p>;
+  if (!isNew && existing.isLoading) return <p className="text-ink-2">Loading…</p>;
 
   return (
     <div className="max-w-2xl">
-      <Link to="/admin/schemes" className="text-sm text-field-deep underline">
+      <Link to="/admin/schemes" className="text-sm text-primary underline">
         ← All schemes
       </Link>
       <h2 className="mt-3 text-lg font-semibold text-ink">
         {isNew ? 'New scheme' : `Edit: ${form.title}`}
       </h2>
       {!isNew && (
-        <p className="mt-1 text-sm text-muted">
+        <p className="mt-1 text-sm text-ink-2">
           Saving re-indexes the scheme for the assistant if it is verified.
         </p>
       )}
@@ -90,7 +90,7 @@ export function AdminSchemeEditPage() {
           mutation.mutate();
         }}
       >
-        {error && <p className="text-sm text-clay">{error}</p>}
+        {error && <p className="text-sm text-error">{error}</p>}
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Text label="URL slug" value={form.slug} onChange={(v) => set('slug', v)} disabled={!isNew} />

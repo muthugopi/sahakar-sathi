@@ -1,78 +1,81 @@
 /** @type {import('tailwindcss').Config}
  *
- * "Navy ink on paper" — the visual language of an official Indian cooperative
- * record (passbook / certificate / Registrar's notification): navy on cream-white
- * paper, gazette serif for headings, one restrained marigold accent, 4px radius,
- * flat surfaces. See docs/design-plan.md.
+ * Wayfinding system — see docs/design-plan.md. Fresh tokens, not an extension
+ * of anything before. High-contrast, flat, teal + amber public-signage palette.
+ * Tailwind's default 4px spacing scale is kept (it already is the restrained
+ * 4·8·12·16·24·32·48·64 scale the plan calls for); the identity is colour,
+ * type, the single radius, and the component primitives.
  */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     borderRadius: {
       none: '0',
-      DEFAULT: '4px',
-      sm: '3px',
-      md: '4px',
-      lg: '4px',
+      DEFAULT: '2px',
+      sm: '2px',
+      md: '2px',
+      lg: '2px',
       full: '9999px', // status dots only
     },
-    boxShadow: {
-      none: 'none',
-      menu: '0 2px 8px rgba(23, 50, 77, 0.14)', // reserved for floating layers
+    boxShadow: { none: 'none' },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      white: '#ffffff',
+      black: '#000000',
+      bg: '#f3f5f4',
+      panel: '#ffffff',
+      ink: '#16211f',
+      'ink-2': '#4c5754',
+      line: '#d3d8d6',
+      primary: {
+        DEFAULT: '#0b4f4a',
+        hover: '#083b37',
+        tint: '#e7efee',
+      },
+      accent: {
+        DEFAULT: '#c2610a',
+        tint: '#f7ece0',
+      },
+      error: { DEFAULT: '#b42318', tint: '#fbeceb' },
+      ok: { DEFAULT: '#0b7a3b', tint: '#e6f2ec' },
+      focus: '#c2610a',
+    },
+    fontFamily: {
+      display: ['"Archivo"', 'system-ui', 'sans-serif'],
+      sans: [
+        '"Noto Sans"',
+        '"Noto Sans Devanagari"',
+        '"Noto Sans Tamil"',
+        'system-ui',
+        'sans-serif',
+      ],
+      mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+    },
+    fontSize: {
+      xs: ['0.8125rem', { lineHeight: '1.4' }],
+      sm: ['0.9375rem', { lineHeight: '1.5' }],
+      base: ['1.0625rem', { lineHeight: '1.6' }],
+      lg: ['1.1875rem', { lineHeight: '1.5' }],
+      xl: ['1.25rem', { lineHeight: '1.35' }],
+      '2xl': ['1.5rem', { lineHeight: '1.25' }],
+      '3xl': ['1.75rem', { lineHeight: '1.2' }],
+      '4xl': ['2rem', { lineHeight: '1.15' }],
+      '5xl': ['2.5rem', { lineHeight: '1.08' }],
     },
     extend: {
-      colors: {
-        ink: '#1b1b1f',
-        muted: '#55565c',
-        paper: '#fbfbf8',
-        surface: '#f1f1ec',
-        panel: '#ffffff',
-        line: '#d3d3ca',
-        primary: {
-          DEFAULT: '#17324d',
-          hover: '#0f2338',
-          tint: '#eef2f6',
-        },
-        accent: {
-          DEFAULT: '#c9772a',
-          soft: '#f6ece1',
-        },
-        focus: '#ffdd00',
-        error: '#b3261e',
-        resolved: '#1f6f43',
-        // aliases kept so components from the previous pass still resolve
-        field: { DEFAULT: '#17324d', deep: '#17324d', text: '#0f2338', wash: '#eef2f6', soft: '#eef2f6' },
-        clay: '#b3261e',
-        marigold: '#c9772a',
-      },
-      fontFamily: {
-        serif: ['"IBM Plex Serif"', 'Georgia', 'Cambria', 'serif'],
-        sans: [
-          '"IBM Plex Sans"',
-          '"IBM Plex Sans Devanagari"',
-          '"Noto Sans Tamil"',
-          'system-ui',
-          'sans-serif',
-        ],
-      },
-      fontSize: {
-        sm: ['0.9375rem', { lineHeight: '1.5' }],
-        base: ['1.125rem', { lineHeight: '1.6' }],
-        lg: ['1.1875rem', { lineHeight: '1.5' }],
-        xl: ['1.25rem', { lineHeight: '1.4' }],
-        '2xl': ['1.5rem', { lineHeight: '1.25' }],
-        '3xl': ['1.75rem', { lineHeight: '1.2' }],
-        '4xl': ['2rem', { lineHeight: '1.15' }],
-        '5xl': ['2.5rem', { lineHeight: '1.1' }],
-      },
       maxWidth: {
-        container: '1080px',
-        prose: '64ch',
-        text: '38rem',
+        container: '1000px',
+        prose: '62ch',
+        form: '34rem',
       },
-      spacing: {
-        18: '4.5rem',
+      minHeight: {
+        touch: '3rem',
+        btn: '3.25rem',
+        row: '4rem',
       },
+      minWidth: { touch: '3rem' },
+      borderWidth: { 3: '3px' },
     },
   },
   plugins: [],

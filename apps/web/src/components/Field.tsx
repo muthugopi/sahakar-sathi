@@ -14,7 +14,7 @@ interface FieldProps {
  */
 export function Field({ id, label, hint, error, children }: FieldProps) {
   return (
-    <div className={error ? 'border-l-4 border-clay ps-4' : undefined}>
+    <div className={error ? 'border-l-4 border-error ps-4' : undefined}>
       <label htmlFor={id} className="field-label text-lg">
         {label}
       </label>
@@ -24,7 +24,7 @@ export function Field({ id, label, hint, error, children }: FieldProps) {
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} className="mt-1 font-bold text-clay">
+        <p id={`${id}-error`} className="mt-1 font-bold text-error">
           {error}
         </p>
       )}

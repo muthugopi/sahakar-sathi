@@ -14,7 +14,7 @@ export function SourceList({ sources }: { sources: SourceRef[] }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="font-bold text-field-deep underline"
+        className="font-bold text-primary underline"
       >
         {open ? t('assistant.hideSources') : t('assistant.showSources')} ·{' '}
         {t('assistant.sourcesLabel', { count: sources.length })}
@@ -25,9 +25,9 @@ export function SourceList({ sources }: { sources: SourceRef[] }) {
           {sources.map((s) => (
             <li key={s.id} className="border-b border-line py-3">
               <p className="font-bold">{s.title}</p>
-              <p className="text-muted">{s.authority}</p>
+              <p className="text-ink-2">{s.authority}</p>
               <p className="mt-1">{s.snippet}</p>
-              <p className="mt-1 text-sm text-muted">
+              <p className="mt-1 text-sm text-ink-2">
                 {s.verifiedAt && t('assistant.verifiedOn', { date: s.verifiedAt.slice(0, 10) })}
                 {s.sourceUrl && (
                   <>

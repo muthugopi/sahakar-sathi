@@ -38,14 +38,14 @@ export function AdminKnowledgePage() {
       <div className="flex items-baseline justify-between">
         <div>
           <h2 className="text-lg font-semibold text-ink">Knowledge documents</h2>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-1 text-sm text-ink-2">
             Sources the assistant is allowed to quote. Only verified documents are used in answers.
           </p>
         </div>
         <button
           type="button"
           onClick={() => setShowForm((v) => !v)}
-          className="text-sm font-medium text-field-deep underline"
+          className="text-sm font-medium text-primary underline"
         >
           {showForm ? 'Cancel' : 'Add document'}
         </button>
@@ -99,7 +99,7 @@ export function AdminKnowledgePage() {
         <div className="overflow-x-auto">
           <table className="mt-4 w-full text-sm">
             <thead>
-              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
+              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-ink-2">
                 <th className="py-2 pe-4 font-medium">Title</th>
                 <th className="py-2 pe-4 font-medium">Category</th>
                 <th className="py-2 pe-4 font-medium">Authority</th>
@@ -114,7 +114,7 @@ export function AdminKnowledgePage() {
               ))}
               {query.data && query.data.documents.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-6 text-muted">
+                  <td colSpan={6} className="py-6 text-ink-2">
                     No documents match.
                   </td>
                 </tr>
@@ -143,30 +143,30 @@ function DocumentRow({ doc, onChange }: { doc: AdminDocument; onChange: () => vo
             href={doc.sourceUrl}
             target="_blank"
             rel="noreferrer noopener"
-            className="ms-2 text-xs text-field-deep underline"
+            className="ms-2 text-xs text-primary underline"
           >
             source
           </a>
         )}
       </td>
-      <td className="py-3 pe-4 text-muted">{label(doc.category)}</td>
-      <td className="py-3 pe-4 text-muted">{doc.authority}</td>
+      <td className="py-3 pe-4 text-ink-2">{label(doc.category)}</td>
+      <td className="py-3 pe-4 text-ink-2">{doc.authority}</td>
       <td className="py-3 pe-4">
         {doc.isVerified ? (
-          <span className="text-field-deep">verified</span>
+          <span className="text-primary">verified</span>
         ) : (
-          <span className="text-clay">unverified</span>
+          <span className="text-error">unverified</span>
         )}
-        {!doc.isPublished && <span className="ms-1 text-muted">· hidden</span>}
+        {!doc.isPublished && <span className="ms-1 text-ink-2">· hidden</span>}
       </td>
-      <td className="py-3 pe-4 text-right tabular-nums text-muted">{doc.chunkCount}</td>
+      <td className="py-3 pe-4 text-right tabular-nums text-ink-2">{doc.chunkCount}</td>
       <td className="py-3">
         <div className="flex gap-3">
           <button
             type="button"
             onClick={() => verify.mutate(!doc.isVerified)}
             disabled={verify.isPending}
-            className="text-field-deep underline"
+            className="text-primary underline"
           >
             {doc.isVerified ? 'Unverify' : 'Verify'}
           </button>
@@ -176,7 +176,7 @@ function DocumentRow({ doc, onChange }: { doc: AdminDocument; onChange: () => vo
               if (confirm(`Delete “${doc.title}”? This cannot be undone.`)) remove.mutate();
             }}
             disabled={remove.isPending}
-            className="text-clay underline"
+            className="text-error underline"
           >
             Delete
           </button>
@@ -222,14 +222,14 @@ function NewDocumentForm({ onDone }: { onDone: () => void }) {
 
   return (
     <form
-      className="mt-4 space-y-4 border border-line bg-soft p-4"
+      className="mt-4 space-y-4 border border-line bg-bg p-4"
       onSubmit={(e) => {
         e.preventDefault();
         setError(null);
         mutation.mutate();
       }}
     >
-      {error && <p className="text-sm text-clay">{error}</p>}
+      {error && <p className="text-sm text-error">{error}</p>}
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="text-sm">
           Title
@@ -276,7 +276,7 @@ function NewDocumentForm({ onDone }: { onDone: () => void }) {
 
       <div>
         <p className="text-sm">Content</p>
-        <p className="text-xs text-muted">Paste the text, or upload a text-based PDF.</p>
+        <p className="text-xs text-ink-2">Paste the text, or upload a text-based PDF.</p>
         <textarea
           value={form.text}
           onChange={(e) => set('text', e.target.value)}
