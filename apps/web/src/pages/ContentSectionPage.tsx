@@ -9,10 +9,11 @@ import { AskAssistantLink } from '../components/AskAssistantLink';
 
 /** One layout for Cooperative Law, PACS, Financial Literacy and PMFBY FAQ. */
 export function ContentSectionPage({ section }: { section: ContentSectionCode }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.resolvedLanguage ?? i18n.language ?? 'en';
   const query = useQuery({
-    queryKey: ['content', section],
-    queryFn: () => fetchContentSection(section),
+    queryKey: ['content', section, lang],
+    queryFn: () => fetchContentSection(section, lang),
     staleTime: 30 * 60_000,
   });
 
@@ -31,7 +32,7 @@ export function ContentSectionPage({ section }: { section: ContentSectionCode })
           isError={query.isError}
           onRetry={() => void query.refetch()}
         >
-          {query.data && <TopicList topics={query.data.topics} />}
+          {query.data && <TopicList topics={query.data.topics} uiLang={lang} />}
         </QueryBoundary>
       </div>
 

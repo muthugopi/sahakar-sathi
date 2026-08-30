@@ -198,6 +198,8 @@ model ContentTopic {
   authority            String
   sourceUrl            String?
   language             Language       @default(en)
+  /// { hi?: {title,summary,simpleExplanation,detailedExplanation?,example?}, ta?: {...} }
+  translations         Json?
   order                Int            @default(0)
   isPublished          Boolean        @default(true)
   verifiedAt           DateTime?

@@ -37,14 +37,19 @@ export function fetchScheme(slug: string): Promise<{ scheme: SchemeDetail }> {
   return api(`/schemes/${encodeURIComponent(slug)}`, { auth: false });
 }
 
-export function fetchContentSection(
-  section: ContentSectionCode,
-): Promise<{ section: ContentSectionCode; topics: ContentTopic[] }> {
-  return api(`/content/${section}`, { auth: false });
+function langQs(lang?: string): string {
+  return lang && lang !== 'en' ? `?lang=${encodeURIComponent(lang)}` : '';
 }
 
-export function fetchContentTopic(slug: string): Promise<{ topic: ContentTopic }> {
-  return api(`/content/topics/${encodeURIComponent(slug)}`, { auth: false });
+export function fetchContentSection(
+  section: ContentSectionCode,
+  lang?: string,
+): Promise<{ section: ContentSectionCode; topics: ContentTopic[] }> {
+  return api(`/content/${section}${langQs(lang)}`, { auth: false });
+}
+
+export function fetchContentTopic(slug: string, lang?: string): Promise<{ topic: ContentTopic }> {
+  return api(`/content/topics/${encodeURIComponent(slug)}${langQs(lang)}`, { auth: false });
 }
 
 export function fetchUpdates(): Promise<{ updates: UpdateItem[] }> {

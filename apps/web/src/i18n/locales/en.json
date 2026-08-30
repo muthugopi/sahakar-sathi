@@ -254,7 +254,8 @@
     "stillNeedHelpBody": "Ask the assistant in your own words — by text or voice — and get an answer in your language.",
     "show": "Show",
     "hide": "Hide",
-    "sourceLine": "Source: {{authority}}"
+    "sourceLine": "Source: {{authority}}",
+    "notTranslated": "This topic hasn't been translated yet. Ask the assistant to explain it in your language."
   },
   "schemes": {
     "national": "All India",

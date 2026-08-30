@@ -5,7 +5,7 @@ import { RichText } from '../RichText';
 import { AskAssistantLink } from '../AskAssistantLink';
 
 /** GOV.UK-style accordion: a bordered list of topics, each expandable. */
-export function TopicList({ topics }: { topics: ContentTopic[] }) {
+export function TopicList({ topics, uiLang = 'en' }: { topics: ContentTopic[]; uiLang?: string }) {
   const [open, setOpen] = useState<Set<string>>(new Set(topics[0] ? [topics[0].slug] : []));
 
   const toggle = (slug: string) =>
@@ -18,7 +18,13 @@ export function TopicList({ topics }: { topics: ContentTopic[] }) {
   return (
     <div className="border-t border-line">
       {topics.map((topic) => (
-        <TopicRow key={topic.slug} topic={topic} open={open.has(topic.slug)} onToggle={() => toggle(topic.slug)} />
+        <TopicRow
+          key={topic.slug}
+          topic={topic}
+          uiLang={uiLang}
+          open={open.has(topic.slug)}
+          onToggle={() => toggle(topic.slug)}
+        />
       ))}
     </div>
   );
@@ -26,16 +32,19 @@ export function TopicList({ topics }: { topics: ContentTopic[] }) {
 
 function TopicRow({
   topic,
+  uiLang,
   open,
   onToggle,
 }: {
   topic: ContentTopic;
+  uiLang: string;
   open: boolean;
   onToggle: () => void;
 }) {
   const { t } = useTranslation();
   const [view, setView] = useState<'simple' | 'detailed'>('simple');
   const hasDetailed = Boolean(topic.detailedExplanation);
+  const untranslated = uiLang !== 'en' && !topic.translated;
   const panelId = `topic-${topic.slug}`;
 
   return (
@@ -57,6 +66,15 @@ function TopicRow({
 
       {open && (
         <div id={panelId} className="pb-6">
+          {untranslated && (
+            <div className="notice notice--warn mb-4">
+              <p>{t('content.notTranslated')}</p>
+              <p className="mt-2">
+                <AskAssistantLink question={topic.title} variant="plain" />
+              </p>
+            </div>
+          )}
+
           {hasDetailed && (
             <div className="mb-4 flex gap-4 text-base" role="group" aria-label={topic.title}>
               <button

@@ -16,6 +16,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:seed:knowledge": "tsx prisma/seeds/knowledge.ts",
     "db:seed:content": "tsx prisma/seeds/content.ts",
+    "db:seed:content:i18n": "tsx prisma/seeds/content.i18n.ts",
     "db:studio": "prisma studio"
   },
   "prisma": {

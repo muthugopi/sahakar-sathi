@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { contentSectionSchema, schemeQuerySchema } from '@sahakar/shared';
+import { contentSectionSchema, languageSchema, schemeQuerySchema } from '@sahakar/shared';
+import type { LanguageCode } from '@sahakar/shared';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import * as schemeService from '../services/scheme.service.js';
 import * as contentService from '../services/content.service.js';
@@ -26,17 +27,24 @@ export const getSchemeBySlug = asyncHandler(async (req, res) => {
 });
 
 const sectionParams = z.object({ section: contentSectionSchema });
+const langQuery = z.object({ lang: languageSchema.optional() });
 
 export const getContentSection = asyncHandler(async (req, res) => {
   const { section } = sectionParams.parse(req.params);
+  const { lang } = langQuery.parse(req.query);
   res.setHeader('Cache-Control', PUBLIC_CACHE);
-  res.json({ section, topics: await contentService.listBySection(section) });
+  res.setHeader('Vary', 'Accept-Language');
+  res.json({
+    section,
+    topics: await contentService.listBySection(section, (lang as LanguageCode) ?? 'en'),
+  });
 });
 
 export const getContentTopic = asyncHandler(async (req, res) => {
   const { slug } = slugParams.parse(req.params);
+  const { lang } = langQuery.parse(req.query);
   res.setHeader('Cache-Control', PUBLIC_CACHE);
-  res.json({ topic: await contentService.getTopic(slug) });
+  res.json({ topic: await contentService.getTopic(slug, (lang as LanguageCode) ?? 'en') });
 });
 
 export const getUpdates = asyncHandler(async (_req, res) => {

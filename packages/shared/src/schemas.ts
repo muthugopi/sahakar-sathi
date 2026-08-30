@@ -209,6 +209,8 @@ export const contentTopicSchema = z.object({
   authority: z.string(),
   sourceUrl: z.string().url().nullable(),
   language: languageSchema,
+  /** True when the text is shown in the requested non-English language. */
+  translated: z.boolean().default(false),
   order: z.number().int(),
   verifiedAt: z.string().nullable(),
 });
