@@ -131,8 +131,10 @@ GET    /api/v1/content/topics/:slug                           (M5)
 POST   /api/v1/grievances        POST /api/v1/grievances/attachments   (M6)
 GET    /api/v1/grievances/:trackingId    GET /api/v1/grievances/mine   (M6)
 GET    /api/v1/grievances/attachments/:id   PATCH .../:trackingId/status (M6; PATCH = ADMIN)
-GET    /api/v1/admin/analytics                                (M7)
-CRUD   /api/v1/admin/documents | schemes | grievances         (M7)
+GET    /api/v1/admin/analytics                                (M7; ADMIN only)
+CRUD   /api/v1/admin/documents  (POST accepts pasted text or a PDF)   (M7)
+CRUD   /api/v1/admin/schemes    (+ /:slug/verify, /:slug/archive)     (M7)
+GET    /api/v1/admin/grievances   PATCH /api/v1/admin/grievances/:trackingId  (M7)
 ```
 
 ## 8. Security concerns & controls
@@ -164,7 +166,7 @@ Full audit + `npm audit` gate + dependency review scheduled for M8.
 | **M4** ✅ | Browser Web Speech STT (dictation into the composer, auto-start from the home "Speak" button) + TTS (play/pause/stop/replay per answer, shared engine, "read aloud" toggle, markdown/citation stripping), `en-IN`/`ta-IN`/`hi-IN`; `GET /voice/config` capability descriptor + reserved `POST /voice/transcribe|speak` (501 until a hosted provider such as Bhashini is wired) |
 | **M5** ✅ | `Scheme` API (`GET /schemes` — who-can-apply / category / state / search filters + facets — and `GET /schemes/:slug`) plus a `ContentTopic` model with `GET /content/:section` and `/content/topics/:slug` serving Cooperative Law, PACS, Financial Literacy and PMFBY-FAQ (Simple + Detailed views, rural examples, official links). Public + cache-headed. Web: Scheme Explorer + detail pages, one generic `ContentSectionPage` + `TopicList` accordion, `AskAssistantLink` deep-links, popular schemes on the home page. `db:seed:content` seeds 5 schemes + 29 topics and ingests each into the KB so the assistant grounds on the same verified text |
 | **M6** ✅ | `utils/upload` (multer + MIME allowlist + **magic-byte** check + path guards), `grievance.service` (`GRV-XXXXXXXX` id, initial event, public-vs-owner/admin projections, validated transition map, orphan-attachment prune). Web: GrievancePage (voice-dictated description via `DictationTextarea`, up to 5 attachments), TrackGrievancePage (`/track`, `/track/:id`) with `StatusTimeline` + inline admin control. Anonymous tracking shows status + timeline only |
-| **M7** | Admin dashboard: analytics (users, conversations, languages, top questions, grievances), knowledge management (upload/verify/version/categorise), scheme management (create/edit/verify/archive), grievance management (assign/update/respond/resolve) |
+| **M7** ✅ | Admin API (ADMIN-only, audit-logged): real analytics, knowledge management (create from pasted text **or** an uploaded text-based PDF via `unpdf`, verify, in-place re-ingest, delete), scheme management (create/edit/verify/archive with KB re-index), grievance management (filter, assign to an admin, validated status transitions + notes). Web `/admin` behind `ProtectedRoute roles={['ADMIN']}` — table-driven, no card grids: key-figures overview, filterable tables with inline actions, a grouped scheme editor, grievance detail + update panel |
 | **M8** | PWA precache + offline routes, retry/backoff, asset compression, mobile pass, security audit, accessibility + UX audit |
 
 ## 10. What is now stable (do not casually change)

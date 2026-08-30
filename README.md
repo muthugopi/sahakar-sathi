@@ -17,7 +17,7 @@ input and read-aloud.
 | Web | React 18 + Vite + TypeScript + Tailwind, i18next, TanStack Query |
 | API | Node 22 + Express + TypeScript, Prisma |
 | DB | PostgreSQL 16 + `pgvector` |
-| AI | Anthropic Claude (generation) + local `bge-small` embeddings, RAG over verified docs |
+| AI | Anthropic Claude (generation) + local `multilingual-e5-small` embeddings, RAG over verified docs |
 | Voice | Browser Web Speech API (STT + TTS); server fallback pluggable |
 | Auth | JWT access + rotating refresh tokens, argon2id hashing |
 
@@ -103,5 +103,5 @@ Health check: <http://localhost:4000/api/v1/health/ready>
       file attachments with magic-byte validation) → `GRV-XXXXXXXX` tracking ID →
       status timeline; anonymous tracking shows status only, owner/admin see full
       detail; admin status transitions with notes.
-- [ ] M7 — Admin dashboard
+- [x] **M7 — Admin dashboard:** analytics, knowledge management (paste or PDF upload, verify, delete), scheme management (create/edit/verify/archive), grievance management (filter, assign, status + notes); ADMIN-only, audit-logged.
 - [ ] M8 — PWA/offline, mobile, security & accessibility audits
