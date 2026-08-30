@@ -10,19 +10,19 @@ const TABS = [
 export function AdminLayout() {
   return (
     <div className="container-page max-w-6xl py-8">
-      <header className="border-b border-line pb-4">
-        <h1 className="text-xl font-semibold text-ink">Administration</h1>
-        <nav className="mt-3 flex gap-6 text-sm">
+      <header>
+        <h1 className="text-2xl font-bold text-ink">Administration</h1>
+        <nav className="mt-4 flex gap-6 border-b-2 border-line text-base">
           {TABS.map((tab) => (
             <NavLink
               key={tab.to}
               to={tab.to}
               end={tab.end}
               className={({ isActive }) =>
-                `-mb-[17px] border-b-2 pb-3 ${
+                `-mb-0.5 border-b-4 pb-3 no-underline ${
                   isActive
-                    ? 'border-field font-medium text-ink'
-                    : 'border-transparent text-muted hover:text-ink'
+                    ? 'border-field font-bold text-ink'
+                    : 'border-transparent font-bold text-field-deep hover:text-field-text'
                 }`
               }
             >

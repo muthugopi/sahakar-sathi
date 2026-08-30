@@ -9,39 +9,40 @@ export function SourceList({ sources }: { sources: SourceRef[] }) {
   if (sources.length === 0) return null;
 
   return (
-    <div className="mt-3">
+    <div>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-field-deep underline"
+        className="font-bold text-field-deep underline"
       >
-        {open ? t('assistant.hideSources') : t('assistant.showSources')}
-        <span aria-hidden>· {t('assistant.sourcesLabel', { count: sources.length })}</span>
+        {open ? t('assistant.hideSources') : t('assistant.showSources')} ·{' '}
+        {t('assistant.sourcesLabel', { count: sources.length })}
       </button>
 
       {open && (
-        <ul className="mt-2 space-y-2">
+        <ul className="mt-2 border-t border-line">
           {sources.map((s) => (
-            <li key={s.id} className="rounded border border-line bg-paper p-3 text-sm">
-              <p className="font-semibold">{s.title}</p>
+            <li key={s.id} className="border-b border-line py-3">
+              <p className="font-bold">{s.title}</p>
               <p className="text-muted">{s.authority}</p>
-              <p className="mt-1 text-ink/80">{s.snippet}</p>
-              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
-                {s.verifiedAt && (
-                  <span>{t('assistant.verifiedOn', { date: s.verifiedAt.slice(0, 10) })}</span>
-                )}
+              <p className="mt-1">{s.snippet}</p>
+              <p className="mt-1 text-sm text-muted">
+                {s.verifiedAt && t('assistant.verifiedOn', { date: s.verifiedAt.slice(0, 10) })}
                 {s.sourceUrl && (
-                  <a
-                    href={s.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="font-medium text-field-deep underline"
-                  >
-                    {t('assistant.openSource')} ↗
-                  </a>
+                  <>
+                    {s.verifiedAt ? ' · ' : ''}
+                    <a
+                      href={s.sourceUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="font-bold"
+                    >
+                      {t('assistant.openSource')}
+                    </a>
+                  </>
                 )}
-              </div>
+              </p>
             </li>
           ))}
         </ul>

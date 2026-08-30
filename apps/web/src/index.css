@@ -2,58 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Government-service styling, adapted from the GOV.UK Design System.
+   White page · near-black text · one green brand colour · yellow focus ·
+   square corners · minimal shadow · large type for older / rural users.
+   ========================================================================== */
+
 @layer base {
   :root {
     color-scheme: light;
-    --page-bg: #f4f1ea;
-    --panel: #ffffff;
-    --panel-soft: #f8f6f2;
-    --panel-strong: #edf5f1;
-    --ink: #16201b;
-    --muted: #5e6a64;
-    --line: #dfe4dc;
-    --field: #1d5d41;
-    --field-deep: #143d2b;
-    --field-soft: #edf5f1;
-    --marigold: #d9a63a;
-    --clay: #b9543c;
   }
 
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
+    font-size: 100%; /* the text-size control overrides this */
   }
 
   body {
-    @apply bg-paper text-ink antialiased;
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background-image: linear-gradient(to bottom, #f8f4ee 0%, #f3efe9 100%);
-  }
-
-  ::selection {
-    background: rgba(29, 93, 65, 0.14);
-  }
-
-  :focus-visible {
-    outline: 2px solid rgba(29, 93, 65, 0.9);
-    outline-offset: 2px;
-    border-radius: 6px;
+    @apply bg-paper text-ink;
+    font-family: theme('fontFamily.sans');
+    font-size: 1.1875rem; /* 19px */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply tracking-[-0.03em] text-ink;
+    @apply font-bold text-ink;
+    line-height: 1.15;
+  }
+  h2,
+  h3 {
     text-wrap: balance;
   }
 
-  p {
-    @apply text-base text-ink;
+  p,
+  li {
+    line-height: 1.5;
   }
 
   a {
-    @apply transition-colors duration-200;
+    @apply text-field-deep underline;
+    text-underline-offset: 0.12em;
+  }
+  a:hover {
+    @apply text-field-text;
+    text-decoration-thickness: 3px;
+  }
+
+  /* GOV.UK-style focus: yellow block with a dark keyline, visible on any colour. */
+  a:focus-visible {
+    outline: 3px solid transparent;
+    color: theme('colors.ink');
+    background-color: theme('colors.focus');
+    box-shadow:
+      0 -2px theme('colors.focus'),
+      0 4px theme('colors.ink');
+    text-decoration: none;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible,
+  summary:focus-visible {
+    outline: 3px solid theme('colors.focus');
+    outline-offset: 0;
+    box-shadow: 0 0 0 3px theme('colors.ink');
+  }
+
+  ::selection {
+    background: #fde79a;
+    color: theme('colors.ink');
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -69,88 +92,123 @@
 
 @layer components {
   .container-page {
-    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[62rem] px-4 sm:px-6;
   }
 
-  .surface {
-    @apply rounded-lg border border-line bg-panel;
-  }
-
-  .surface-soft {
-    @apply rounded-lg border border-line bg-soft;
-  }
-
-  .eyebrow {
-    @apply inline-flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-field-deep;
-  }
-
-  .eyebrow::before {
-    content: '';
-    @apply h-px w-4 bg-field/50;
-  }
-
+  /* --- buttons: large targets, square, high contrast --- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50;
-    min-height: 2.8rem;
+    @apply inline-flex items-center justify-center gap-2 text-center font-bold no-underline
+           disabled:cursor-not-allowed disabled:opacity-50;
+    min-height: 3rem;
+    padding: 0.625rem 1.25rem;
+    border: 2px solid transparent;
   }
-
   .btn-primary {
-    @apply btn bg-field text-white hover:bg-field-deep focus-visible:ring-2 focus-visible:ring-field/30;
+    @apply btn bg-field text-white shadow-button hover:bg-field-deep;
   }
-
+  .btn-primary:active {
+    @apply translate-y-[3px] shadow-none;
+  }
   .btn-secondary {
-    @apply btn border border-line bg-panel text-ink hover:border-field/30 hover:bg-field-soft;
+    @apply btn border-ink bg-soft text-ink hover:bg-line/40;
   }
-
   .btn-ghost {
-    @apply btn border border-transparent bg-transparent text-field-deep hover:bg-field-soft;
+    @apply btn border-transparent bg-transparent text-field-deep underline hover:text-field-text;
+    min-height: 2.75rem;
   }
-
   .btn-voice {
-    @apply btn border border-marigold/40 bg-[#fff7eb] text-ink hover:bg-[#fff0d3];
+    @apply btn border-ink bg-white text-ink hover:bg-soft;
+  }
+  .btn-start {
+    @apply btn-primary text-lg;
+    min-height: 3.5rem;
+    padding: 0.75rem 1.5rem;
   }
 
-  .card-grid {
-    @apply grid gap-4 md:grid-cols-2;
+  /* --- form controls --- */
+  .field-label {
+    @apply block font-bold text-ink;
+  }
+  .field-hint {
+    @apply mt-1 text-muted;
+  }
+  .field-shell {
+    @apply block w-full border-2 border-ink bg-white px-3 text-ink;
+    min-height: 3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .field-shell:disabled {
+    @apply opacity-60;
+  }
+  .field-error {
+    @apply border-clay;
   }
 
+  .error-summary {
+    @apply border-4 border-clay p-4;
+  }
+
+  /* --- eyebrow / section label --- */
+  .eyebrow {
+    @apply block text-sm font-bold uppercase tracking-wide text-muted;
+  }
+
+  /* --- inset block (replaces decorative cards) --- */
+  .inset {
+    @apply border-l-4 border-line bg-soft p-4;
+  }
+  .inset-brand {
+    @apply border-l-4 border-field bg-field-wash p-4;
+  }
+
+  /* legacy alias — no longer a card, just a white block */
   .section-shell {
-    @apply rounded-lg border border-line bg-panel/90 p-5 shadow-none sm:p-7;
+    @apply bg-panel;
+  }
+  .surface,
+  .surface-soft {
+    @apply bg-panel;
+  }
+  .card-grid {
+    @apply grid gap-6 md:grid-cols-2;
   }
 
+  /* --- document / topic list --- */
   .register {
-    @apply divide-y divide-line overflow-hidden rounded-lg border border-line bg-panel;
+    @apply border-t border-line;
   }
-
   .register-row {
-    @apply flex items-center gap-4 px-4 py-4 transition-colors duration-200 hover:bg-soft;
-    min-height: 4rem;
+    @apply flex items-baseline gap-4 border-b border-line py-4 no-underline;
+    min-height: 3.5rem;
+  }
+  a.register-row:hover {
+    @apply bg-soft;
+  }
+  .register-index {
+    @apply shrink-0 font-mono text-sm tabular-nums text-muted;
+    width: 2ch;
   }
 
-  .register-index {
-    @apply inline-flex h-8 w-8 items-center justify-center rounded-md bg-field-soft text-[0.7rem] font-semibold text-field-deep;
+  /* --- small square tag --- */
+  .badged {
+    @apply inline-block border border-line bg-soft px-2 py-0.5 text-sm font-normal text-muted;
   }
 
   .voice-ctrl {
-    @apply inline-flex items-center gap-1.5 rounded-md border border-line bg-panel px-2.5 py-1.5 text-sm font-medium text-ink hover:bg-soft;
-    min-height: 2.5rem;
-  }
-
-  .field-shell {
-    @apply min-h-[3rem] w-full rounded-md border border-line bg-panel px-3.5 py-2.5 text-base text-ink transition-colors placeholder:text-muted focus:border-field/60 focus:outline-none;
-  }
-
-  .badged {
-    @apply inline-flex items-center rounded-full border border-field/15 bg-field-soft px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.08em] text-field-deep;
+    @apply inline-flex items-center gap-1.5 border-2 border-ink bg-white px-3 font-bold text-ink no-underline hover:bg-soft;
+    min-height: 2.75rem;
   }
 
   .stat-card {
-    @apply rounded-md border border-line bg-soft p-4;
+    @apply border-l-4 border-line bg-soft p-4;
   }
-}
 
-@media (max-width: 640px) {
-  .section-shell {
-    @apply p-4;
+  /* --- gov phase banner --- */
+  .phase-banner {
+    @apply flex flex-wrap items-baseline gap-3 border-b border-line py-2 text-sm text-muted;
+  }
+  .phase-tag {
+    @apply bg-field px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white;
   }
 }
