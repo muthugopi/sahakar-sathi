@@ -37,7 +37,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   const account =
     status === 'authenticated' && user ? (
-      <span className="flex items-center gap-4 text-sm">
+      <span className="flex items-center gap-3 whitespace-nowrap text-sm">
         {user.role === 'ADMIN' && (
           <NavLink to="/admin" className="font-medium text-ink-2 no-underline hover:text-ink">
             {t('nav.admin')}
@@ -52,7 +52,10 @@ export function Layout({ children }: { children: ReactNode }) {
         </button>
       </span>
     ) : status === 'anonymous' ? (
-      <Link to="/signin" className="text-sm font-medium text-ink-2 no-underline hover:text-ink">
+      <Link
+        to="/signin"
+        className="whitespace-nowrap text-sm font-medium text-ink-2 no-underline hover:text-ink"
+      >
         {t('nav.signIn')}
       </Link>
     ) : null;
@@ -73,28 +76,36 @@ export function Layout({ children }: { children: ReactNode }) {
       )}
 
       <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/85 backdrop-blur-md">
-        <div className="container-page flex h-16 items-center justify-between gap-6">
+        <div className="container-page flex h-16 items-center justify-between gap-4">
           <Link
             to="/"
-            className="font-display text-lg font-semibold tracking-tight text-ink no-underline"
+            className="shrink-0 whitespace-nowrap font-display text-lg font-semibold tracking-tight text-ink no-underline"
           >
             {t('app.name')}
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-5 lg:flex xl:gap-7"
+          >
             {NAV.map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.end} className={desktopLink}>
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={(s) => `whitespace-nowrap ${desktopLink(s)}`}
+              >
                 {t(item.key)}
               </NavLink>
             ))}
           </nav>
 
-          <div className="hidden items-center gap-5 lg:flex">
+          <div className="hidden shrink-0 items-center gap-3 lg:flex xl:gap-4">
             {account}
             <LanguageSelector id="lang-header" hideLabel />
             <Link
               to="/assistant"
-              className="btn-primary h-10 min-h-0 px-4 text-sm"
+              className="btn-primary h-10 min-h-0 whitespace-nowrap px-4 text-sm"
             >
               {t('nav.askAssistant')}
             </Link>
