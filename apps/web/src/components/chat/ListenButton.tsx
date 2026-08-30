@@ -22,7 +22,7 @@ export function ListenButton({
   const paused = isActive && state === 'paused';
 
   return (
-    <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+    <div className="flex flex-wrap items-center gap-2">
       {!isActive && (
         <button type="button" onClick={() => speak(id, text, language)} className="voice-ctrl">
           <span aria-hidden>▶</span> {t('voice.listen')}

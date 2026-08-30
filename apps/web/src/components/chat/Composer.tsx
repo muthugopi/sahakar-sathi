@@ -16,7 +16,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
   const { t } = useTranslation();
   const [value, setValue] = useState('');
   const taRef = useRef<HTMLTextAreaElement>(null);
-  const baseRef = useRef(''); // text captured before the current dictation started
+  const baseRef = useRef('');
   const autoListenDone = useRef(false);
 
   const speech = useSpeechRecognition(language);
@@ -29,12 +29,10 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
     }
   }, [autoListen, disabled, speech.supported, speech.start]);
 
-  // Fold dictated text into the field as it finalises.
   useEffect(() => {
     if (!speech.listening && !speech.transcript) return;
     const dictated = [speech.transcript, speech.interim].filter(Boolean).join(' ');
-    const combined = [baseRef.current, dictated].filter(Boolean).join(' ');
-    setValue(combined);
+    setValue([baseRef.current, dictated].filter(Boolean).join(' '));
     grow();
   }, [speech.transcript, speech.interim, speech.listening]);
 
@@ -42,7 +40,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
     const el = taRef.current;
     if (!el) return;
     el.style.height = 'auto';
-    el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
+    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
   };
 
   const submit = () => {
@@ -75,15 +73,14 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
           : null;
 
   return (
-    <div className="border-t border-line bg-panel p-3">
+    <div className="border-t-2 border-ink pt-3">
       {speech.listening && (
-        <p className="mb-2 flex items-center gap-2 text-sm font-medium text-clay" role="status">
-          <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-clay" aria-hidden />
+        <p className="mb-2 font-bold text-clay" role="status">
           {t('voice.listening')}
         </p>
       )}
       {micError && (
-        <p className="mb-2 text-sm text-clay" role="alert">
+        <p className="mb-2 font-bold text-clay" role="alert">
           {micError}
         </p>
       )}
@@ -116,8 +113,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             }
           }}
           placeholder={t('assistant.placeholder')}
-          className="min-h-[3rem] flex-1 resize-none rounded border border-line bg-paper px-3 py-2.5 text-base
-                     focus-visible:outline-field disabled:opacity-60"
+          className="field-shell flex-1 resize-none"
         />
 
         {speech.supported && (
@@ -127,10 +123,8 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             disabled={disabled}
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
-            className={`btn h-12 w-12 shrink-0 rounded border p-0 text-lg ${
-              speech.listening
-                ? 'border-clay bg-clay text-white'
-                : 'border-line bg-paper hover:bg-field-wash'
+            className={`flex h-12 w-12 shrink-0 items-center justify-center border-2 text-lg ${
+              speech.listening ? 'border-clay bg-clay text-white' : 'border-ink bg-white'
             }`}
           >
             <span aria-hidden>{speech.listening ? '■' : '🎙'}</span>
@@ -139,7 +133,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
 
         <button
           type="submit"
-          className="btn-primary h-12 shrink-0"
+          className="btn-primary shrink-0"
           disabled={disabled || busy || !value.trim()}
         >
           {busy ? '…' : t('assistant.send')}

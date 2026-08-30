@@ -1,7 +1,10 @@
 {
   "app": {
     "name": "Sahakar Sathi",
-    "tagline": "Your multilingual digital assistant for cooperative services, schemes, insurance and financial guidance."
+    "tagline": "Your multilingual digital assistant for cooperative services, schemes, insurance and financial guidance.",
+    "department": "Cooperative support service",
+    "phase": "Prototype",
+    "phaseNote": "This is a demonstration service. It is not an official government website."
   },
   "nav": {
     "home": "Home",
@@ -35,7 +38,10 @@
     "grievanceCalloutTitle": "Have a complaint about a cooperative or PACS?",
     "grievanceCalloutBody": "Raise it here. You will get a tracking number and can check the status any time.",
     "grievanceCalloutAction": "Start a grievance",
-    "trustNote": "Answers are drawn from official government and cooperative sources where available. The assistant clearly marks what is verified and what is a plain-language explanation."
+    "trustNote": "Answers are drawn from official government and cooperative sources where available. The assistant clearly marks what is verified and what is a plain-language explanation.",
+    "askLabel": "Ask a question",
+    "askHint": "For example: Am I eligible for PMFBY? · What is a PACS? · How do I file a grievance?",
+    "tasksHeading": "What you can get help with"
   },
   "quickHelp": {
     "schemes": {
@@ -100,7 +106,8 @@
       "GRIEVANCE_PROCESS": "Grievances"
     },
     "voiceComingSoon": "Voice input is coming soon.",
-    "offlineNote": "The assistant needs an internet connection. Educational pages still work offline."
+    "offlineNote": "The assistant needs an internet connection. Educational pages still work offline.",
+    "anyTopic": "Any topic"
   },
   "grievance": {
     "title": "File a grievance",
@@ -167,7 +174,11 @@
     },
     "adminTitle": "Officer: update status",
     "adminNote": "Note for the applicant (optional)",
-    "adminUpdate": "Update"
+    "adminUpdate": "Update",
+    "err": {
+      "description": "Describe the issue in at least a sentence or two"
+    },
+    "adminSetStatus": "Set status to"
   },
   "sections": {
     "schemes": {
@@ -209,7 +220,10 @@
     "officialSource": "Official source",
     "loadError": "This content could not be loaded. Please try again.",
     "stillNeedHelpTitle": "Still need help?",
-    "stillNeedHelpBody": "Ask the assistant in your own words — by text or voice — and get an answer in your language."
+    "stillNeedHelpBody": "Ask the assistant in your own words — by text or voice — and get an answer in your language.",
+    "show": "Show",
+    "hide": "Hide",
+    "sourceLine": "Source: {{authority}}"
   },
   "schemes": {
     "national": "All India",
@@ -229,7 +243,13 @@
       "documents": "Documents needed",
       "process": "How to apply",
       "source": "Official source"
-    }
+    },
+    "filterHeading": "Filter schemes",
+    "anyone": "Anyone",
+    "anyCategory": "All categories",
+    "anyState": "All of India",
+    "resultCount_one": "{{count}} scheme",
+    "resultCount_other": "{{count}} schemes"
   },
   "voice": {
     "speak": "Speak your question",
@@ -268,7 +288,14 @@
     "greeting": "Hello, {{name}}",
     "signInError": "We could not sign you in. Check your details and try again.",
     "registerError": "We could not create your account. Please review the form and try again.",
-    "passwordHint": "At least 8 characters, with a letter and a number."
+    "passwordHint": "At least 8 characters, with a letter and a number.",
+    "err": {
+      "identifier": "Enter your email or phone number",
+      "password": "Enter your password",
+      "name": "Enter your full name",
+      "contact": "Enter an email address or a phone number",
+      "passwordShort": "Password must be at least 8 characters"
+    }
   },
   "common": {
     "loading": "Loading…",
@@ -277,11 +304,21 @@
     "offlineTitle": "You appear to be offline",
     "offlineBody": "Educational pages still work. The assistant needs an internet connection.",
     "errorTitle": "Something went wrong",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "errorSummaryTitle": "There is a problem",
+    "notFoundBody": "The page you asked for could not be found. It may have moved."
   },
   "footer": {
     "disclaimer": "Sahakar Sathi provides general guidance and links to official sources. It is not a substitute for official government or legal advice.",
     "sources": "Official sources",
-    "accessibility": "Accessibility"
+    "accessibility": "Accessibility",
+    "builtFor": "A prototype built for the Smart India Hackathon."
+  },
+  "a11y": {
+    "skip": "Skip to main content",
+    "textSize": "Text size",
+    "smaller": "Make text smaller",
+    "larger": "Make text larger",
+    "resetSize": "Reset text size"
   }
 }

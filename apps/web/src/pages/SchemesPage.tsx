@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import type { KnowledgeCategory } from '@sahakar/shared';
 import { fetchSchemes, type SchemeFilters } from '../lib/content';
 import { QueryBoundary } from '../components/QueryBoundary';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { SchemeCard } from '../components/content/SchemeCard';
 
 export function SchemesPage() {
@@ -36,19 +37,21 @@ export function SchemesPage() {
 
   const facets = query.data?.facets;
   const active = Object.values(filters).some(Boolean);
+  const count = query.data?.schemes.length ?? 0;
 
   return (
-    <div className="container-page py-8 sm:py-12">
-      <div className="border-b border-line pb-10">
-        <p className="eyebrow">{t('sections.schemes.eyebrow')}</p>
-        <h1 className="mt-4 text-5xl tracking-[-0.07em] text-field-deep sm:text-6xl">{t('sections.schemes.title')}</h1>
-        <p className="mt-5 max-w-3xl text-xl leading-8 text-muted">{t('sections.schemes.intro')}</p>
-      </div>
+    <div className="container-page">
+      <Breadcrumbs trail={[{ label: t('sections.schemes.title') }]} />
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-[20rem_minmax(0,1fr)]">
-        <aside className="space-y-6 border-r border-line pr-0 lg:pr-8">
-          <div>
-            <label htmlFor="scheme-q" className="mb-2 block text-sm font-semibold text-ink">
+      <h1 className="text-3xl sm:text-4xl">{t('sections.schemes.title')}</h1>
+      <p className="mt-4 max-w-prose text-lg text-muted">{t('sections.schemes.intro')}</p>
+
+      <div className="mt-10 grid gap-10 lg:grid-cols-[18rem_minmax(0,1fr)]">
+        <aside>
+          <h2 className="text-xl">{t('schemes.filterHeading')}</h2>
+
+          <div className="mt-4">
+            <label htmlFor="scheme-q" className="field-label">
               {t('schemes.search')}
             </label>
             <input
@@ -56,29 +59,35 @@ export function SchemesPage() {
               type="search"
               defaultValue={filters.q ?? ''}
               onChange={(e) => setFilter('q', e.target.value.trim() || undefined)}
-              className="field-shell bg-panel"
+              className="field-shell mt-2"
             />
           </div>
 
           <FilterGroup
-            label={t('schemes.forWhom')}
+            legend={t('schemes.forWhom')}
+            name="targetUser"
             options={facets?.targetUsers ?? []}
             value={filters.targetUser}
             onChange={(v) => setFilter('targetUser', v)}
+            allLabel={t('schemes.anyone')}
           />
           <FilterGroup
-            label={t('schemes.category')}
+            legend={t('schemes.category')}
+            name="category"
             options={facets?.categories ?? []}
             value={filters.category}
             onChange={(v) => setFilter('category', v)}
-            renderOption={(o) => t(`assistant.category.${o}`, { defaultValue: o })}
+            allLabel={t('schemes.anyCategory')}
+            renderOption={(o) => t(`assistant.category.${o}`, { defaultValue: humanize(o) })}
           />
           {(facets?.states.length ?? 0) > 0 && (
             <FilterGroup
-              label={t('schemes.state')}
+              legend={t('schemes.state')}
+              name="state"
               options={facets?.states ?? []}
               value={filters.state}
               onChange={(v) => setFilter('state', v)}
+              allLabel={t('schemes.anyState')}
             />
           )}
 
@@ -86,7 +95,7 @@ export function SchemesPage() {
             <button
               type="button"
               onClick={() => setParams(new URLSearchParams(), { replace: true })}
-              className="btn-secondary w-full justify-center"
+              className="btn-ghost mt-4 p-0"
             >
               {t('schemes.clearFilters')}
             </button>
@@ -99,16 +108,21 @@ export function SchemesPage() {
             isError={query.isError}
             onRetry={() => void query.refetch()}
           >
-            {query.data && query.data.schemes.length === 0 ? (
-              <div className="border border-line bg-panel p-8 text-center">
-                <p className="text-lg font-medium text-ink">{t('schemes.none')}</p>
-              </div>
-            ) : (
-              <div className="space-y-0 border-t border-line">
-                {query.data?.schemes.map((s) => (
-                  <SchemeCard key={s.slug} scheme={s} />
-                ))}
-              </div>
+            {query.data && (
+              <>
+                <p className="text-muted">{t('schemes.resultCount', { count })}</p>
+                {count === 0 ? (
+                  <p className="mt-6 font-bold">{t('schemes.none')}</p>
+                ) : (
+                  <ul className="register mt-4">
+                    {query.data.schemes.map((s) => (
+                      <li key={s.slug}>
+                        <SchemeCard scheme={s} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
             )}
           </QueryBoundary>
         </div>
@@ -117,40 +131,54 @@ export function SchemesPage() {
   );
 }
 
+function humanize(s: string) {
+  return s.toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
 function FilterGroup({
-  label,
+  legend,
+  name,
   options,
   value,
   onChange,
+  allLabel,
   renderOption,
 }: {
-  label: string;
+  legend: string;
+  name: string;
   options: string[];
   value: string | undefined;
   onChange: (v: string | undefined) => void;
+  allLabel: string;
   renderOption?: (o: string) => string;
 }) {
   if (options.length === 0) return null;
   return (
-    <fieldset>
-      <legend className="mb-2 text-sm font-semibold text-ink">{label}</legend>
-      <div className="flex flex-wrap gap-2">
-        {options.map((o) => {
-          const selected = value === o;
-          return (
-            <button
-              key={o}
-              type="button"
-              aria-pressed={selected}
-              onClick={() => onChange(selected ? undefined : o)}
-              className={`rounded-full border px-2.5 py-1.5 text-xs font-medium uppercase tracking-[0.08em] transition-colors ${
-                selected ? 'border-field bg-field text-white' : 'border-line bg-panel text-muted hover:bg-field-soft hover:text-field-deep'
-              }`}
-            >
-              {renderOption ? renderOption(o) : o}
-            </button>
-          );
-        })}
+    <fieldset className="mt-6">
+      <legend className="field-label">{legend}</legend>
+      <div className="mt-2 space-y-2">
+        <label className="flex items-center gap-3">
+          <input
+            type="radio"
+            name={name}
+            checked={!value}
+            onChange={() => onChange(undefined)}
+            className="h-5 w-5"
+          />
+          {allLabel}
+        </label>
+        {options.map((o) => (
+          <label key={o} className="flex items-center gap-3">
+            <input
+              type="radio"
+              name={name}
+              checked={value === o}
+              onChange={() => onChange(o)}
+              className="h-5 w-5"
+            />
+            {renderOption ? renderOption(o) : o}
+          </label>
+        ))}
       </div>
     </fieldset>
   );

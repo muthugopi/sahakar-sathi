@@ -59,7 +59,7 @@ export function DictationTextarea({
             onChange(e.target.value);
             baseRef.current = e.target.value;
           }}
-          className="w-full rounded border border-line bg-panel px-3 py-2.5 text-base focus-visible:outline-field"
+          className="field-shell w-full"
         />
         {speech.supported && (
           <button
@@ -67,8 +67,8 @@ export function DictationTextarea({
             onClick={toggle}
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
-            className={`absolute end-2 top-2 flex h-10 w-10 items-center justify-center rounded border ${
-              speech.listening ? 'border-clay bg-clay text-white' : 'border-line bg-paper'
+            className={`absolute end-2 top-2 flex h-11 w-11 items-center justify-center border-2 text-lg ${
+              speech.listening ? 'border-clay bg-clay text-white' : 'border-ink bg-white'
             }`}
           >
             <span aria-hidden>{speech.listening ? '■' : '🎙'}</span>
@@ -76,12 +76,12 @@ export function DictationTextarea({
         )}
       </div>
       {speech.listening && (
-        <p className="mt-1 text-sm font-medium text-clay" role="status">
+        <p className="mt-1 font-bold text-clay" role="status">
           {t('voice.listening')}
         </p>
       )}
       {speech.error === 'microphone-denied' && (
-        <p className="mt-1 text-sm text-clay">{t('voice.micDenied')}</p>
+        <p className="mt-1 font-bold text-clay">{t('voice.micDenied')}</p>
       )}
     </div>
   );

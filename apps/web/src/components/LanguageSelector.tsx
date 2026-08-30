@@ -1,27 +1,32 @@
 import { useTranslation } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '@sahakar/shared';
 
+/**
+ * Always-visible language control. A native <select> on purpose — familiar,
+ * screen-reader friendly, works on the lowest-end phones. Styled for the dark
+ * header band.
+ */
 export function LanguageSelector({ id = 'lang' }: { id?: string }) {
   const { i18n, t } = useTranslation();
   const current = i18n.resolvedLanguage ?? 'en';
 
   return (
-    <label className="flex items-center gap-2 rounded-md border border-line bg-panel px-2.5 py-1.5 text-sm text-ink">
-      <span className="hidden text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-muted sm:inline">
+    <div className="flex items-center gap-2">
+      <label htmlFor={id} className="text-sm text-white/90">
         {t('nav.language')}
-      </span>
+      </label>
       <select
         id={id}
         value={current}
         onChange={(e) => void i18n.changeLanguage(e.target.value)}
-        className="min-h-[2.2rem] border-0 bg-transparent pr-1 text-sm font-medium text-ink outline-none"
+        className="min-h-[2.75rem] border-2 border-white bg-field-deep px-2 font-bold text-white"
       >
         {SUPPORTED_LANGUAGES.map((lang) => (
-          <option key={lang.code} value={lang.code}>
+          <option key={lang.code} value={lang.code} className="bg-white text-ink">
             {lang.nativeLabel}
           </option>
         ))}
       </select>
-    </label>
+    </div>
   );
 }
