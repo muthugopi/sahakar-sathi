@@ -14,7 +14,8 @@
     "grievance": "File a grievance",
     "track": "Track a grievance",
     "language": "Language",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "admin": "Admin"
   },
   "home": {
     "heroHeading": "Get clear answers about cooperative services in your language.",
@@ -37,12 +38,30 @@
     "trustNote": "Answers are drawn from official government and cooperative sources where available. The assistant clearly marks what is verified and what is a plain-language explanation."
   },
   "quickHelp": {
-    "schemes": { "title": "Government schemes", "desc": "Find schemes for farmers and cooperative members, and check who can apply." },
-    "pmfby": { "title": "Crop insurance (PMFBY)", "desc": "Eligibility, premium, documents, and how to report crop loss." },
-    "pacs": { "title": "PACS services", "desc": "Membership, credit, deposits, inputs, storage and procurement." },
-    "cooperative": { "title": "Cooperative rules", "desc": "Membership rights, duties, elections, meetings and by-laws in simple words." },
-    "money": { "title": "Money basics", "desc": "Saving, interest, loans, EMI, insurance and avoiding fraud." },
-    "grievance": { "title": "Grievance help", "desc": "How to raise a complaint and what happens after you submit it." }
+    "schemes": {
+      "title": "Government schemes",
+      "desc": "Find schemes for farmers and cooperative members, and check who can apply."
+    },
+    "pmfby": {
+      "title": "Crop insurance (PMFBY)",
+      "desc": "Eligibility, premium, documents, and how to report crop loss."
+    },
+    "pacs": {
+      "title": "PACS services",
+      "desc": "Membership, credit, deposits, inputs, storage and procurement."
+    },
+    "cooperative": {
+      "title": "Cooperative rules",
+      "desc": "Membership rights, duties, elections, meetings and by-laws in simple words."
+    },
+    "money": {
+      "title": "Money basics",
+      "desc": "Saving, interest, loans, EMI, insurance and avoiding fraud."
+    },
+    "grievance": {
+      "title": "Grievance help",
+      "desc": "How to raise a complaint and what happens after you submit it."
+    }
   },
   "assistant": {
     "title": "Ask the assistant",
@@ -120,7 +139,6 @@
     "copied": "Copied",
     "saveIdNote": "Save this tracking number. You need it to check the status, especially if you are not signed in.",
     "trackNow": "Track this grievance",
-
     "trackTitle": "Track a grievance",
     "trackIntro": "Enter the tracking number you received when you filed the grievance.",
     "trackingIdLabel": "Tracking number",

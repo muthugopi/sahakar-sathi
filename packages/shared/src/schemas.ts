@@ -21,6 +21,12 @@ import {
 const literalEnum = <T extends string>(values: readonly T[]) =>
   z.enum(values as unknown as [T, ...T[]]);
 
+/** Accepts true/false as boolean or the strings "true"/"false" (form posts). */
+export const literalBoolean = z.union([
+  z.boolean(),
+  z.enum(['true', 'false']).transform((v) => v === 'true'),
+]);
+
 /* -------------------------------------------------------------------------- */
 /*  Primitives                                                                 */
 /* -------------------------------------------------------------------------- */
@@ -298,6 +304,115 @@ export const feedbackSchema = z.object({
   comment: z.string().trim().max(1000).optional(),
 });
 export type FeedbackInput = z.infer<typeof feedbackSchema>;
+
+/* -------------------------------------------------------------------------- */
+/*  Admin                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export const adminAnalyticsSchema = z.object({
+  users: z.object({
+    total: z.number(),
+    byRole: z.record(z.string(), z.number()),
+    last7Days: z.number(),
+  }),
+  conversations: z.object({ total: z.number(), last7Days: z.number() }),
+  messages: z.object({ total: z.number(), byLanguage: z.record(z.string(), z.number()) }),
+  grievances: z.object({
+    total: z.number(),
+    open: z.number(),
+    byStatus: z.record(z.string(), z.number()),
+    byCategory: z.record(z.string(), z.number()),
+  }),
+  knowledge: z.object({ total: z.number(), published: z.number(), unverified: z.number() }),
+  schemes: z.object({ total: z.number(), verified: z.number(), archived: z.number() }),
+  feedback: z.object({ up: z.number(), down: z.number() }),
+  topQuestions: z.array(z.object({ text: z.string(), count: z.number() })),
+  recentDownvotes: z.array(
+    z.object({ messageId: z.string(), content: z.string(), comment: z.string().nullable(), createdAt: z.string() }),
+  ),
+});
+export type AdminAnalytics = z.infer<typeof adminAnalyticsSchema>;
+
+export const adminDocumentSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES),
+  authority: z.string(),
+  sourceUrl: z.string().nullable(),
+  language: languageSchema,
+  version: z.number().int(),
+  isVerified: z.boolean(),
+  isPublished: z.boolean(),
+  verifiedAt: z.string().nullable(),
+  chunkCount: z.number().int(),
+  updatedAt: z.string(),
+  textPreview: z.string().optional(),
+});
+export type AdminDocument = z.infer<typeof adminDocumentSchema>;
+
+export const createDocumentSchema = z.object({
+  title: z.string().trim().min(3).max(240),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES),
+  authority: z.string().trim().min(3).max(200),
+  sourceUrl: z.string().trim().url().max(500).optional().or(z.literal('')),
+  language: languageSchema.default('en'),
+  text: z.string().trim().min(40).max(200_000).optional(), // omitted when a PDF is uploaded
+  publish: z.coerce.boolean().default(true),
+});
+export type CreateDocumentInput = z.infer<typeof createDocumentSchema>;
+
+export const updateDocumentSchema = z.object({
+  title: z.string().trim().min(3).max(240).optional(),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES).optional(),
+  authority: z.string().trim().min(3).max(200).optional(),
+  sourceUrl: z.string().trim().url().max(500).nullable().optional(),
+  language: languageSchema.optional(),
+  text: z.string().trim().min(40).max(200_000).optional(),
+  isPublished: z.boolean().optional(),
+});
+export type UpdateDocumentInput = z.infer<typeof updateDocumentSchema>;
+
+export const schemeInputSchema = z.object({
+  slug: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Use lowercase letters, numbers and hyphens'),
+  title: z.string().trim().min(3).max(240),
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES).default('MINISTRY_SCHEME'),
+  summary: z.string().trim().min(10).max(600),
+  purpose: z.string().trim().min(10).max(2000),
+  targetUsers: z.array(z.string().trim().min(1).max(60)).min(1).max(10),
+  eligibility: z.string().trim().min(10).max(4000),
+  benefits: z.string().trim().min(10).max(4000),
+  requiredDocuments: z.array(z.string().trim().min(1).max(200)).max(20),
+  applicationProcess: z.string().trim().min(10).max(4000),
+  officialSource: z.string().trim().min(3).max(200),
+  officialUrl: z.string().trim().url().max(500).optional().or(z.literal('')),
+  state: z.string().trim().max(120).nullable().optional(),
+});
+export type SchemeInput = z.infer<typeof schemeInputSchema>;
+
+export const schemeAdminSchema = schemeDetailSchema.extend({
+  isVerified: z.boolean(),
+  isArchived: z.boolean(),
+  updatedAt: z.string(),
+});
+export type SchemeAdmin = z.infer<typeof schemeAdminSchema>;
+
+export const adminGrievanceListItemSchema = grievanceListItemSchema.extend({
+  district: z.string().nullable(),
+  state: z.string().nullable(),
+  assignee: z.string().nullable(),
+});
+export type AdminGrievanceListItem = z.infer<typeof adminGrievanceListItemSchema>;
+
+export const adminUpdateGrievanceSchema = z.object({
+  status: grievanceStatusSchema.optional(),
+  note: z.string().trim().max(2000).optional(),
+  assigneeEmail: z.string().trim().email().nullable().optional(),
+});
+export type AdminUpdateGrievanceInput = z.infer<typeof adminUpdateGrievanceSchema>;
 
 /* -------------------------------------------------------------------------- */
 /*  Pagination helper                                                          */

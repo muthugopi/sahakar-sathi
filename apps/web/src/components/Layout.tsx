@@ -65,7 +65,17 @@ export function Layout({ children }: { children: ReactNode }) {
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
             <LanguageSelector id="lang-header" />
             {status === 'authenticated' && user ? (
-              <div className="flex items-center gap-2 border-l border-line pl-2">
+              <div className="flex items-center gap-3 border-l border-line pl-2">
+                {user.role === 'ADMIN' && (
+                  <NavLink
+                    to="/admin"
+                    className={({ isActive }) =>
+                      `text-sm font-medium ${isActive ? 'text-field-deep' : 'text-muted hover:text-field-deep'}`
+                    }
+                  >
+                    {t('nav.admin')}
+                  </NavLink>
+                )}
                 <span className="hidden text-sm font-medium text-ink sm:inline">{t('auth.greeting', { name: user.name })}</span>
                 <button type="button" onClick={() => void logout()} className="btn-secondary px-2.5 py-1.5 text-xs">
                   {t('auth.signOut')}
