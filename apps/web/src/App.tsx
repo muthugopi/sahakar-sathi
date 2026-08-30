@@ -28,7 +28,7 @@ const AdminSchemeEditPage = lazy(() => import('./pages/admin/AdminSchemeEditPage
 const AdminGrievancesPage = lazy(() => import('./pages/admin/AdminGrievancesPage').then((m) => ({ default: m.AdminGrievancesPage })));
 const AdminGrievanceDetailPage = lazy(() => import('./pages/admin/AdminGrievanceDetailPage').then((m) => ({ default: m.AdminGrievanceDetailPage })));
 
-/** Move keyboard focus to the page heading on every route change. */
+/** On every route change, jump to the top and move focus to the main region. */
 function useRouteFocus() {
   const location = useLocation();
   const first = useRef(true);
@@ -37,11 +37,8 @@ function useRouteFocus() {
       first.current = false;
       return;
     }
-    const target = document.getElementById('main');
-    if (target) {
-      target.setAttribute('tabindex', '-1');
-      target.focus({ preventScroll: false });
-    }
+    window.scrollTo({ top: 0 });
+    document.getElementById('main')?.focus({ preventScroll: true });
   }, [location.pathname]);
 }
 

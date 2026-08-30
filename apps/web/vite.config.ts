@@ -18,8 +18,8 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         display: 'standalone',
-        background_color: '#f3f5f4',
-        theme_color: '#0b4f4a',
+        background_color: '#fbfbf9',
+        theme_color: '#1f4d3a',
         icons: [
           { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
@@ -30,9 +30,9 @@ export default defineConfig({
         navigateFallback: '/index.html',
         // Never let the SW serve a stale API response for auth/chat/grievance actions.
         navigateFallbackDenylist: [/^\/api\//],
-        // Precache the Latin UI faces (Archivo + Noto Sans); Indic faces are
-        // runtime-cached below since they're only needed per language.
-        globPatterns: ['**/*.{js,css,html,png,svg}', 'assets/{archivo,noto-sans}-latin-*.woff2'],
+        // Precache the Latin UI faces (Source Serif 4 + Noto Sans); Indic faces
+        // are runtime-cached below since they're only needed per language.
+        globPatterns: ['**/*.{js,css,html,png,svg}', 'assets/{source-serif-4,noto-sans}-latin-*.woff2'],
         // The Devanagari / Tamil faces are large and only needed in those languages —
         // fetch and cache them on first use rather than precaching for everyone.
         runtimeCaching: [

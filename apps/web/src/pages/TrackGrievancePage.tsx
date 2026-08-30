@@ -190,7 +190,7 @@ function AdminControls({ trackingId, status }: { trackingId: string; status: Gri
 
   return (
     <form
-      className="mt-10 border-t-4 border-primary pt-6"
+      className="mt-14 border-t border-line pt-8"
       onSubmit={(e) => {
         e.preventDefault();
         mutation.mutate({ status: next, ...(note.trim() ? { note: note.trim() } : {}) });

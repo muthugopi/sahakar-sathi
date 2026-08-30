@@ -36,7 +36,7 @@ export function ContentSectionPage({ section }: { section: ContentSectionCode })
         </QueryBoundary>
       </div>
 
-      <div className="mt-12 border-t-4 border-primary pt-6">
+      <div className="mt-16 border-t border-line pt-8">
         <h2 className="text-xl">{t('content.stillNeedHelpTitle')}</h2>
         <p className="mt-3 text-ink-2">{t('content.stillNeedHelpBody')}</p>
         <div className="mt-4">

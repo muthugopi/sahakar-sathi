@@ -98,9 +98,9 @@ export function GrievancePage() {
   if (result) {
     return (
       <div className="container-page max-w-prose">
-        <div className="notice text-center">
+        <div className="notice border-primary/25 bg-primary-tint/40 text-center">
           <p className="eyebrow text-primary">{t('grievance.submittedTitle')}</p>
-          <p className="mt-3 font-display text-4xl font-bold tracking-wider text-ink">
+          <p className="mt-3 font-display text-4xl font-semibold tracking-wide text-ink">
             {result.trackingId}
           </p>
           <p className="mt-4">

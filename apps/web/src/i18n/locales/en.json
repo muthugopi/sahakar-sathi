@@ -347,11 +347,7 @@
     "builtFor": "A prototype built for the Smart India Hackathon."
   },
   "a11y": {
-    "skip": "Skip to main content",
-    "textSize": "Text size",
-    "smaller": "Make text smaller",
-    "larger": "Make text larger",
-    "resetSize": "Reset text size"
+    "skip": "Skip to main content"
   },
   "services": {
     "title": "Services",

@@ -152,7 +152,7 @@ function AssistantView() {
   const suggestions = t('home.examples', { returnObjects: true }) as string[];
 
   return (
-    <div className="container-page flex min-h-[calc(100dvh-16rem)] max-w-prose flex-col">
+    <div className="container-page flex min-h-[60vh] max-w-prose flex-col sm:min-h-[70vh]">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl">{t('assistant.title')}</h1>
@@ -199,7 +199,7 @@ function AssistantView() {
 
       <div
         ref={scrollRef}
-        className="mt-4 flex-1 space-y-6 overflow-y-auto border border-line p-4"
+        className="mt-5 flex-1 space-y-6 overflow-y-auto rounded-xl border border-line bg-panel p-4 sm:p-5"
         aria-live="polite"
       >
         {messages.length === 0 && !busy && (

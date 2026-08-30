@@ -73,7 +73,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
           : null;
 
   return (
-    <div className="border-t-2 border-ink pt-3">
+    <div className="border-t border-line pt-4">
       {speech.listening && (
         <p className="mb-2 font-bold text-error" role="status">
           {t('voice.listening')}
@@ -113,7 +113,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             }
           }}
           placeholder={t('assistant.placeholder')}
-          className="field-shell flex-1 resize-none"
+          className="field-shell min-h-0 flex-1 resize-none py-2.5"
         />
 
         {speech.supported && (
@@ -123,8 +123,10 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
             disabled={disabled}
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
-            className={`flex h-12 w-12 shrink-0 items-center justify-center border-2 text-lg ${
-              speech.listening ? 'border-error bg-error text-white' : 'border-ink bg-white'
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border text-base transition-colors ${
+              speech.listening
+                ? 'border-error bg-error text-white'
+                : 'border-line bg-panel hover:border-ink/25'
             }`}
           >
             <span aria-hidden>{speech.listening ? '■' : '🎙'}</span>
@@ -133,7 +135,7 @@ export function Composer({ onSend, language, disabled, busy, autoListen }: Compo
 
         <button
           type="submit"
-          className="btn-primary shrink-0"
+          className="btn-primary h-11 min-h-0 shrink-0 px-4"
           disabled={disabled || busy || !value.trim()}
         >
           {busy ? '…' : t('assistant.send')}

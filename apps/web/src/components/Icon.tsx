@@ -1,6 +1,6 @@
 /**
- * One icon set — heavy strokes, signage weight. Used on signposts, the mobile
- * menu, and status. Not decorative, never beside a heading.
+ * One thin-stroke icon set. Used for wayfinding on the home destinations, the
+ * mobile menu and small status marks — never as decoration beside a heading.
  */
 const PATHS: Record<string, string> = {
   scheme: 'M4 6h16M4 12h16M4 18h10',
@@ -17,7 +17,7 @@ const PATHS: Record<string, string> = {
 
 export function Icon({
   name,
-  className = 'h-7 w-7',
+  className = 'h-6 w-6',
 }: {
   name: keyof typeof PATHS | string;
   className?: string;
@@ -27,7 +27,7 @@ export function Icon({
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
+      strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}

@@ -55,7 +55,7 @@ export function SchemeDetailPage() {
 
             <Section heading={t('schemes.field.process')}>{scheme.applicationProcess}</Section>
 
-            <div className="mt-10 border-t-4 border-primary pt-6">
+            <div className="mt-14 border-t border-line pt-8">
               <h2 className="text-xl">{t('schemes.field.source')}</h2>
               <p className="mt-2">{scheme.officialSource}</p>
               {scheme.officialUrl && (

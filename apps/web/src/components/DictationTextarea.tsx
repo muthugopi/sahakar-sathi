@@ -67,8 +67,10 @@ export function DictationTextarea({
             onClick={toggle}
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
-            className={`absolute end-2 top-2 flex h-11 w-11 items-center justify-center border-2 text-lg ${
-              speech.listening ? 'border-error bg-error text-white' : 'border-ink bg-white'
+            className={`absolute end-2 top-2 flex h-11 w-11 items-center justify-center rounded-lg border text-lg transition-colors ${
+              speech.listening
+                ? 'border-error bg-error text-white'
+                : 'border-line bg-panel hover:border-ink/25'
             }`}
           >
             <span aria-hidden>{speech.listening ? '■' : '🎙'}</span>

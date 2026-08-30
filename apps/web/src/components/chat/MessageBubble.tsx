@@ -14,7 +14,7 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
     return (
       <div>
         <p className="eyebrow">{t('assistant.you')}</p>
-        <p className="mt-1 whitespace-pre-wrap rounded border border-line bg-bg p-3">
+        <p className="mt-2 whitespace-pre-wrap rounded-xl bg-primary-tint/60 p-4 text-ink">
           {message.content}
         </p>
       </div>
@@ -37,7 +37,7 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
       </div>
 
       {message.disclaimers?.map((d, i) => (
-        <p key={i} className="mt-3 rounded border-s-4 border-accent bg-accent-tint p-3">
+        <p key={i} className="mt-3 rounded-lg bg-accent-tint/60 p-4 text-sm text-ink">
           {d}
         </p>
       ))}
