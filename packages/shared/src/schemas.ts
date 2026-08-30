@@ -189,6 +189,14 @@ export const CONTENT_SECTIONS = ['COOPERATIVE_LAW', 'PACS', 'FINANCIAL_LITERACY'
 export type ContentSectionCode = (typeof CONTENT_SECTIONS)[number];
 export const contentSectionSchema = literalEnum<ContentSectionCode>(CONTENT_SECTIONS);
 
+export const updateItemSchema = z.object({
+  date: z.string(),
+  title: z.string(),
+  category: z.string(),
+  href: z.string(),
+});
+export type UpdateItem = z.infer<typeof updateItemSchema>;
+
 export const contentTopicSchema = z.object({
   section: contentSectionSchema,
   slug: z.string(),

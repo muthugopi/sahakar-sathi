@@ -2,10 +2,10 @@ import { useTranslation } from 'react-i18next';
 import type { AnswerConfidence } from '@sahakar/shared';
 
 const STYLE: Record<AnswerConfidence, string> = {
-  HIGH: 'bg-field-wash text-field-deep border-field/40',
-  MEDIUM: 'bg-field-wash text-field-deep border-field/40',
-  LOW: 'bg-[#fff2d6] text-[#5b4300] border-[#e0b970]',
-  NO_SOURCE: 'bg-soft text-clay border-clay',
+  HIGH: 'border-s-primary text-primary',
+  MEDIUM: 'border-s-primary text-primary',
+  LOW: 'border-s-accent text-ink',
+  NO_SOURCE: 'border-s-error text-error',
 };
 
 const DOT: Record<AnswerConfidence, string> = {
@@ -20,7 +20,7 @@ export function ConfidenceTag({ value }: { value: AnswerConfidence }) {
   const { t } = useTranslation();
   return (
     <span
-      className={`inline-flex items-center gap-2 border px-2 py-1 text-xs font-bold uppercase tracking-wide ${STYLE[value]}`}
+      className={`inline-flex items-center gap-2 rounded border-s-4 bg-surface px-2 py-1 font-sans text-sm font-semibold ${STYLE[value]}`}
     >
       <span aria-hidden className="font-mono">
         {DOT[value]}

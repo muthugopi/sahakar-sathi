@@ -47,3 +47,53 @@ export async function getTopic(slug: string): Promise<ContentTopic> {
   if (!row) throw AppError.notFound('Topic not found.');
   return toDto(row);
 }
+
+export interface UpdateItem {
+  date: string;
+  title: string;
+  category: string;
+  href: string;
+}
+
+/** Most recently verified public information — for the homepage "Recently updated" list. */
+export async function recentUpdates(limit = 6): Promise<UpdateItem[]> {
+  const [schemes, topics] = await Promise.all([
+    prisma.scheme.findMany({
+      where: { isVerified: true, isArchived: false, verifiedAt: { not: null } },
+      orderBy: { verifiedAt: 'desc' },
+      take: limit,
+      select: { slug: true, title: true, category: true, verifiedAt: true },
+    }),
+    prisma.contentTopic.findMany({
+      where: { isPublished: true, verifiedAt: { not: null } },
+      orderBy: { verifiedAt: 'desc' },
+      take: limit,
+      select: { slug: true, title: true, section: true, verifiedAt: true },
+    }),
+  ]);
+
+  const items: UpdateItem[] = [
+    ...schemes.map((s) => ({
+      date: s.verifiedAt!.toISOString(),
+      title: s.title,
+      category: s.category.replace(/_/g, ' ').toLowerCase(),
+      href: `/schemes/${s.slug}`,
+    })),
+    ...topics.map((tpc) => ({
+      date: tpc.verifiedAt!.toISOString(),
+      title: tpc.title,
+      category: tpc.section.replace(/_/g, ' ').toLowerCase(),
+      href: `/${sectionPath(tpc.section)}`,
+    })),
+  ];
+
+  return items.sort((a, b) => b.date.localeCompare(a.date)).slice(0, limit);
+}
+
+function sectionPath(section: string): string {
+  return (
+    { COOPERATIVE_LAW: 'cooperative', PACS: 'pacs', FINANCIAL_LITERACY: 'money', PMFBY: 'pmfby' }[
+      section
+    ] ?? 'knowledge'
+  );
+}

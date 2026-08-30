@@ -16,6 +16,9 @@ const SchemeDetailPage = lazy(() => import('./pages/SchemeDetailPage').then((m) 
 const ContentSectionPage = lazy(() => import('./pages/ContentSectionPage').then((m) => ({ default: m.ContentSectionPage })));
 const GrievancePage = lazy(() => import('./pages/GrievancePage').then((m) => ({ default: m.GrievancePage })));
 const TrackGrievancePage = lazy(() => import('./pages/TrackGrievancePage').then((m) => ({ default: m.TrackGrievancePage })));
+const ServicesPage = lazy(() => import('./pages/ServicesPage').then((m) => ({ default: m.ServicesPage })));
+const KnowledgePage = lazy(() => import('./pages/KnowledgePage').then((m) => ({ default: m.KnowledgePage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })));
 
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout').then((m) => ({ default: m.AdminLayout })));
 const AdminOverviewPage = lazy(() => import('./pages/admin/AdminOverviewPage').then((m) => ({ default: m.AdminOverviewPage })));
@@ -51,6 +54,9 @@ export function App() {
       <Suspense fallback={<p className="container-page py-8 text-muted">{t('common.loading')}</p>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/knowledge" element={<KnowledgePage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/assistant" element={<AssistantPage />} />

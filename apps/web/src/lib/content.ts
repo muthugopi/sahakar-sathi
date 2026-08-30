@@ -4,6 +4,7 @@ import type {
   KnowledgeCategory,
   SchemeDetail,
   SchemeSummary,
+  UpdateItem,
 } from '@sahakar/shared';
 import { api } from './api';
 
@@ -44,4 +45,8 @@ export function fetchContentSection(
 
 export function fetchContentTopic(slug: string): Promise<{ topic: ContentTopic }> {
   return api(`/content/topics/${encodeURIComponent(slug)}`, { auth: false });
+}
+
+export function fetchUpdates(): Promise<{ updates: UpdateItem[] }> {
+  return api('/content/updates', { auth: false });
 }

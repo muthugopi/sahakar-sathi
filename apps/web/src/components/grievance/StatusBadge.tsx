@@ -1,22 +1,22 @@
 import { useTranslation } from 'react-i18next';
 import type { GrievanceStatus } from '@sahakar/shared';
 
-// GOV.UK-style tags: square, uppercase, light background + dark text.
-// The text label always shows, so status is never conveyed by colour alone.
-const STYLE: Record<GrievanceStatus, string> = {
-  SUBMITTED: 'bg-soft text-ink border-line',
-  UNDER_REVIEW: 'bg-field-wash text-field-deep border-field/40',
-  ASSIGNED: 'bg-[#fff2d6] text-[#5b4300] border-[#e0b970]',
-  IN_PROGRESS: 'bg-[#fff2d6] text-[#5b4300] border-[#e0b970]',
-  RESOLVED: 'bg-field text-white border-field',
-  CLOSED: 'bg-soft text-muted border-line',
+// Square tag with a coloured left keyline. The text label always shows, so
+// status is never conveyed by colour alone.
+const KEYLINE: Record<GrievanceStatus, string> = {
+  SUBMITTED: 'border-s-line text-muted',
+  UNDER_REVIEW: 'border-s-primary text-primary',
+  ASSIGNED: 'border-s-accent text-ink',
+  IN_PROGRESS: 'border-s-accent text-ink',
+  RESOLVED: 'border-s-resolved text-resolved',
+  CLOSED: 'border-s-line text-muted',
 };
 
 export function StatusBadge({ status }: { status: GrievanceStatus }) {
   const { t } = useTranslation();
   return (
     <span
-      className={`inline-block border px-2 py-1 text-xs font-bold uppercase tracking-wide ${STYLE[status]}`}
+      className={`inline-block rounded border-s-4 bg-surface px-2 py-0.5 font-sans text-sm font-semibold ${KEYLINE[status]}`}
     >
       {t(`grievance.status.${status}`)}
     </span>
