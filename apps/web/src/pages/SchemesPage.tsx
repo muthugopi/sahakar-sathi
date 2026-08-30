@@ -38,15 +38,17 @@ export function SchemesPage() {
   const active = Object.values(filters).some(Boolean);
 
   return (
-    <div className="container-page py-8">
-      <p className="eyebrow">{t('sections.schemes.eyebrow')}</p>
-      <h1 className="mt-2 text-2xl sm:text-3xl">{t('sections.schemes.title')}</h1>
-      <p className="mt-3 max-w-prose text-lg text-muted">{t('sections.schemes.intro')}</p>
+    <div className="container-page py-8 sm:py-12">
+      <div className="border-b border-line pb-10">
+        <p className="eyebrow">{t('sections.schemes.eyebrow')}</p>
+        <h1 className="mt-4 text-5xl tracking-[-0.07em] text-field-deep sm:text-6xl">{t('sections.schemes.title')}</h1>
+        <p className="mt-5 max-w-3xl text-xl leading-8 text-muted">{t('sections.schemes.intro')}</p>
+      </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-[16rem_1fr]">
-        <aside className="space-y-5">
+      <div className="mt-10 grid gap-8 lg:grid-cols-[20rem_minmax(0,1fr)]">
+        <aside className="space-y-6 border-r border-line pr-0 lg:pr-8">
           <div>
-            <label htmlFor="scheme-q" className="mb-1 block text-sm font-medium">
+            <label htmlFor="scheme-q" className="mb-2 block text-sm font-semibold text-ink">
               {t('schemes.search')}
             </label>
             <input
@@ -54,7 +56,7 @@ export function SchemesPage() {
               type="search"
               defaultValue={filters.q ?? ''}
               onChange={(e) => setFilter('q', e.target.value.trim() || undefined)}
-              className="min-h-[2.75rem] w-full rounded border border-line bg-panel px-3 py-2"
+              className="field-shell bg-panel"
             />
           </div>
 
@@ -84,7 +86,7 @@ export function SchemesPage() {
             <button
               type="button"
               onClick={() => setParams(new URLSearchParams(), { replace: true })}
-              className="text-sm font-medium text-field-deep underline"
+              className="btn-secondary w-full justify-center"
             >
               {t('schemes.clearFilters')}
             </button>
@@ -98,15 +100,15 @@ export function SchemesPage() {
             onRetry={() => void query.refetch()}
           >
             {query.data && query.data.schemes.length === 0 ? (
-              <p className="py-8 text-muted">{t('schemes.none')}</p>
+              <div className="border border-line bg-panel p-8 text-center">
+                <p className="text-lg font-medium text-ink">{t('schemes.none')}</p>
+              </div>
             ) : (
-              <ul className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-0 border-t border-line">
                 {query.data?.schemes.map((s) => (
-                  <li key={s.slug}>
-                    <SchemeCard scheme={s} />
-                  </li>
+                  <SchemeCard key={s.slug} scheme={s} />
                 ))}
-              </ul>
+              </div>
             )}
           </QueryBoundary>
         </div>
@@ -131,8 +133,8 @@ function FilterGroup({
   if (options.length === 0) return null;
   return (
     <fieldset>
-      <legend className="mb-1.5 text-sm font-medium">{label}</legend>
-      <div className="flex flex-wrap gap-1.5">
+      <legend className="mb-2 text-sm font-semibold text-ink">{label}</legend>
+      <div className="flex flex-wrap gap-2">
         {options.map((o) => {
           const selected = value === o;
           return (
@@ -141,8 +143,8 @@ function FilterGroup({
               type="button"
               aria-pressed={selected}
               onClick={() => onChange(selected ? undefined : o)}
-              className={`rounded border px-2.5 py-1.5 text-sm ${
-                selected ? 'border-field bg-field text-white' : 'border-line bg-panel hover:bg-field-wash'
+              className={`rounded-full border px-2.5 py-1.5 text-xs font-medium uppercase tracking-[0.08em] transition-colors ${
+                selected ? 'border-field bg-field text-white' : 'border-line bg-panel text-muted hover:bg-field-soft hover:text-field-deep'
               }`}
             >
               {renderOption ? renderOption(o) : o}

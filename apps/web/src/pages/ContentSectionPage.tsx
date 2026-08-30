@@ -18,12 +18,14 @@ export function ContentSectionPage({ section }: { section: ContentSectionCode })
   const key = section.toLowerCase();
 
   return (
-    <div className="container-page max-w-3xl py-8">
-      <p className="eyebrow">{t(`sections.${key}.eyebrow`)}</p>
-      <h1 className="mt-2 text-2xl sm:text-3xl">{t(`sections.${key}.title`)}</h1>
-      <p className="mt-3 max-w-prose text-lg text-muted">{t(`sections.${key}.intro`)}</p>
+    <div className="container-page max-w-6xl py-8 sm:py-12">
+      <div className="border-b border-line pb-9">
+        <p className="eyebrow">{t(`sections.${key}.eyebrow`)}</p>
+        <h1 className="mt-4 text-5xl tracking-[-0.07em] text-field-deep sm:text-6xl">{t(`sections.${key}.title`)}</h1>
+        <p className="mt-5 max-w-3xl text-xl leading-8 text-muted">{t(`sections.${key}.intro`)}</p>
+      </div>
 
-      <div className="mt-8">
+      <div className="mt-10">
         <QueryBoundary
           isLoading={query.isLoading}
           isError={query.isError}
@@ -33,10 +35,10 @@ export function ContentSectionPage({ section }: { section: ContentSectionCode })
         </QueryBoundary>
       </div>
 
-      <div className="mt-10 rounded-lg border border-line bg-field-wash p-5">
-        <p className="font-semibold">{t('content.stillNeedHelpTitle')}</p>
-        <p className="mt-1 text-sm text-muted">{t('content.stillNeedHelpBody')}</p>
-        <div className="mt-3">
+      <div className="mt-12 border-t border-line pt-8">
+        <p className="text-2xl font-semibold tracking-[-0.05em] text-field-deep">{t('content.stillNeedHelpTitle')}</p>
+        <p className="mt-3 max-w-3xl text-lg leading-8 text-muted">{t('content.stillNeedHelpBody')}</p>
+        <div className="mt-5">
           <AskAssistantLink question={t(`sections.${key}.askExample`)} />
         </div>
       </div>

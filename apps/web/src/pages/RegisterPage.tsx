@@ -53,120 +53,122 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="container-page max-w-md py-12">
-      <h1 className="text-2xl">{t('auth.registerTitle')}</h1>
+    <div className="container-page max-w-xl py-12">
+      <div className="section-shell p-6 sm:p-7">
+        <h1 className="text-3xl tracking-[-0.05em] text-field-deep sm:text-4xl">{t('auth.registerTitle')}</h1>
 
-      <form className="mt-6 flex flex-col gap-4" onSubmit={onSubmit} noValidate>
-        {error && (
-          <p role="alert" className="rounded border border-clay/40 bg-clay/5 px-3 py-2 text-clay">
-            {error}
-          </p>
-        )}
+        <form className="mt-6 flex flex-col gap-4" onSubmit={onSubmit} noValidate>
+          {error && (
+            <p role="alert" className="rounded-2xl border border-clay/40 bg-clay/5 px-3 py-2 text-sm font-medium text-clay">
+              {error}
+            </p>
+          )}
 
-        <Field id="name" label={t('auth.name')}>
-          <input
-            id="name"
-            className={inputClass}
-            value={form.name}
-            onChange={(e) => set('name', e.target.value)}
-            autoComplete="name"
-            required
-          />
-        </Field>
-
-        <Field id="phone" label={t('auth.phone')}>
-          <input
-            id="phone"
-            type="tel"
-            inputMode="tel"
-            className={inputClass}
-            value={form.phone}
-            onChange={(e) => set('phone', e.target.value)}
-            autoComplete="tel"
-          />
-        </Field>
-
-        <Field id="email" label={t('auth.email')}>
-          <input
-            id="email"
-            type="email"
-            className={inputClass}
-            value={form.email}
-            onChange={(e) => set('email', e.target.value)}
-            autoComplete="email"
-          />
-        </Field>
-
-        <Field id="password" label={t('auth.password')} hint={t('auth.passwordHint')}>
-          <input
-            id="password"
-            type="password"
-            className={inputClass}
-            value={form.password}
-            onChange={(e) => set('password', e.target.value)}
-            autoComplete="new-password"
-            aria-describedby="password-hint"
-            required
-          />
-        </Field>
-
-        <Field id="role" label={t('auth.role')}>
-          <select
-            id="role"
-            className={inputClass}
-            value={form.role}
-            onChange={(e) => set('role', e.target.value as UserRole)}
-          >
-            {SELF_ASSIGNABLE_ROLES.map((r) => (
-              <option key={r} value={r}>
-                {t(`auth.role${r}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
-
-        <Field id="preferredLanguage" label={t('auth.preferredLanguage')}>
-          <select
-            id="preferredLanguage"
-            className={inputClass}
-            value={form.preferredLanguage}
-            onChange={(e) => set('preferredLanguage', e.target.value as LanguageCode)}
-          >
-            {SUPPORTED_LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code}>
-                {l.nativeLabel}
-              </option>
-            ))}
-          </select>
-        </Field>
-
-        <div className="grid grid-cols-2 gap-3">
-          <Field id="district" label={t('auth.district')}>
+          <Field id="name" label={t('auth.name')}>
             <input
-              id="district"
+              id="name"
               className={inputClass}
-              value={form.district}
-              onChange={(e) => set('district', e.target.value)}
+              value={form.name}
+              onChange={(e) => set('name', e.target.value)}
+              autoComplete="name"
+              required
             />
           </Field>
-          <Field id="state" label={t('auth.state')}>
+
+          <Field id="phone" label={t('auth.phone')}>
             <input
-              id="state"
+              id="phone"
+              type="tel"
+              inputMode="tel"
               className={inputClass}
-              value={form.state}
-              onChange={(e) => set('state', e.target.value)}
+              value={form.phone}
+              onChange={(e) => set('phone', e.target.value)}
+              autoComplete="tel"
             />
           </Field>
-        </div>
 
-        <button type="submit" className="btn-primary mt-2" disabled={busy}>
-          {busy ? t('common.loading') : t('auth.submitRegister')}
-        </button>
-      </form>
+          <Field id="email" label={t('auth.email')}>
+            <input
+              id="email"
+              type="email"
+              className={inputClass}
+              value={form.email}
+              onChange={(e) => set('email', e.target.value)}
+              autoComplete="email"
+            />
+          </Field>
 
-      <Link to="/signin" className="mt-6 inline-block underline hover:text-field-deep">
-        {t('auth.haveAccount')}
-      </Link>
+          <Field id="password" label={t('auth.password')} hint={t('auth.passwordHint')}>
+            <input
+              id="password"
+              type="password"
+              className={inputClass}
+              value={form.password}
+              onChange={(e) => set('password', e.target.value)}
+              autoComplete="new-password"
+              aria-describedby="password-hint"
+              required
+            />
+          </Field>
+
+          <Field id="role" label={t('auth.role')}>
+            <select
+              id="role"
+              className={inputClass}
+              value={form.role}
+              onChange={(e) => set('role', e.target.value as UserRole)}
+            >
+              {SELF_ASSIGNABLE_ROLES.map((r) => (
+                <option key={r} value={r}>
+                  {t(`auth.role${r}`)}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <Field id="preferredLanguage" label={t('auth.preferredLanguage')}>
+            <select
+              id="preferredLanguage"
+              className={inputClass}
+              value={form.preferredLanguage}
+              onChange={(e) => set('preferredLanguage', e.target.value as LanguageCode)}
+            >
+              {SUPPORTED_LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.nativeLabel}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Field id="district" label={t('auth.district')}>
+              <input
+                id="district"
+                className={inputClass}
+                value={form.district}
+                onChange={(e) => set('district', e.target.value)}
+              />
+            </Field>
+            <Field id="state" label={t('auth.state')}>
+              <input
+                id="state"
+                className={inputClass}
+                value={form.state}
+                onChange={(e) => set('state', e.target.value)}
+              />
+            </Field>
+          </div>
+
+          <button type="submit" className="btn-primary mt-2" disabled={busy}>
+            {busy ? t('common.loading') : t('auth.submitRegister')}
+          </button>
+        </form>
+
+        <Link to="/signin" className="mt-6 inline-block text-sm font-medium text-field-deep underline hover:text-field">
+          {t('auth.haveAccount')}
+        </Link>
+      </div>
     </div>
   );
 }

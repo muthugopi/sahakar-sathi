@@ -12,7 +12,7 @@ interface FieldProps {
 export function Field({ id, label, hint, error, children }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="font-medium text-ink">
+      <label htmlFor={id} className="text-sm font-semibold text-ink">
         {label}
       </label>
       {children}
@@ -31,5 +31,4 @@ export function Field({ id, label, hint, error, children }: FieldProps) {
 }
 
 export const inputClass =
-  'min-h-[3rem] rounded border border-line bg-panel px-3 py-2 text-base ' +
-  'focus-visible:outline-field aria-[invalid=true]:border-clay';
+  'field-shell aria-[invalid=true]:border-clay aria-[invalid=true]:bg-[#fff7f6]';

@@ -4,31 +4,37 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#1c2321',
-        muted: '#5b625c',
-        paper: '#fbfaf6',
+        ink: '#16201b',
+        muted: '#5e6a64',
+        paper: '#f4f1ea',
         panel: '#ffffff',
-        line: '#ddd8c9',
+        soft: '#f8f6f2',
+        line: '#dfe4dc',
         field: {
-          DEFAULT: '#2f6b3f',
-          deep: '#1d4429',
-          wash: '#eef3ec',
+          DEFAULT: '#1d5d41',
+          deep: '#143d2b',
+          wash: '#edf5f1',
+          soft: '#dfeee6',
         },
-        marigold: '#e8a33d',
-        clay: '#b5482f',
+        marigold: '#d9a63a',
+        clay: '#b9543c',
+        slate: '#e8eef4',
+        success: '#1c7a4d',
+        warning: '#a9681c',
+        danger: '#b84343',
       },
       fontFamily: {
-        // Rural Android ships Noto as the system UI font — no web-font download.
-        sans: ['system-ui', '"Noto Sans"', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        sans: ['"Inter"', '"Segoe UI"', 'system-ui', 'sans-serif'],
       },
-      fontSize: {
-        // Slightly larger base for low-literacy / small-screen readability.
-        base: ['1.0625rem', { lineHeight: '1.6' }],
-        lg: ['1.1875rem', { lineHeight: '1.55' }],
+      boxShadow: {
+        subtle: '0 8px 20px rgba(18, 27, 22, 0.04)',
+        card: '0 10px 24px rgba(15, 27, 22, 0.05)',
       },
       borderRadius: {
-        DEFAULT: '4px',
-        lg: '6px',
+        DEFAULT: '8px',
+        lg: '10px',
+        xl: '14px',
+        '2xl': '18px',
       },
       maxWidth: {
         prose: '68ch',
