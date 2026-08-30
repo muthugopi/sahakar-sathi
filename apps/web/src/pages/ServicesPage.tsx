@@ -3,24 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 
 const GROUPS = [
-  {
-    key: 'cooperative',
-    links: [
-      ['/cooperative', 'sections.cooperative_law.title'],
-      ['/pacs', 'sections.pacs.title'],
-    ],
-  },
+  { key: 'cooperative', links: [['/cooperative', 'sections.cooperative_law.title'], ['/pacs', 'sections.pacs.title']] },
   { key: 'schemes', links: [['/schemes', 'sections.schemes.title']] },
   { key: 'money', links: [['/money', 'sections.financial_literacy.title']] },
   { key: 'insurance', links: [['/pmfby', 'sections.pmfby.title']] },
   { key: 'law', links: [['/cooperative', 'sections.cooperative_law.title']] },
-  {
-    key: 'grievance',
-    links: [
-      ['/grievance', 'grievance.title'],
-      ['/track', 'grievance.trackTitle'],
-    ],
-  },
+  { key: 'grievance', links: [['/grievance', 'grievance.title'], ['/track', 'grievance.trackTitle']] },
 ] as const;
 
 export function ServicesPage() {
@@ -29,13 +17,13 @@ export function ServicesPage() {
     <div className="container-page max-w-prose">
       <Breadcrumbs trail={[{ label: t('nav.services') }]} />
       <h1 className="text-3xl sm:text-4xl">{t('services.title')}</h1>
-      <p className="mt-4 text-lg text-muted">{t('services.intro')}</p>
+      <p className="mt-4 text-lg text-ink-2">{t('services.intro')}</p>
 
-      <div className="mt-10 space-y-8">
+      <div className="mt-8 space-y-7">
         {GROUPS.map((g) => (
           <section key={g.key} className="border-t border-line pt-6">
             <h2 className="text-xl">{t(`home.dir.${g.key}`)}</h2>
-            <p className="mt-2 text-muted">{t(`services.desc.${g.key}`)}</p>
+            <p className="mt-2 text-ink-2">{t(`services.desc.${g.key}`)}</p>
             <ul className="mt-3 space-y-1">
               {g.links.map(([to, labelKey]) => (
                 <li key={to + labelKey}>
@@ -49,7 +37,7 @@ export function ServicesPage() {
         ))}
       </div>
 
-      <div className="inset-brand mt-10">
+      <div className="inset-brand mt-8">
         <p>{t('services.assistantNote')}</p>
         <p className="mt-3">
           <Link to="/assistant" className="font-semibold">

@@ -68,7 +68,7 @@ export function DictationTextarea({
             aria-pressed={speech.listening}
             aria-label={speech.listening ? t('voice.stopListening') : t('voice.speak')}
             className={`absolute end-2 top-2 flex h-11 w-11 items-center justify-center border-2 text-lg ${
-              speech.listening ? 'border-clay bg-clay text-white' : 'border-ink bg-white'
+              speech.listening ? 'border-error bg-error text-white' : 'border-ink bg-white'
             }`}
           >
             <span aria-hidden>{speech.listening ? '■' : '🎙'}</span>
@@ -76,12 +76,12 @@ export function DictationTextarea({
         )}
       </div>
       {speech.listening && (
-        <p className="mt-1 font-bold text-clay" role="status">
+        <p className="mt-1 font-bold text-error" role="status">
           {t('voice.listening')}
         </p>
       )}
       {speech.error === 'microphone-denied' && (
-        <p className="mt-1 font-bold text-clay">{t('voice.micDenied')}</p>
+        <p className="mt-1 font-bold text-error">{t('voice.micDenied')}</p>
       )}
     </div>
   );

@@ -51,7 +51,7 @@ export function App() {
 
   return (
     <Layout>
-      <Suspense fallback={<p className="container-page py-8 text-muted">{t('common.loading')}</p>}>
+      <Suspense fallback={<p className="container-page py-8 text-ink-2">{t('common.loading')}</p>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />

@@ -36,11 +36,11 @@ export function ErrorSummary({ errors }: { errors: FieldError[] }) {
         {errors.map((e, i) => (
           <li key={i}>
             {e.field ? (
-              <a href={`#${e.field}`} className="font-bold text-clay">
+              <a href={`#${e.field}`} className="font-bold text-error">
                 {e.message}
               </a>
             ) : (
-              <span className="font-bold text-clay">{e.message}</span>
+              <span className="font-bold text-error">{e.message}</span>
             )}
           </li>
         ))}

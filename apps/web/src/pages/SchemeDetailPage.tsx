@@ -35,8 +35,8 @@ export function SchemeDetailPage() {
         {scheme && (
           <article>
             <h1 className="text-3xl sm:text-4xl">{scheme.title}</h1>
-            <p className="mt-4 text-lg text-muted">{scheme.summary}</p>
-            <p className="mt-2 text-sm text-muted">
+            <p className="mt-4 text-lg text-ink-2">{scheme.summary}</p>
+            <p className="mt-2 text-sm text-ink-2">
               {scheme.state ?? t('schemes.national')} · {scheme.targetUsers.join(', ')}
             </p>
 
@@ -55,7 +55,7 @@ export function SchemeDetailPage() {
 
             <Section heading={t('schemes.field.process')}>{scheme.applicationProcess}</Section>
 
-            <div className="mt-10 border-t-4 border-field pt-6">
+            <div className="mt-10 border-t-4 border-primary pt-6">
               <h2 className="text-xl">{t('schemes.field.source')}</h2>
               <p className="mt-2">{scheme.officialSource}</p>
               {scheme.officialUrl && (
@@ -66,7 +66,7 @@ export function SchemeDetailPage() {
                 </p>
               )}
               {scheme.verifiedAt && (
-                <p className="mt-1 text-sm text-muted">
+                <p className="mt-1 text-sm text-ink-2">
                   {t('assistant.verifiedOn', { date: scheme.verifiedAt.slice(0, 10) })}
                 </p>
               )}

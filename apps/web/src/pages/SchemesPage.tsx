@@ -44,7 +44,7 @@ export function SchemesPage() {
       <Breadcrumbs trail={[{ label: t('sections.schemes.title') }]} />
 
       <h1 className="text-3xl sm:text-4xl">{t('sections.schemes.title')}</h1>
-      <p className="mt-4 max-w-prose text-lg text-muted">{t('sections.schemes.intro')}</p>
+      <p className="mt-4 max-w-prose text-lg text-ink-2">{t('sections.schemes.intro')}</p>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[18rem_minmax(0,1fr)]">
         <aside>
@@ -110,9 +110,20 @@ export function SchemesPage() {
           >
             {query.data && (
               <>
-                <p className="text-muted">{t('schemes.resultCount', { count })}</p>
+                <p className="text-ink-2">{t('schemes.resultCount', { count })}</p>
                 {count === 0 ? (
-                  <p className="mt-6 font-bold">{t('schemes.none')}</p>
+                  <div className="notice notice--warn mt-4">
+                    <p>{t('schemes.none')}</p>
+                    <p className="mt-3">
+                      <button
+                        type="button"
+                        onClick={() => setParams(new URLSearchParams(), { replace: true })}
+                        className="btn-link"
+                      >
+                        {t('schemes.clearFilters')}
+                      </button>
+                    </p>
+                  </div>
                 ) : (
                   <ul className="register mt-4">
                     {query.data.schemes.map((s) => (

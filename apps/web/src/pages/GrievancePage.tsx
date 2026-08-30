@@ -98,31 +98,32 @@ export function GrievancePage() {
   if (result) {
     return (
       <div className="container-page max-w-prose">
-        <div className="bg-field px-6 py-8 text-center text-white">
-          <p className="text-lg">{t('grievance.submittedTitle')}</p>
-          <p className="mt-2 text-3xl font-bold tracking-widest">{result.trackingId}</p>
+        <div className="notice text-center">
+          <p className="eyebrow text-primary">{t('grievance.submittedTitle')}</p>
+          <p className="mt-3 font-display text-4xl font-bold tracking-wider text-ink">
+            {result.trackingId}
+          </p>
+          <p className="mt-4">
+            <button
+              type="button"
+              onClick={() => {
+                void navigator.clipboard?.writeText(result.trackingId);
+                setCopied(true);
+              }}
+              className="btn-secondary"
+            >
+              {copied ? t('grievance.copied') : t('grievance.copyId')}
+            </button>
+          </p>
         </div>
 
-        <p className="mt-6">
-          <button
-            type="button"
-            onClick={() => {
-              void navigator.clipboard?.writeText(result.trackingId);
-              setCopied(true);
-            }}
-            className="btn-secondary"
-          >
-            {copied ? t('grievance.copied') : t('grievance.copyId')}
-          </button>
-        </p>
-
-        <p className="inset mt-6">{t('grievance.saveIdNote')}</p>
+        <p className="mt-6 text-ink-2">{t('grievance.saveIdNote')}</p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link to={`/track/${result.trackingId}`} className="btn-primary">
+          <Link to={`/track/${result.trackingId}`} className="btn-primary btn-block">
             {t('grievance.trackNow')}
           </Link>
-          <Link to="/" className="btn-secondary">
+          <Link to="/" className="btn-secondary btn-block">
             {t('common.backHome')}
           </Link>
         </div>
@@ -135,7 +136,7 @@ export function GrievancePage() {
       <Breadcrumbs trail={[{ label: t('grievance.title') }]} />
 
       <h1 className="text-3xl sm:text-4xl">{t('grievance.title')}</h1>
-      <p className="mt-4 text-lg text-muted">{t('grievance.intro')}</p>
+      <p className="mt-4 text-lg text-ink-2">{t('grievance.intro')}</p>
       <p className="mt-3">
         <Link to="/track" className="font-bold">
           {t('grievance.alreadyHaveId')}
@@ -225,7 +226,7 @@ export function GrievancePage() {
                   <button
                     type="button"
                     onClick={() => setAttachments((list) => list.filter((x) => x.id !== a.id))}
-                    className="shrink-0 font-bold text-clay underline"
+                    className="shrink-0 font-bold text-error underline"
                   >
                     {t('grievance.removeFile')}
                   </button>
@@ -246,7 +247,7 @@ export function GrievancePage() {
               {uploading ? t('common.loading') : t('grievance.addFile')}
             </label>
           )}
-          {uploadError && <p className="mt-2 font-bold text-clay">{uploadError}</p>}
+          {uploadError && <p className="mt-2 font-bold text-error">{uploadError}</p>}
         </div>
 
         <div>

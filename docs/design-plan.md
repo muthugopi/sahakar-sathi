@@ -1,146 +1,126 @@
 # Design plan — Sahakar Sathi
 
-One set of decisions, applied everywhere. Written before the code.
+A fresh visual system. Written before the code. Held to on every screen.
 
-## Who this is for
+## The product, stated plainly
 
-- **Primary user:** a cooperative member or small farmer in rural India. Low-to-moderate
-  digital literacy; some cannot read fluently (voice matters). On an inexpensive Android
-  phone, ~6" screen, slow/intermittent 4G. Often hands the phone to a literate family
-  member to read aloud.
-- **The one thing they come to do:** get a plain-language answer to a specific question —
-  *"Am I eligible for PMFBY?"*, *"How do I become a cooperative member?"*, *"What is a
-  PACS?"* — by typing or speaking.
-- **Content that anchors the design:** this platform's real vocabulary — *PACS*, *PMFBY*,
-  *by-laws*, *grievance tracking ID (GRV-…)*, *सहकार*. The hero shows **actual questions
-  from the knowledge base** as tappable prompts, not "ask me anything."
+A guidance desk for cooperative members and small farmers in rural India. The core
+interaction: ask a question, get a trustworthy answer with its source. Secondary: find
+a scheme, read a rule, file and track a grievance.
 
-## The anchor idea
+**User:** low-to-moderate digital literacy, some cannot read fluently. An inexpensive
+Android phone, ~6" screen, slow/intermittent 4G. Often uses English, Hindi *and* Tamil
+across a household.
 
-**Navy ink on paper.** In rural India an official cooperative record — a passbook, a
-membership certificate, a Registrar's notification — is navy/blue ink on cream-white
-paper, set in a serif, stamped and dated. That is the visual language people already
-trust for "this is official cooperative information." The site is built to feel like a
-clear, current, readable version of that record — not a tech product, not a marketing
-site.
+**One job per screen.** People do best when each screen has one obvious thing to do.
 
-## Colour
+## The idea: a wayfinding system
 
-| Token | Hex | Use |
+Not a website to browse — a set of **clear signs that point you to the answer**, and
+answers that arrive as **official notices**. The reference is public wayfinding in
+Indian government offices, Jan Seva Kendras and railway stations: high-contrast, flat,
+colour-coded, big type, one accent that means "this way / this is done".
+
+## Colour — 6 values
+
+| Token | Hex | Why this, for this product |
 |---|---|---|
-| `ink` | `#1b1b1f` | body text, near-black, faintly warm |
-| `paper` | `#fbfbf8` | page background — paper-white, **not** the #F4F1EA cream cliché |
-| `surface` | `#f1f1ec` | inset blocks, secondary surfaces, table zebra |
-| `primary` | `#17324d` | deep navy — header band, primary buttons, links, heading accents |
-| `primary-hover` | `#0f2338` | pressed / hover navy |
-| `accent` | `#c9772a` | **marigold-ochre**, one restrained accent — status "verified/new", the phase tag, the civic mark. Never a background wash, never decoration. |
+| `bg` | `#f3f5f4` | pale cool grey — a "public building interior" neutral. Not clinical white, not the cream cliché. |
+| `panel` | `#ffffff` | white — used **only** for notices, cards and tables, so a white surface always means "official content". |
+| `ink` | `#16211f` | near-black with a faint green cast, so body text sits with the teal. 15:1 on `bg`. |
+| `ink-2` | `#4c5754` | captions, metadata, hint text. 7:1 on white. |
+| `primary` | `#0b4f4a` | deep pine-teal — agriculture, water, cooperative associations; deliberately **not** navy, **not** the tired gov-green. 8.9:1 on white. Navigation, primary buttons, headings, chevrons. |
+| `accent` | `#c2610a` | deep amber — the maximum-visibility "attention / this way / verified" colour, the classic complement to teal in road and station signage. **Reserved** for: the active-page marker, status keylines, focus outlines, the "recommended path" keyline. Never a button, never a large fill. |
 
-Functional: `line #d3d3ca` (hairlines), `focus #ffdd00` (accessibility focus block —
-utility, not brand), `error #b3261e`, `resolved #1f6f43`.
+Functional only: `line #d3d8d6`, `error #b42318`, `ok #0b7a3b`.
 
-The marigold accent nods to the tricolour's saffron as a small, deliberate civic mark
-(a 3px rule under the header) — never as the palette's identity.
+## Type — a deliberate pair
 
-## Type
+- **Display: Archivo (600 / 700).** A grotesque with a wide, confident, signage
+  character. Page and section headings, signpost labels, button text.
+- **Body: Noto Sans (400 / 600), with Noto Sans Devanagari and Noto Sans Tamil.**
+  Chosen for a specific reason: Noto ("no tofu") was built to solve multilingual
+  legibility. Using one Noto family for all three scripts means a Hindi or Tamil reader
+  gets the *same* typographic quality as an English reader — which is the point of a
+  public service. Body copy, forms, tables, captions.
+- Self-hosted (`@fontsource`); the Indic faces load only when that language is active.
 
-Deliberately chosen — a **gazette voice**, because that is how cooperative law and scheme
-information is actually published in India.
+Scale (`rem`, so the text-size control scales all of it):
 
-- **Headings:** IBM Plex Serif (400 / 600) — an institutional serif; reads as an official
-  notification, not a blog.
-- **Body / UI:** IBM Plex Sans (variable) — designed as a civic-institutional face, not a
-  trend face.
-- **Hindi:** IBM Plex Sans Devanagari, loaded only when the language is Hindi.
-- **Tamil:** Noto Sans Tamil, loaded only when the language is Tamil.
-- All self-hosted (`@fontsource`), `font-display: swap`, Latin subset for the base, the
-  two critical files preloaded, all precached by the service worker.
-
-Scale (`rem`, so the text-size control scales everything):
-
-| Role | Mobile | Desktop | Face / weight |
+| Role | Mobile | Desktop | Face |
 |---|---|---|---|
-| Page heading | 2rem | 2.5rem | serif 600 |
-| Section heading | 1.5rem | 1.75rem | serif 600 |
-| Sub-heading | 1.1875rem | 1.25rem | sans 600 |
-| Body | 1.125rem (18px) | 1.125rem | sans 400, line-height 1.6 |
-| Metadata | 0.9375rem | 0.9375rem | sans 400 |
-
-No gradient text, no oversized filler headings.
+| Page heading | 2rem | 2.5rem | Archivo 700 |
+| Section heading | 1.5rem | 1.75rem | Archivo 600 |
+| Sub-heading | 1.1875rem | 1.1875rem | Noto Sans 600 |
+| Signpost label | 1.25rem | 1.25rem | Archivo 600 |
+| Body | 1.0625rem (17px) | 1.0625rem | Noto Sans 400, line-height 1.6 |
+| Caption / meta | 0.9375rem | 0.9375rem | Noto Sans 400, `ink-2` |
 
 ## Layout
 
-- **One container:** `max-width 1080px`; padding `20px` mobile / `32px` desktop.
-- **Reading width** for prose: `64ch` (~620px).
-- **Spacing scale:** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96.
-- **One border-radius: `4px`.** Buttons, inputs, cards, tags — all 4px. Not zero, not
-  pill.
-- Borders: `1px line` for dividers; `2px ink` for inputs and their focus.
-- **No default shadows.** One subtle shadow (`0 2px 6px rgba(23,50,77,.12)`) is reserved
-  for genuinely floating layers (a menu), nothing else.
+- **One container:** `max-width 1000px`; padding `20px` mobile / `40px` desktop.
+- **One spacing scale:** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96.
+- **One radius: `2px`.** Crisp, like a printed sign — not pill, not zero.
+- **Grid:** single column by default; two columns only for the signpost grid (≥640px)
+  and admin tables. Reading measure `62ch`.
+- No shadows anywhere. Structure comes from borders, colour rules and space.
 
-## Components
+## Components — one of each
 
-- **Card:** white, `1px line` border, 4px radius, **flat**. Used only where grouping aids
-  scanning: the quick-access grid, the scheme grid, the assistant intro. Never a wrapper
-  for a lone paragraph.
-- **Buttons — one system:**
-  - Primary: solid navy, white, 4px, weight 600, `min-height 48px`, `12px 20px`.
-  - Secondary: white, `2px navy` border, navy text.
-  - Tertiary: navy text, underline (link-style).
-- **Icons — one style:** a small hand-drawn outline set (`stroke 1.6`, 24px), used only
-  on the quick-access tiles and the mobile menu toggle. Not beside headings.
-- **Status tags:** 4px radius, `surface` background, coloured text + a coloured left
-  keyline. Marigold for verified/new; navy for in-progress; green for resolved.
+- **Button.** `min-height 52px` (wayfinding = large targets), Archivo 600, 2px radius.
+  Primary = solid teal on white text. Secondary = white with a 2px teal border. Link =
+  teal underline. Primary actions go full-width on mobile.
+- **Signpost** *(the signature)*. A bordered row (1px `line`, 2px radius, `min-height
+  64px`): a 28px teal glyph, an Archivo `signpost-label` in teal, a caption line, and a
+  teal chevron at the end. `signpost--primary` adds a **4px amber left keyline** — "this
+  is the recommended path". Stacks in a list or a 2-up grid. Used for quick access,
+  the services directory, the knowledge hub, "my grievances", "recently updated".
+- **Notice.** A white panel, 2px radius, 1px border, with a **4px top rule** — teal for
+  information, amber for a caution, `error` for a problem. This is the "official stamped
+  notice" motif: the assistant's answer, the grievance-submitted confirmation, source
+  blocks, disclaimers, the error summary.
+- **Field.** White input, 2px `ink` border, 2px radius, `min-height 52px`. Label above
+  (Noto 600), hint below (`ink-2`). On error: the border turns `error`, the message is
+  `error` and bold, and the group gets a 4px `error` left keyline.
+- **Navigation.** Desktop: a horizontal list under the teal masthead; the active item
+  carries a 4px amber underline. Mobile: a **full-screen overlay menu** (not a cramped
+  dropdown) opened by a 52px button, rows at 52px, closes on navigate.
+- **Table** (admin): one `data-table` — uppercase Archivo header, 1px row rules, 12px
+  cells, no zebra, horizontal-scroll wrapper on small screens.
+- **Tag / status:** small, 2px radius, `bg`, a 3px left keyline coloured by meaning
+  (amber = verified/attention, teal = in progress, `ok` = resolved, `ink-2` = neutral).
+  The text label is always shown — never colour alone.
 
 ## Signature element
 
-The **serif gazette voice**, paired with the navy identity, is the one real risk — a
-serif on a digital public-service site is uncommon and reads as "official cooperative
-notification," which is exactly right for this subject. It is reinforced by the **hero
-carrying real knowledge-base questions** as its content (not placeholder copy) and a
-single **3px marigold rule** under the header as a civic mark. Everything else stays
-quiet: hairline dividers, a flat bordered grid, a typography-led updates list.
+The whole site is a **wayfinding system**: every route to information is a clear,
+colour-coded **signpost**, and every answer arrives as an **official notice** (white
+panel, teal top-rule, a plain confidence label, footnoted sources). The **amber keyline**
+is the one recurring mark — it means "recommended path" or "verified". That is the
+single memorable, product-specific decision. Everything else — the type scale, the
+spacing, the two button styles — is quiet and identical on every page.
 
-**Self-check:** would a generic government/SaaS brief produce navy + IBM Plex *Serif*
-headings + a hero built from live KB questions + a marigold gazette rule? No — the
-serif, the "navy ink on paper" framing, and the live-content hero are specific to this
-platform's subject (cooperative records) and its one job (answering questions).
+**Self-check.** A generic product would not arrive at wayfinding signposts + official-
+notice answer panels + a teal/amber public-signage palette + one Noto family chosen for
+tri-lingual legibility parity. Each of those is forced by this product's real
+constraints: a semi-literate user on a small screen who needs one obvious action; a
+trust requirement that answers cite sources and look official; three languages that
+must be served equally.
 
-## Information architecture
+## Accessibility (held throughout)
 
-**Header:** one horizontal bar. Logo left; `Home · Services · Schemes · Knowledge ·
-Grievances · About` centre; language selector + text-size control + **"Ask the
-assistant"** button right. Plain links, no pills. Mobile: a real disclosure menu.
+WCAG-AA contrast (checked above), semantic landmarks and headings, a visible 3px amber
+focus outline with offset, `prefers-reduced-motion` respected, ≥48px targets, the
+text-size control, an error-summary that takes focus, breadcrumbs on inner pages,
+focus moved to `<main>` on route change, a real (not shrunk) mobile layout.
 
-**Homepage:**
-1. **Hero** — serif headline, one supporting line, the question field, 3–4 real KB
-   questions as prompts, `Ask` + `Speak your question`. Open on the paper, no cards.
-2. **Quick access** — a 4-tile grid (icon + title + one line): *Find a scheme · Ask the
-   assistant · Cooperative & PACS services · Submit a grievance*. Flat bordered cards.
-3. **The assistant** — a real section: what it does, the three languages, the kinds of
-   guidance, how it cites sources. Framed as a public-service assistant. No robot art.
-4. **Services directory** — grouped by real category: Cooperative & PACS · Government
-   schemes · Financial guidance · Crop insurance · Cooperative law · Grievance support.
-   Scannable lists, not paragraphs.
-5. **Recently updated** — a plain dated list (date · title · category) built from the
-   real `verifiedAt` dates of schemes and knowledge topics. No invented numbers.
-6. **About** — brief and factual: what it is, who it's for, how information is sourced
-   (official documents → plain-language summaries; AI explanations are marked as such).
-   No invented statistics, partners, or awards.
+## States (designed, not defaulted)
 
-New pages: `/services` (full directory), `/knowledge` (hub linking the four topic
-sections), `/about`. All existing routes preserved.
-
-## Voice
-
-Plain language. Banned: "revolutionising", "next-generation", "cutting-edge",
-"seamless", "AI-powered intelligence". Name things by what the user does. Buttons say
-the outcome ("Submit grievance", "Track a grievance"). Error and empty states say what
-happened and what to do next, in the interface's voice.
-
-## Accessibility
-
-Kept from the previous pass and extended: 18px base + text-size control, `focus`
-yellow-block focus states, ≥48px targets, semantic landmarks, error-summary boxes,
-breadcrumbs, focus-to-`<main>` on route change, `prefers-reduced-motion`, a real mobile
-menu, no horizontal overflow.
+- **Loading:** a short "Loading…" line in `ink-2`; page-transition Suspense the same.
+- **Empty:** a plain sentence explaining what's missing and the one action to take
+  (e.g. "No schemes match these filters. Clear the filters or ask the assistant.").
+- **Error:** a `notice` with an `error` top rule — what went wrong, and a retry button.
+- **Offline:** a full-width `error`-ruled bar at the very top; on the assistant, a
+  notice explaining that reading pages still work but answers need a connection.
+- **Success:** the grievance confirmation is a teal-ruled `notice` with the tracking
+  number as the largest thing on the screen, then the two next actions.

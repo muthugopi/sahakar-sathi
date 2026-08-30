@@ -23,7 +23,7 @@ export function ContentSectionPage({ section }: { section: ContentSectionCode })
       <Breadcrumbs trail={[{ label: t(`sections.${key}.title`) }]} />
 
       <h1 className="text-3xl sm:text-4xl">{t(`sections.${key}.title`)}</h1>
-      <p className="mt-4 text-lg text-muted">{t(`sections.${key}.intro`)}</p>
+      <p className="mt-4 text-lg text-ink-2">{t(`sections.${key}.intro`)}</p>
 
       <div className="mt-10">
         <QueryBoundary
@@ -35,9 +35,9 @@ export function ContentSectionPage({ section }: { section: ContentSectionCode })
         </QueryBoundary>
       </div>
 
-      <div className="mt-12 border-t-4 border-field pt-6">
+      <div className="mt-12 border-t-4 border-primary pt-6">
         <h2 className="text-xl">{t('content.stillNeedHelpTitle')}</h2>
-        <p className="mt-3 text-muted">{t('content.stillNeedHelpBody')}</p>
+        <p className="mt-3 text-ink-2">{t('content.stillNeedHelpBody')}</p>
         <div className="mt-4">
           <AskAssistantLink question={t(`sections.${key}.askExample`)} />
         </div>

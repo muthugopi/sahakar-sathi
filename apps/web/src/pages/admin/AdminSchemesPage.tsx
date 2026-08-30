@@ -17,11 +17,11 @@ export function AdminSchemesPage() {
       <div className="flex items-baseline justify-between">
         <div>
           <h2 className="text-lg font-semibold text-ink">Schemes</h2>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-1 text-sm text-ink-2">
             Structured scheme pages. Verified schemes appear in the explorer and ground the assistant.
           </p>
         </div>
-        <Link to="/admin/schemes/new" className="text-sm font-medium text-field-deep underline">
+        <Link to="/admin/schemes/new" className="text-sm font-medium text-primary underline">
           New scheme
         </Link>
       </div>
@@ -34,7 +34,7 @@ export function AdminSchemesPage() {
         <div className="overflow-x-auto">
           <table className="mt-6 w-full text-sm">
             <thead>
-              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
+              <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-ink-2">
                 <th className="py-2 pe-4 font-medium">Title</th>
                 <th className="py-2 pe-4 font-medium">Scope</th>
                 <th className="py-2 pe-4 font-medium">Status</th>
@@ -47,7 +47,7 @@ export function AdminSchemesPage() {
               ))}
               {query.data && query.data.schemes.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="py-6 text-muted">
+                  <td colSpan={4} className="py-6 text-ink-2">
                     No schemes yet.
                   </td>
                 </tr>
@@ -76,14 +76,14 @@ function SchemeRow({ scheme, onChange }: { scheme: SchemeAdmin; onChange: () => 
         <Link to={`/admin/schemes/${scheme.slug}`} className="text-ink underline">
           {scheme.title}
         </Link>
-        {scheme.isArchived && <span className="ms-2 text-xs text-muted">archived</span>}
+        {scheme.isArchived && <span className="ms-2 text-xs text-ink-2">archived</span>}
       </td>
-      <td className="py-3 pe-4 text-muted">{scheme.state ?? 'All India'}</td>
+      <td className="py-3 pe-4 text-ink-2">{scheme.state ?? 'All India'}</td>
       <td className="py-3 pe-4">
         {scheme.isVerified ? (
-          <span className="text-field-deep">verified</span>
+          <span className="text-primary">verified</span>
         ) : (
-          <span className="text-clay">draft</span>
+          <span className="text-error">draft</span>
         )}
       </td>
       <td className="py-3">
@@ -92,7 +92,7 @@ function SchemeRow({ scheme, onChange }: { scheme: SchemeAdmin; onChange: () => 
             type="button"
             onClick={() => verify.mutate(!scheme.isVerified)}
             disabled={verify.isPending}
-            className="text-field-deep underline"
+            className="text-primary underline"
           >
             {scheme.isVerified ? 'Unverify' : 'Verify'}
           </button>
@@ -100,7 +100,7 @@ function SchemeRow({ scheme, onChange }: { scheme: SchemeAdmin; onChange: () => 
             type="button"
             onClick={() => archive.mutate(!scheme.isArchived)}
             disabled={archive.isPending}
-            className="text-clay underline"
+            className="text-error underline"
           >
             {scheme.isArchived ? 'Restore' : 'Archive'}
           </button>

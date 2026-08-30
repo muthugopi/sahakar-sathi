@@ -21,7 +21,7 @@ export function ProtectedRoute({
   const { t } = useTranslation();
 
   if (status === 'loading') {
-    return <div className="container-page py-16 text-muted">{t('common.loading')}</div>;
+    return <div className="container-page py-16 text-ink-2">{t('common.loading')}</div>;
   }
 
   if (status === 'anonymous' || !user) {

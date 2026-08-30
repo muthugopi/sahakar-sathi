@@ -39,7 +39,7 @@ function Overview({ data }: { data: AdminAnalytics }) {
             <div key={f.label}>
               <dd className="text-3xl font-semibold tabular-nums text-ink">{f.value}</dd>
               <dt className="mt-1 text-sm text-ink">{f.label}</dt>
-              <p className="text-xs text-muted">{f.note}</p>
+              <p className="text-xs text-ink-2">{f.note}</p>
             </div>
           ))}
         </dl>
@@ -47,7 +47,7 @@ function Overview({ data }: { data: AdminAnalytics }) {
 
       <section className="grid gap-12 md:grid-cols-2">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Grievances by status</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-2">Grievances by status</h2>
           <table className="mt-3 w-full text-sm">
             <tbody>
               {Object.entries(data.grievances.byStatus).map(([status, n]) => (
@@ -58,46 +58,46 @@ function Overview({ data }: { data: AdminAnalytics }) {
               ))}
               {Object.keys(data.grievances.byStatus).length === 0 && (
                 <tr>
-                  <td className="py-2 text-muted">No grievances yet.</td>
+                  <td className="py-2 text-ink-2">No grievances yet.</td>
                 </tr>
               )}
             </tbody>
           </table>
-          <Link to="/admin/grievances" className="mt-3 inline-block text-sm text-field-deep underline">
+          <Link to="/admin/grievances" className="mt-3 inline-block text-sm text-primary underline">
             Manage grievances
           </Link>
         </div>
 
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Languages used</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-2">Languages used</h2>
           <ul className="mt-3 space-y-2 text-sm">
             {langRows.map(([lang, n]) => (
               <li key={lang}>
                 <div className="flex justify-between">
                   <span>{LANG_NAME[lang] ?? lang}</span>
-                  <span className="tabular-nums text-muted">{Math.round((n / msgTotal) * 100)}%</span>
+                  <span className="tabular-nums text-ink-2">{Math.round((n / msgTotal) * 100)}%</span>
                 </div>
                 <div className="mt-1 h-1 bg-line">
-                  <div className="h-1 bg-field" style={{ width: `${(n / msgTotal) * 100}%` }} />
+                  <div className="h-1 bg-primary" style={{ width: `${(n / msgTotal) * 100}%` }} />
                 </div>
               </li>
             ))}
-            {langRows.length === 0 && <li className="text-muted">No messages yet.</li>}
+            {langRows.length === 0 && <li className="text-ink-2">No messages yet.</li>}
           </ul>
         </div>
       </section>
 
       <section>
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-2">
           Most asked questions
         </h2>
         {data.topQuestions.length === 0 ? (
-          <p className="mt-3 text-sm text-muted">Not enough conversation data yet.</p>
+          <p className="mt-3 text-sm text-ink-2">Not enough conversation data yet.</p>
         ) : (
           <ol className="mt-3 space-y-2 text-sm">
             {data.topQuestions.map((q) => (
               <li key={q.text} className="flex gap-3 border-b border-line pb-2 last:border-0">
-                <span className="tabular-nums text-muted">{q.count}×</span>
+                <span className="tabular-nums text-ink-2">{q.count}×</span>
                 <span className="text-ink">{q.text}</span>
               </li>
             ))}
@@ -107,15 +107,15 @@ function Overview({ data }: { data: AdminAnalytics }) {
 
       {data.recentDownvotes.length > 0 && (
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-2">
             Recent unhelpful answers
           </h2>
           <ul className="mt-3 space-y-4 text-sm">
             {data.recentDownvotes.map((d) => (
               <li key={d.messageId} className="border-b border-line pb-3 last:border-0">
                 <p className="text-ink">{d.content}</p>
-                {d.comment && <p className="mt-1 text-muted">“{d.comment}”</p>}
-                <p className="mt-1 text-xs text-muted">
+                {d.comment && <p className="mt-1 text-ink-2">“{d.comment}”</p>}
+                <p className="mt-1 text-xs text-ink-2">
                   {new Date(d.createdAt).toLocaleString()}
                 </p>
               </li>
@@ -124,7 +124,7 @@ function Overview({ data }: { data: AdminAnalytics }) {
         </section>
       )}
 
-      <section className="text-sm text-muted">
+      <section className="text-sm text-ink-2">
         <span className="tabular-nums">{data.feedback.up}</span> helpful ·{' '}
         <span className="tabular-nums">{data.feedback.down}</span> unhelpful ·{' '}
         <span className="tabular-nums">{data.schemes.verified}</span>/{data.schemes.total} schemes verified

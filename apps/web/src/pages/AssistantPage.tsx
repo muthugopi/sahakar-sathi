@@ -156,7 +156,7 @@ function AssistantView() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl">{t('assistant.title')}</h1>
-          <p className="mt-3 text-muted">{t('assistant.intro')}</p>
+          <p className="mt-3 text-ink-2">{t('assistant.intro')}</p>
         </div>
         {messages.length > 0 && (
           <button type="button" onClick={newChat} className="btn-ghost shrink-0 p-0">
@@ -212,7 +212,7 @@ function AssistantView() {
                     type="button"
                     onClick={() => void submit(s)}
                     disabled={!online}
-                    className="text-start font-bold text-field-deep underline disabled:opacity-50"
+                    className="text-start font-bold text-primary underline disabled:opacity-50"
                   >
                     {s}
                   </button>
@@ -227,14 +227,14 @@ function AssistantView() {
         ))}
 
         {busy && (
-          <p className="text-muted" role="status">
+          <p className="text-ink-2" role="status">
             {t('assistant.thinking')}
           </p>
         )}
 
         {error && (
-          <div role="alert" className="border-l-4 border-clay ps-4">
-            <p className="font-bold text-clay">{error}</p>
+          <div role="alert" className="notice notice--error">
+            <p className="font-semibold">{error}</p>
             <button
               type="button"
               onClick={() => {
@@ -250,7 +250,11 @@ function AssistantView() {
         )}
       </div>
 
-      {!online && <p className="inset mt-3">{t('assistant.offlineNote')}</p>}
+      {!online && (
+        <div className="notice notice--warn mt-3">
+          <p>{t('assistant.offlineNote')}</p>
+        </div>
+      )}
 
       <div className="mt-3">
         <Composer

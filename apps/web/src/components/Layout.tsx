@@ -24,12 +24,16 @@ export function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
 
   useEffect(() => setMenuOpen(false), [location.pathname]);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex min-h-12 items-center px-3 font-sans font-semibold no-underline ${
-      isActive
-        ? 'border-b-[3px] border-accent text-ink'
-        : 'border-b-[3px] border-transparent text-primary hover:bg-surface'
+  const desktopLink = ({ isActive }: { isActive: boolean }) =>
+    `flex min-h-touch items-center border-b-4 px-3 font-display font-semibold no-underline ${
+      isActive ? 'border-accent text-ink' : 'border-transparent text-primary hover:bg-primary-tint'
     }`;
 
   return (
@@ -42,18 +46,18 @@ export function Layout({ children }: { children: ReactNode }) {
       </a>
 
       {!online && (
-        <div role="status" className="border-b-4 border-error bg-white px-4 py-3 text-center font-semibold">
+        <div role="status" className="bg-error px-4 py-3 text-center font-semibold text-white">
           {t('common.offlineTitle')} — {t('common.offlineBody')}
         </div>
       )}
 
       <header className="bg-primary text-white">
-        <div className="container-page flex items-center justify-between gap-4 py-3">
+        <div className="container-page flex items-center justify-between gap-4 py-4">
           <Link to="/" className="text-white no-underline">
-            <span className="block font-serif text-xl font-semibold leading-tight sm:text-2xl">
+            <span className="block font-display text-xl font-bold leading-none sm:text-2xl">
               {t('app.name')}
             </span>
-            <span className="block text-sm text-white/80">{t('app.department')}</span>
+            <span className="mt-1 block text-sm text-white/85">{t('app.department')}</span>
           </Link>
 
           <div className="hidden items-center gap-5 lg:flex">
@@ -61,7 +65,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <LanguageSelector id="lang-header" />
             <Link
               to="/assistant"
-              className="rounded border-2 border-white bg-white px-4 py-2.5 font-sans font-semibold text-primary no-underline hover:bg-primary-tint"
+              className="inline-flex min-h-touch items-center rounded border-2 border-white bg-white px-4 font-display font-semibold text-primary no-underline hover:bg-primary-tint"
             >
               {t('nav.askAssistant')}
             </Link>
@@ -69,7 +73,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
           <button
             type="button"
-            className="flex h-12 w-12 items-center justify-center rounded border-2 border-white lg:hidden"
+            className="flex min-h-touch min-w-touch items-center justify-center rounded border-2 border-white lg:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((v) => !v)}
@@ -80,14 +84,11 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="civic-rule" />
-
-      {/* desktop nav */}
       <nav aria-label="Primary" className="hidden border-b border-line bg-white lg:block">
         <ul className="container-page flex flex-wrap">
           {NAV.map((item) => (
             <li key={item.to}>
-              <NavLink to={item.to} end={item.end} className={navLinkClass}>
+              <NavLink to={item.to} end={item.end} className={desktopLink}>
                 {t(item.key)}
               </NavLink>
             </li>
@@ -95,47 +96,51 @@ export function Layout({ children }: { children: ReactNode }) {
         </ul>
       </nav>
 
-      {/* mobile menu */}
       {menuOpen && (
-        <nav id="mobile-menu" aria-label="Primary" className="border-b border-line bg-white lg:hidden">
-          <ul className="container-page divide-y divide-line py-2">
-            {NAV.map((item) => (
-              <li key={item.to}>
-                <NavLink
-                  to={item.to}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    `flex min-h-12 items-center font-sans font-semibold no-underline ${
-                      isActive ? 'text-ink' : 'text-primary'
-                    }`
-                  }
-                >
-                  {t(item.key)}
-                </NavLink>
-              </li>
-            ))}
-            <li>
-              <Link to="/assistant" className="flex min-h-12 items-center font-sans font-semibold text-primary no-underline">
-                {t('nav.askAssistant')}
-              </Link>
-            </li>
-            <li>
-              <Link to="/track" className="flex min-h-12 items-center font-sans font-semibold text-primary no-underline">
-                {t('nav.track')}
-              </Link>
-            </li>
-          </ul>
-          <div className="container-page flex flex-wrap items-center gap-4 border-t border-line py-3">
+        <div id="mobile-menu" className="fixed inset-0 z-40 flex flex-col bg-white lg:hidden">
+          <div className="flex items-center justify-between bg-primary px-5 py-4 text-white">
+            <span className="font-display text-lg font-bold">{t('nav.menu')}</span>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              className="flex min-h-touch min-w-touch items-center justify-center rounded border-2 border-white"
+            >
+              <Icon name="close" />
+              <span className="sr-only">{t('common.backHome')}</span>
+            </button>
+          </div>
+          <nav aria-label="Primary" className="flex-1 overflow-y-auto px-5 py-2">
+            <ul className="divide-y divide-line">
+              {[...NAV, { to: '/assistant', key: 'nav.askAssistant' }, { to: '/track', key: 'nav.track' }].map(
+                (item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={'end' in item ? (item as { end?: boolean }).end : undefined}
+                      className={({ isActive }) =>
+                        `flex min-h-btn items-center justify-between font-display text-lg font-semibold no-underline ${
+                          isActive ? 'text-ink' : 'text-primary'
+                        }`
+                      }
+                    >
+                      {t(item.key)}
+                      <Icon name="chevron" className="h-5 w-5" />
+                    </NavLink>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
+          <div className="flex flex-wrap items-center gap-4 border-t border-line px-5 py-4">
             <TextSizeControl />
             <LanguageSelector id="lang-mobile" />
           </div>
-        </nav>
+        </div>
       )}
 
-      {/* account + phase bar */}
-      <div className="border-b border-line bg-surface">
+      <div className="border-b border-line bg-white">
         <div className="container-page flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-2 text-sm">
-          <span className="flex flex-wrap items-baseline gap-2 text-muted">
+          <span className="flex flex-wrap items-baseline gap-2 text-ink-2">
             <span className="rounded bg-accent px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">
               {t('app.phase')}
             </span>
@@ -149,8 +154,8 @@ export function Layout({ children }: { children: ReactNode }) {
                     {t('nav.admin')}
                   </NavLink>
                 )}
-                <span className="text-muted">{t('auth.greeting', { name: user.name })}</span>
-                <button type="button" onClick={() => void logout()} className="btn-ghost">
+                <span className="text-ink-2">{t('auth.greeting', { name: user.name })}</span>
+                <button type="button" onClick={() => void logout()} className="btn-link">
                   {t('auth.signOut')}
                 </button>
               </>
@@ -165,16 +170,16 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <main id="main" className="flex-1 py-10">
+      <main id="main" className="flex-1 py-7">
         {children}
       </main>
 
-      <footer className="border-t-4 border-primary bg-surface">
-        <div className="container-page grid gap-8 py-10 text-sm sm:grid-cols-[1fr_auto]">
+      <footer className="border-t-4 border-primary bg-white">
+        <div className="container-page grid gap-6 py-7 text-sm sm:grid-cols-[1fr_auto]">
           <div className="max-w-prose">
-            <p className="font-serif text-lg text-ink">{t('app.name')}</p>
-            <p className="mt-2 text-muted">{t('footer.disclaimer')}</p>
-            <p className="mt-3 text-muted">{t('footer.builtFor')}</p>
+            <p className="font-display text-lg font-semibold text-ink">{t('app.name')}</p>
+            <p className="mt-2 text-ink-2">{t('footer.disclaimer')}</p>
+            <p className="mt-3 text-ink-2">{t('footer.builtFor')}</p>
           </div>
           <nav aria-label="Footer">
             <ul className="space-y-2">

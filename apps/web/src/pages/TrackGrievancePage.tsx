@@ -29,7 +29,7 @@ export function TrackGrievancePage() {
       <div className="container-page max-w-prose">
         <Breadcrumbs trail={[{ label: t('grievance.trackTitle') }]} />
         <h1 className="text-3xl sm:text-4xl">{t('grievance.trackTitle')}</h1>
-        <p className="mt-4 text-lg text-muted">{t('grievance.trackIntro')}</p>
+        <p className="mt-4 text-lg text-ink-2">{t('grievance.trackIntro')}</p>
 
         <form
           className="mt-6"
@@ -85,10 +85,10 @@ function MyGrievances() {
           <li key={g.trackingId}>
             <Link to={`/track/${g.trackingId}`} className="register-row block py-4">
               <span className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-mono font-bold text-field-deep underline">{g.trackingId}</span>
+                <span className="font-mono font-bold text-primary underline">{g.trackingId}</span>
                 <StatusBadge status={g.status} />
               </span>
-              <span className="mt-1 block text-muted">{t(`grievance.category.${g.category}`)}</span>
+              <span className="mt-1 block text-ink-2">{t(`grievance.category.${g.category}`)}</span>
             </Link>
           </li>
         ))}
@@ -131,7 +131,7 @@ function TrackResult({ trackingId }: { trackingId: string }) {
             <p className="mt-3">
               <StatusBadge status={grievance.status} />
             </p>
-            <p className="mt-3 text-muted">
+            <p className="mt-3 text-ink-2">
               {t(`grievance.category.${grievance.category}`)} ·{' '}
               {t('grievance.filedOn', {
                 date: new Date(grievance.createdAt).toLocaleDateString(),
@@ -190,7 +190,7 @@ function AdminControls({ trackingId, status }: { trackingId: string; status: Gri
 
   return (
     <form
-      className="mt-10 border-t-4 border-field pt-6"
+      className="mt-10 border-t-4 border-primary pt-6"
       onSubmit={(e) => {
         e.preventDefault();
         mutation.mutate({ status: next, ...(note.trim() ? { note: note.trim() } : {}) });
@@ -231,7 +231,7 @@ function AdminControls({ trackingId, status }: { trackingId: string; status: Gri
         </button>
       </div>
       {mutation.isError && (
-        <p className="mt-2 font-bold text-clay">
+        <p className="mt-2 font-bold text-error">
           {mutation.error instanceof Error ? mutation.error.message : t('common.errorTitle')}
         </p>
       )}

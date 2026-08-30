@@ -1,12 +1,12 @@
 /**
- * Typefaces. Latin (IBM Plex Serif for headings, IBM Plex Sans for body) loads
- * with the app; the Indic faces are fetched only when that language is chosen.
- * All are self-hosted via @fontsource and precached by the service worker.
+ * Typefaces. Archivo (display) + Noto Sans (body) load with the app; the Indic
+ * Noto faces are fetched only when that language is chosen. All self-hosted via
+ * @fontsource. Latin subsets only for the base — @fontsource splits per subset.
  */
-import '@fontsource/ibm-plex-sans/latin-400.css';
-import '@fontsource/ibm-plex-sans/latin-600.css';
-import '@fontsource/ibm-plex-serif/latin-400.css';
-import '@fontsource/ibm-plex-serif/latin-600.css';
+import '@fontsource/archivo/latin-600.css';
+import '@fontsource/archivo/latin-700.css';
+import '@fontsource/noto-sans/latin-400.css';
+import '@fontsource/noto-sans/latin-600.css';
 
 let devanagariLoaded = false;
 let tamilLoaded = false;
@@ -15,8 +15,8 @@ export async function ensureScriptFont(lang: string): Promise<void> {
   if (lang === 'hi' && !devanagariLoaded) {
     devanagariLoaded = true;
     await Promise.all([
-      import('@fontsource/ibm-plex-sans-devanagari/400.css'),
-      import('@fontsource/ibm-plex-sans-devanagari/600.css'),
+      import('@fontsource/noto-sans-devanagari/400.css'),
+      import('@fontsource/noto-sans-devanagari/600.css'),
     ]);
   }
   if (lang === 'ta' && !tamilLoaded) {

@@ -19,10 +19,10 @@ export function AdminLayout() {
               to={tab.to}
               end={tab.end}
               className={({ isActive }) =>
-                `-mb-0.5 border-b-4 pb-3 no-underline ${
+                `-mb-0.5 border-b-4 pb-3 font-display font-semibold no-underline ${
                   isActive
-                    ? 'border-field font-bold text-ink'
-                    : 'border-transparent font-bold text-field-deep hover:text-field-text'
+                    ? 'border-accent text-ink'
+                    : 'border-transparent text-primary hover:text-primary-hover'
                 }`
               }
             >

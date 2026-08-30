@@ -29,16 +29,16 @@ export function StatusTimeline({
         return (
           <li
             key={step}
-            className={`border-b py-4 ps-4 ${current ? 'border-l-4 border-l-field border-b-line' : 'border-line'}`}
+            className={`border-b py-4 ps-4 ${current ? 'border-l-4 border-l-primary border-b-line' : 'border-line'}`}
           >
-            <p className={`font-bold ${done ? 'text-ink' : 'text-muted'}`}>
+            <p className={`font-bold ${done ? 'text-ink' : 'text-ink-2'}`}>
               {t(`grievance.status.${step}`)}
               {current && (
-                <span className="ms-2 font-normal text-field-deep">· {t('grievance.now')}</span>
+                <span className="ms-2 font-normal text-primary">· {t('grievance.now')}</span>
               )}
             </p>
-            <p className="mt-1 text-muted">{t(`grievance.statusHelp.${step}`)}</p>
-            {at && <p className="mt-1 text-sm text-muted">{new Date(at).toLocaleString()}</p>}
+            <p className="mt-1 text-ink-2">{t(`grievance.statusHelp.${step}`)}</p>
+            {at && <p className="mt-1 text-sm text-ink-2">{new Date(at).toLocaleString()}</p>}
             {noteByStatus.get(step) && (
               <p className="mt-2 inset text-ink">{noteByStatus.get(step)}</p>
             )}

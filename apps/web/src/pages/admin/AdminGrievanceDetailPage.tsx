@@ -38,7 +38,7 @@ export function AdminGrievanceDetailPage() {
 
   return (
     <div>
-      <Link to="/admin/grievances" className="text-sm text-field-deep underline">
+      <Link to="/admin/grievances" className="text-sm text-primary underline">
         ← All grievances
       </Link>
 
@@ -51,7 +51,7 @@ export function AdminGrievanceDetailPage() {
           <div className="mt-4 grid gap-10 lg:grid-cols-[1fr_20rem]">
             <div>
               <h2 className="font-mono text-xl font-semibold text-ink">{g.trackingId}</h2>
-              <p className="mt-1 text-sm text-muted">
+              <p className="mt-1 text-sm text-ink-2">
                 {g.category.toLowerCase().replace(/_/g, ' ')} · filed{' '}
                 {new Date(g.createdAt).toLocaleDateString()}
                 {g.district ? ` · ${g.district}` : ''}
@@ -69,17 +69,17 @@ export function AdminGrievanceDetailPage() {
                         href={attachmentUrl(a.id)}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="text-field-deep underline"
+                        className="text-primary underline"
                       >
                         {a.originalName}
                       </a>{' '}
-                      <span className="text-muted">({Math.round(a.sizeBytes / 1024)} KB)</span>
+                      <span className="text-ink-2">({Math.round(a.sizeBytes / 1024)} KB)</span>
                     </li>
                   ))}
                 </ul>
               )}
 
-              <h3 className="mt-10 text-sm font-semibold uppercase tracking-wide text-muted">
+              <h3 className="mt-10 text-sm font-semibold uppercase tracking-wide text-ink-2">
                 History
               </h3>
               <div className="mt-4">
@@ -88,7 +88,7 @@ export function AdminGrievanceDetailPage() {
             </div>
 
             <aside>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-2">
                 Record an update
               </h3>
               <form
@@ -104,7 +104,7 @@ export function AdminGrievanceDetailPage() {
                   mutation.mutate(input);
                 }}
               >
-                {error && <p className="text-clay">{error}</p>}
+                {error && <p className="text-error">{error}</p>}
 
                 <label className="block">
                   Change status
