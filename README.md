@@ -14,7 +14,7 @@ input and read-aloud.
 
 | Area | Tech |
 |---|---|
-| Web | React 18 + Vite + TypeScript + Tailwind, i18next, TanStack Query, PWA. "Navy ink on paper" design system (see `docs/design-plan.md`): navy `#17324d` + marigold accent on paper-white, IBM Plex Serif headings / IBM Plex Sans body (self-hosted, Indic faces lazy per language), 4px radius, flat cards, text-size control, error-summary forms — tuned for older / low-literacy rural users on cheap phones |
+| Web | React 18 + Vite + TypeScript + Tailwind, i18next, TanStack Query, PWA. "Wayfinding" design system (`docs/design-plan.md`): teal `#0b4f4a` + amber accent on pale grey, Archivo display / Noto Sans body (self-hosted; one Noto family for all three scripts), 2px radius, no shadows, signpost + notice primitives, full-screen mobile menu, text-size control, error-summary forms — for low-literacy rural users on cheap phones |
 | API | Node 22 + Express + TypeScript, Prisma |
 | DB | PostgreSQL 16 + `pgvector` |
 | AI | Anthropic Claude (generation) + local `multilingual-e5-small` embeddings, RAG over verified docs |
