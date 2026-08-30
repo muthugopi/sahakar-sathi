@@ -128,8 +128,9 @@ GET    /api/v1/schemes  ?category&state&targetUser&q          (M5)
 GET    /api/v1/schemes/:slug                                  (M5)
 GET    /api/v1/content/:section   (COOPERATIVE_LAW|PACS|FINANCIAL_LITERACY|PMFBY)  (M5)
 GET    /api/v1/content/topics/:slug                           (M5)
-POST   /api/v1/grievances      GET /api/v1/grievances/:trackingId   (M6)
-GET    /api/v1/grievances      (own, authed)                  (M6)
+POST   /api/v1/grievances        POST /api/v1/grievances/attachments   (M6)
+GET    /api/v1/grievances/:trackingId    GET /api/v1/grievances/mine   (M6)
+GET    /api/v1/grievances/attachments/:id   PATCH .../:trackingId/status (M6; PATCH = ADMIN)
 GET    /api/v1/admin/analytics                                (M7)
 CRUD   /api/v1/admin/documents | schemes | grievances         (M7)
 ```
@@ -162,7 +163,7 @@ Full audit + `npm audit` gate + dependency review scheduled for M8.
 | **M3** ✅ | Knowledge doc model + ingestion (chunk → embed → pgvector), retrieval service, `/chat` grounded answers (cite-or-refuse, confidence, source cards, disclaimers), `/feedback`, seed KB, web chat UI (text, history, suggestions, category focus, loading/error/offline). PDF upload lands with admin (M7) |
 | **M4** ✅ | Browser Web Speech STT (dictation into the composer, auto-start from the home "Speak" button) + TTS (play/pause/stop/replay per answer, shared engine, "read aloud" toggle, markdown/citation stripping), `en-IN`/`ta-IN`/`hi-IN`; `GET /voice/config` capability descriptor + reserved `POST /voice/transcribe|speak` (501 until a hosted provider such as Bhashini is wired) |
 | **M5** ✅ | `Scheme` API (`GET /schemes` — who-can-apply / category / state / search filters + facets — and `GET /schemes/:slug`) plus a `ContentTopic` model with `GET /content/:section` and `/content/topics/:slug` serving Cooperative Law, PACS, Financial Literacy and PMFBY-FAQ (Simple + Detailed views, rural examples, official links). Public + cache-headed. Web: Scheme Explorer + detail pages, one generic `ContentSectionPage` + `TopicList` accordion, `AskAssistantLink` deep-links, popular schemes on the home page. `db:seed:content` seeds 5 schemes + 29 topics and ingests each into the KB so the assistant grounds on the same verified text |
-| **M6** | Grievance submit → tracking ID → status workflow (`SUBMITTED…CLOSED`) → tracking UI, attachments, voice description |
+| **M6** ✅ | `utils/upload` (multer + MIME allowlist + **magic-byte** check + path guards), `grievance.service` (`GRV-XXXXXXXX` id, initial event, public-vs-owner/admin projections, validated transition map, orphan-attachment prune). Web: GrievancePage (voice-dictated description via `DictationTextarea`, up to 5 attachments), TrackGrievancePage (`/track`, `/track/:id`) with `StatusTimeline` + inline admin control. Anonymous tracking shows status + timeline only |
 | **M7** | Admin dashboard: analytics (users, conversations, languages, top questions, grievances), knowledge management (upload/verify/version/categorise), scheme management (create/edit/verify/archive), grievance management (assign/update/respond/resolve) |
 | **M8** | PWA precache + offline routes, retry/backoff, asset compression, mobile pass, security audit, accessibility + UX audit |
 

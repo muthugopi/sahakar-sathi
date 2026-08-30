@@ -99,6 +99,9 @@ Health check: <http://localhost:4000/api/v1/health/ready>
       state, search), scheme detail pages, and Cooperative Law · PACS · Money Basics ·
       PMFBY-FAQ as browsable topics (Simple / Detailed views, rural examples, official
       links); every item also grounds the assistant.
-- [ ] M6 — Grievance workflow
+- [x] **M6 — Grievance workflow:** submit (category, voice-dictated description,
+      file attachments with magic-byte validation) → `GRV-XXXXXXXX` tracking ID →
+      status timeline; anonymous tracking shows status only, owner/admin see full
+      detail; admin status transitions with notes.
 - [ ] M7 — Admin dashboard
 - [ ] M8 — PWA/offline, mobile, security & accessibility audits
