@@ -73,7 +73,9 @@ export default {
       '3xl': ['2rem', { lineHeight: '1.18' }],
       '4xl': ['2.5rem', { lineHeight: '1.1' }],
       '5xl': ['3.25rem', { lineHeight: '1.04' }],
-      '6xl': ['4rem', { lineHeight: '1.02' }],
+      '6xl': ['4rem', { lineHeight: '1.0' }],
+      '7xl': ['5rem', { lineHeight: '0.98' }],
+      '8xl': ['6.5rem', { lineHeight: '0.96' }],
     },
     letterSpacing: {
       tighter: '-0.03em',
@@ -108,6 +110,10 @@ export default {
       },
       animation: {
         'fade-up': 'fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both',
+      },
+      spacing: {
+        section: '7.5rem',
+        'section-lg': '11rem',
       },
     },
   },

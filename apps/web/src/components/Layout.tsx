@@ -6,13 +6,13 @@ import { Icon } from './Icon';
 import { useOnlineStatus } from '../lib/useOnlineStatus';
 import { useAuth } from '../lib/auth';
 
-const NAV: { to: string; key: string; end?: boolean }[] = [
-  { to: '/', key: 'nav.home', end: true },
-  { to: '/assistant', key: 'nav.askSathi' },
-  { to: '/schemes', key: 'nav.schemes' },
-  { to: '/cooperative', key: 'nav.cooperatives' },
-  { to: '/grievance', key: 'nav.grievances' },
-  { to: '/knowledge', key: 'nav.resources' },
+const NAV: { to: string; key: string }[] = [
+  { to: '/schemes', key: 'nav.short.schemes' },
+  { to: '/cooperative', key: 'nav.short.cooperative' },
+  { to: '/pacs', key: 'nav.short.pacs' },
+  { to: '/pmfby', key: 'nav.short.pmfby' },
+  { to: '/money', key: 'nav.short.money' },
+  { to: '/grievance', key: 'nav.short.grievance' },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -20,9 +20,11 @@ export function Layout({ children }: { children: ReactNode }) {
   const online = useOnlineStatus();
   const { status, user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
   useEffect(() => setMenuOpen(false), [location.pathname]);
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => {
@@ -30,8 +32,15 @@ export function Layout({ children }: { children: ReactNode }) {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const desktopLink = ({ isActive }: { isActive: boolean }) =>
-    `text-sm no-underline transition-colors ${
+    `whitespace-nowrap text-sm no-underline transition-colors ${
       isActive ? 'font-semibold text-ink' : 'font-medium text-ink-2 hover:text-ink'
     }`;
 
@@ -75,8 +84,14 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/85 backdrop-blur-md">
-        <div className="container-page flex h-16 items-center justify-between gap-4">
+      <header
+        className={`sticky top-0 z-40 transition-[background-color,border-color,box-shadow] duration-300 ${
+          scrolled
+            ? 'border-b border-line bg-bg/90 shadow-[0_1px_0_rgba(26,36,32,0.04),0_10px_30px_-24px_rgba(26,36,32,0.25)] backdrop-blur-md'
+            : 'border-b border-transparent bg-bg/60 backdrop-blur-sm'
+        }`}
+      >
+        <div className="container-wide flex h-16 items-center justify-between gap-4">
           <Link
             to="/"
             className="shrink-0 whitespace-nowrap font-display text-lg font-semibold tracking-tight text-ink no-underline"
@@ -84,25 +99,20 @@ export function Layout({ children }: { children: ReactNode }) {
             {t('app.name')}
           </Link>
 
-          <nav
-            aria-label="Primary"
-            className="hidden items-center gap-5 lg:flex xl:gap-7"
-          >
+          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex xl:gap-8">
             {NAV.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={(s) => `whitespace-nowrap ${desktopLink(s)}`}
-              >
+              <NavLink key={item.to} to={item.to} className={desktopLink}>
                 {t(item.key)}
               </NavLink>
             ))}
           </nav>
 
           <div className="hidden shrink-0 items-center gap-4 lg:flex">
-            <LanguageSelector id="lang-header" hideLabel />
             {account}
+            <LanguageSelector id="lang-header" hideLabel />
+            <Link to="/assistant" className="btn-primary h-10 min-h-0 whitespace-nowrap px-4 text-sm">
+              {t('nav.askSathi')}
+            </Link>
           </div>
 
           <button
@@ -141,11 +151,14 @@ export function Layout({ children }: { children: ReactNode }) {
             aria-label="Primary"
             className="container-page flex-1 overflow-y-auto border-t border-line py-2"
           >
-            {[...NAV, { to: '/track', key: 'nav.track' }].map((item) => (
+            {[
+              { to: '/assistant', key: 'nav.askSathi' },
+              ...NAV,
+              { to: '/track', key: 'nav.track' },
+            ].map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
-                end={'end' in item ? (item as { end?: boolean }).end : undefined}
                 className={({ isActive }) =>
                   `flex items-center justify-between border-b border-line py-4 font-display text-xl no-underline ${
                     isActive ? 'font-semibold text-ink' : 'font-normal text-ink-2'
@@ -165,76 +178,78 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <div className="border-b border-line bg-bg">
-        <p className="container-page py-2 text-xs text-ink-2">
-          <span className="font-semibold text-ink">{t('app.phase')}</span> — {t('app.phaseNote')}
-        </p>
-      </div>
-
-      <main id="main" tabIndex={-1} className="flex-1 pt-12 outline-none sm:pt-16">
+      <main id="main" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>
 
-      <footer className="mt-24 border-t border-line">
-        <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
-          <div className="max-w-prose">
-            <p className="font-display text-lg font-semibold tracking-tight text-ink">
-              {t('app.name')}
-            </p>
-            <p className="mt-1 text-sm text-ink-2">{t('app.department')}</p>
-            <p className="mt-4 text-sm text-ink-2">{t('footer.disclaimer')}</p>
-            <p className="mt-2 text-sm text-ink-2">{t('footer.builtFor')}</p>
+      <footer className="section-divide mt-24">
+        <div className="container-wide py-16 sm:py-20">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
+            <div className="max-w-prose">
+              <p className="font-display text-xl tracking-tight text-ink">{t('app.name')}</p>
+              <p className="mt-1 text-sm text-ink-2">{t('app.department')}</p>
+              <p className="mt-4 text-sm text-ink-2">{t('footer.disclaimer')}</p>
+              <p className="mt-2 text-sm text-ink-2">{t('footer.builtFor')}</p>
+            </div>
+            <nav aria-label="Knowledge" className="text-sm">
+              <p className="font-semibold text-ink">{t('nav.resources')}</p>
+              <ul className="mt-3 space-y-2.5">
+                <li>
+                  <Link to="/schemes" className="text-ink-2 no-underline hover:text-ink">
+                    {t('nav.schemes')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/cooperative" className="text-ink-2 no-underline hover:text-ink">
+                    {t('sections.cooperative_law.title')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/pacs" className="text-ink-2 no-underline hover:text-ink">
+                    {t('sections.pacs.title')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/pmfby" className="text-ink-2 no-underline hover:text-ink">
+                    {t('sections.pmfby.title')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/money" className="text-ink-2 no-underline hover:text-ink">
+                    {t('sections.financial_literacy.title')}
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+            <nav aria-label="Help" className="text-sm">
+              <p className="font-semibold text-ink">{t('nav.grievances')}</p>
+              <ul className="mt-3 space-y-2.5">
+                <li>
+                  <Link to="/grievance" className="text-ink-2 no-underline hover:text-ink">
+                    {t('grievance.title')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/track" className="text-ink-2 no-underline hover:text-ink">
+                    {t('nav.track')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/assistant" className="text-ink-2 no-underline hover:text-ink">
+                    {t('nav.askSathi')}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/about" className="text-ink-2 no-underline hover:text-ink">
+                    {t('nav.about')}
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <nav aria-label="Services" className="text-sm">
-            <p className="font-semibold text-ink">{t('nav.resources')}</p>
-            <ul className="mt-3 space-y-2.5">
-              <li>
-                <Link to="/schemes" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.schemes')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/cooperative" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.cooperatives')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/pacs" className="no-underline text-ink-2 hover:text-ink">
-                  {t('sections.pacs.title')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/money" className="no-underline text-ink-2 hover:text-ink">
-                  {t('sections.financial_literacy.title')}
-                </Link>
-              </li>
-            </ul>
-          </nav>
-          <nav aria-label="Help" className="text-sm">
-            <p className="font-semibold text-ink">{t('nav.grievances')}</p>
-            <ul className="mt-3 space-y-2.5">
-              <li>
-                <Link to="/grievance" className="no-underline text-ink-2 hover:text-ink">
-                  {t('grievance.title')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/track" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.track')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/assistant" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.askSathi')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="no-underline text-ink-2 hover:text-ink">
-                  {t('nav.about')}
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <p className="mt-14 border-t border-line pt-6 text-xs text-ink-2">
+            <span className="font-semibold text-ink">{t('app.phase')}</span> — {t('app.phaseNote')}
+          </p>
         </div>
       </footer>
     </div>

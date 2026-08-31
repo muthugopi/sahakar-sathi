@@ -83,14 +83,93 @@
   }
 }
 
+/* --------------------------------------------------------------------------
+   Scroll reveal — subtle fade + rise, once, on entering the viewport.
+   Content is always present; motion-reduced users see it immediately.
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @layer components {
   .container-page {
     @apply mx-auto w-full max-w-container px-6 sm:px-8;
+  }
+  /* Full-bleed editorial width for landing sections. */
+  .container-wide {
+    @apply mx-auto w-full max-w-wide px-6 sm:px-8;
+  }
+
+  /* --- vertical rhythm: generous, consistent gaps between major sections --- */
+  .section {
+    @apply py-20 sm:py-28 lg:py-36;
+  }
+  .section-tight {
+    @apply py-14 sm:py-20;
+  }
+  .section-divide {
+    @apply border-t border-line;
+  }
+
+  /* --- reading measures --- */
+  .measure {
+    @apply max-w-[38rem];
+  }
+  .measure-wide {
+    @apply max-w-[52rem];
   }
 
   /* --- eyebrow / kicker --- */
   .eyebrow {
     @apply block font-sans text-xs font-semibold uppercase tracking-wider text-ink-2;
+  }
+
+  /* --- big typographic link — the "explore knowledge" list on the home page.
+         Add `group` in the markup alongside `big-link`. --- */
+  .big-link {
+    @apply flex items-baseline gap-5 border-b border-line py-7 no-underline transition-colors sm:py-9;
+  }
+  .big-link__index {
+    @apply shrink-0 font-mono text-sm tabular-nums text-ink-2 sm:pt-3;
+  }
+  .big-link__label {
+    @apply block font-display text-3xl font-normal tracking-tight text-ink transition-colors sm:text-4xl lg:text-5xl;
+  }
+  .group:hover .big-link__label {
+    @apply text-primary;
+  }
+  .big-link__desc {
+    @apply mt-2 block max-w-md text-sm text-ink-2 sm:text-base;
+  }
+  .big-link__arrow {
+    @apply ms-auto shrink-0 self-center text-ink-2 transition-transform duration-300;
+  }
+  .group:hover .big-link__arrow {
+    transform: translateX(6px);
+  }
+
+  /* --- editorial statistic — large number, small label; never a card --- */
+  .stat__value {
+    @apply font-display text-5xl font-normal tracking-tight text-ink sm:text-6xl;
+  }
+  .stat__label {
+    @apply mt-3 text-sm text-ink-2 sm:text-base;
   }
 
   /* --- buttons: soft, quiet, one solid primary --- */

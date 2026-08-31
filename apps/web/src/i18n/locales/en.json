@@ -27,14 +27,17 @@
     "askSathi": "Ask Sathi",
     "cooperatives": "Cooperatives",
     "resources": "Resources",
-    "menu": "Menu"
+    "menu": "Menu",
+    "short": {
+      "schemes": "Schemes",
+      "cooperative": "Cooperative",
+      "pacs": "PACS",
+      "pmfby": "PMFBY",
+      "money": "Money",
+      "grievance": "Grievance"
+    }
   },
   "home": {
-    "heroHeading": "Get clear answers about cooperative services in your language.",
-    "heroSub": "Ask about schemes, crop insurance, PACS, cooperative rules, money matters, or how to file a grievance. You can type or speak.",
-    "askPlaceholder": "Type your question, for example: Am I eligible for PMFBY?",
-    "askButton": "Ask",
-    "speakButton": "Speak your question",
     "examplesLabel": "Try asking",
     "examples": [
       "What is a PACS?",
@@ -42,23 +45,6 @@
       "How do I become a cooperative member?",
       "How can I file a cooperative grievance?"
     ],
-    "quickHelpLabel": "Quick help",
-    "schemesLabel": "Popular schemes",
-    "grievanceCalloutTitle": "Have a complaint about a cooperative or PACS?",
-    "grievanceCalloutBody": "Raise it here. You will get a tracking number and can check the status any time.",
-    "grievanceCalloutAction": "Start a grievance",
-    "trustNote": "Answers are drawn from official government and cooperative sources where available. The assistant clearly marks what is verified and what is a plain-language explanation.",
-    "askLabel": "Ask a question",
-    "askHint": "For example: Am I eligible for PMFBY? · What is a PACS? · How do I file a grievance?",
-    "tasksHeading": "What you can get help with",
-    "quickHeading": "Start with what you need",
-    "assistantHeading": "The assistant",
-    "assistantBody1": "Ask a question in your own words, by typing or by speaking, and get an answer in English, Hindi or Tamil.",
-    "assistantBody2": "Answers are drawn from official government and cooperative documents. Each answer shows how well it is supported and links to the source. Where there is no verified information, the assistant says so and points you to the right office.",
-    "assistantPoint1": "Eligibility, benefits and how to apply for schemes",
-    "assistantPoint2": "Cooperative membership, by-laws, elections and meetings",
-    "assistantPoint3": "Crop insurance, PACS services, money matters and grievances",
-    "directoryHeading": "Services",
     "dir": {
       "cooperative": "Cooperative & PACS services",
       "schemes": "Government schemes",
@@ -67,20 +53,71 @@
       "law": "Cooperative law",
       "grievance": "Grievance support"
     },
-    "seeAllServices": "See all services",
-    "updatesHeading": "Recently updated information",
-    "aboutHeading": "About this platform",
-    "aboutBody": "Sahakar Sathi helps cooperative members, farmers and rural citizens find clear information about cooperative services, government schemes, crop insurance, financial matters and how to raise a grievance.",
-    "aboutMore": "Read more about the platform",
-    "browseSchemes": "Browse schemes",
-    "trackGrievance": "Track a grievance",
-    "exploreHeading": "Explore",
-    "exploreSub": "Find a scheme, understand how cooperatives and PACS work, or raise a problem.",
-    "updatesSub": "The latest verified guidance and reference material.",
-    "seeAllUpdates": "See all resources",
-    "trustHeading": "Where the information comes from",
-    "trustBody": "Every answer and topic is drawn from official government and cooperative documents. Each one shows what is stated in an official source, what is a plain-language explanation, and links to where it comes from. Where there is no verified information, Sahakar Sathi says so.",
-    "trustLink": "Read more about the platform"
+    "hero": {
+      "eyebrow": "Cooperative support service",
+      "title": "Your guide to cooperative India.",
+      "lead": "Clear, verified answers about government schemes, cooperative law, PACS, crop insurance and money matters — by text or voice, in your language.",
+      "primary": "Ask Sahakar Sathi",
+      "secondary": "Explore schemes",
+      "scrollHint": "How it works"
+    },
+    "problem": {
+      "eyebrow": "The problem",
+      "title": "Government information shouldn't be hard to understand.",
+      "body1": "Scheme rules, eligibility and deadlines are spread across dozens of portals, written in language that assumes you already know the system.",
+      "body2": "For a farmer or a cooperative member with a basic phone and a slow connection, one simple question can take days to answer."
+    },
+    "solution": {
+      "eyebrow": "The solution",
+      "title": "Meet Sahakar Sathi.",
+      "body": "Ask a question in your own words. Sahakar Sathi finds the answer in verified government and cooperative documents, explains it plainly, and shows you exactly where it came from.",
+      "point1Title": "Grounded in official sources",
+      "point1Body": "Every answer cites the government or cooperative document behind it.",
+      "point2Title": "English, Hindi and Tamil",
+      "point2Body": "Ask and read in the language you are most comfortable with.",
+      "point3Title": "Type or speak",
+      "point3Body": "Use the keyboard or the microphone — whichever is easier.",
+      "point4Title": "Honest about limits",
+      "point4Body": "When there is no verified answer, it says so and points you to the right office."
+    },
+    "convo": {
+      "eyebrow": "Ask the assistant",
+      "title": "A question, answered — with its source.",
+      "userMsg": "Can I apply for PMFBY crop insurance?",
+      "answerLead": "Generally yes, if you grow a notified crop in a notified area for the season. You will usually need:",
+      "check1": "Proof you cultivate the land — as owner or tenant",
+      "check2": "Bank account and Aadhaar details",
+      "check3": "Sowing details for the season",
+      "sourceLabel": "Source",
+      "sourceName": "PMFBY — Ministry of Agriculture & Farmers Welfare",
+      "cta": "Ask your own question"
+    },
+    "explore": {
+      "eyebrow": "Knowledge base",
+      "title": "Explore what Sahakar Sathi knows.",
+      "schemes": "Eligibility, benefits, documents and how to apply, for the schemes that matter to farmers and cooperative members.",
+      "cooperative": "How a cooperative society works — membership, rights, elections, meetings, by-laws and disputes.",
+      "pacs": "What your village Primary Agricultural Credit Society offers — credit, deposits, inputs, storage and procurement.",
+      "pmfby": "Crop insurance under Pradhan Mantri Fasal Bima Yojana — eligibility, premium, enrolment and claims.",
+      "money": "Saving, interest, loans and EMI, choosing a lender, insurance and avoiding fraud — in plain language."
+    },
+    "impact": {
+      "eyebrow": "Why it helps",
+      "title": "One platform. Several ways to get help.",
+      "stat1Value": "24/7",
+      "stat1Label": "Available any time, no appointment",
+      "stat2Value": "3",
+      "stat2Label": "Languages — English, Hindi, Tamil",
+      "stat3Value": "Verified",
+      "stat3Label": "Answers drawn from official documents",
+      "stat4Value": "Low-data",
+      "stat4Label": "Built for a basic phone on a slow network"
+    },
+    "finalCta": {
+      "title": "Have a question?",
+      "subtitle": "Ask Sahakar Sathi.",
+      "button": "Start now"
+    }
   },
   "quickHelp": {
     "schemes": {
