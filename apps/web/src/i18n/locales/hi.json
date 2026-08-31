@@ -125,7 +125,18 @@
     "showSources": "स्रोत दिखाएँ",
     "hideSources": "स्रोत छिपाएँ",
     "verifiedOn": "{{date}} को सत्यापित",
-    "openSource": "आधिकारिक स्रोत खोलें",
+    "publishedOn": "{{date}} को प्रकाशित",
+    "openSource": "स्रोत खोलें",
+    "tier": {
+      "OFFICIAL": "आधिकारिक दस्तावेज़",
+      "ENCYCLOPEDIA": "विकिपीडिया",
+      "WEB": "वेब"
+    },
+    "tierGroup": {
+      "OFFICIAL": "आधिकारिक स्रोत",
+      "ENCYCLOPEDIA": "पृष्ठभूमि — विकिपीडिया",
+      "WEB": "पृष्ठभूमि — वेब"
+    },
     "confidence": {
       "HIGH": "आधिकारिक स्रोतों से अच्छी तरह समर्थित",
       "MEDIUM": "आधिकारिक स्रोतों से आंशिक रूप से समर्थित",

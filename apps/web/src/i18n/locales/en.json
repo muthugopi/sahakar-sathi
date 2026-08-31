@@ -125,7 +125,18 @@
     "showSources": "Show sources",
     "hideSources": "Hide sources",
     "verifiedOn": "Verified {{date}}",
-    "openSource": "Open official source",
+    "publishedOn": "Published {{date}}",
+    "openSource": "Open source",
+    "tier": {
+      "OFFICIAL": "Official document",
+      "ENCYCLOPEDIA": "Wikipedia",
+      "WEB": "Web"
+    },
+    "tierGroup": {
+      "OFFICIAL": "Official sources",
+      "ENCYCLOPEDIA": "Background — Wikipedia",
+      "WEB": "Background — web"
+    },
     "confidence": {
       "HIGH": "Well supported by official sources",
       "MEDIUM": "Partly supported by official sources",

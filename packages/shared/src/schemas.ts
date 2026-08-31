@@ -7,6 +7,7 @@ import {
   KNOWLEDGE_CATEGORIES,
   LANGUAGE_CODES,
   SELF_ASSIGNABLE_ROLES,
+  SOURCE_TIERS,
   USER_ROLES,
   type AnswerConfidence,
   type ApiErrorCode,
@@ -14,6 +15,7 @@ import {
   type GrievanceStatus,
   type KnowledgeCategory,
   type LanguageCode,
+  type SourceTier,
   type UserRole,
 } from './constants.js';
 
@@ -122,8 +124,14 @@ export const sourceRefSchema = z.object({
   title: z.string(),
   authority: z.string(),
   sourceUrl: z.string().url().nullable(),
-  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES),
+  /** Present for OFFICIAL knowledge-base sources; null for web / Wikipedia. */
+  category: literalEnum<KnowledgeCategory>(KNOWLEDGE_CATEGORIES).nullable().default(null),
+  /** Trust tier — OFFICIAL, ENCYCLOPEDIA (Wikipedia), or WEB. */
+  tier: literalEnum<SourceTier>(SOURCE_TIERS).default('OFFICIAL'),
+  /** ISO date the official document was verified. */
   verifiedAt: z.string().nullable(),
+  /** ISO date a web result was published, when the provider reports it. */
+  publishedAt: z.string().nullable().default(null),
   snippet: z.string(),
 });
 export type SourceRef = z.infer<typeof sourceRefSchema>;

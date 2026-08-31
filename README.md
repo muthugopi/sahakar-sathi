@@ -66,6 +66,23 @@ retrieval over the knowledge base and returns the matched official text verbatim
 `apps/api/.env` for full plain-language answers in the user's language. Model is
 `LLM_MODEL` (default `claude-sonnet-5`).
 
+### Hybrid Knowledge & Web Search
+
+Every question is routed by a rule-based classifier:
+
+| Route | Trigger | Sources used |
+|---|---|---|
+| **official** | eligibility, documents, deadlines, benefit amounts, legal / by-law, "how to apply" | verified knowledge base **only** |
+| **hybrid** | definitions, background, "what is / how does X work" | knowledge base first; Wikipedia fills gaps |
+| **current** | "latest / new / current / this year / 2026 / update" | knowledge base + a live web search |
+
+Sources are shown grouped by trust tier — **Official document** (verified government /
+cooperative docs) → **Wikipedia** → **Web** — and the answer never uses a web source for
+eligibility, amounts, dates, or law. Wikipedia (en/hi/ta) needs no key. Set
+`WEB_SEARCH_API_KEY` (Tavily) to enable the live general web search for the *current*
+route; without it those questions fall back to Wikipedia plus a "check the official
+portal" note. See [`docs/hybrid-knowledge.md`](./docs/hybrid-knowledge.md).
+
 Health check: <http://localhost:4000/api/v1/health/ready>
 
 ## Scripts

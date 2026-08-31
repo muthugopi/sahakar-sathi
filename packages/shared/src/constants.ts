@@ -63,6 +63,14 @@ export type KnowledgeCategory = (typeof KNOWLEDGE_CATEGORIES)[number];
 export const ANSWER_CONFIDENCE = ['HIGH', 'MEDIUM', 'LOW', 'NO_SOURCE'] as const;
 export type AnswerConfidence = (typeof ANSWER_CONFIDENCE)[number];
 
+/**
+ * Trust hierarchy for a cited source, highest first. OFFICIAL = verified
+ * government / cooperative documents in the knowledge base; ENCYCLOPEDIA =
+ * Wikipedia; WEB = a general web-search result.
+ */
+export const SOURCE_TIERS = ['OFFICIAL', 'ENCYCLOPEDIA', 'WEB'] as const;
+export type SourceTier = (typeof SOURCE_TIERS)[number];
+
 export const API_ERROR_CODES = [
   'VALIDATION_ERROR',
   'UNAUTHORIZED',

@@ -29,6 +29,17 @@ const schema = z.object({
   EMBEDDINGS_PROVIDER: z.enum(['local', 'voyage']).default('local'),
   VOYAGE_API_KEY: z.string().optional().default(''),
 
+  // Hybrid knowledge: Wikipedia (en/hi/ta) is the always-on secondary source.
+  // Set WEB_SEARCH_API_KEY to also use a general web-search provider (Tavily)
+  // for current-information queries.
+  WEB_SEARCH_ENABLED: z
+    .string()
+    .default('true')
+    .transform((v) => v.toLowerCase() !== 'false'),
+  WEB_SEARCH_PROVIDER: z.enum(['tavily']).default('tavily'),
+  WEB_SEARCH_API_KEY: z.string().optional().default(''),
+  WEB_SEARCH_TIMEOUT_MS: z.coerce.number().int().positive().default(5000),
+
   SPEECH_PROVIDER: z.enum(['browser']).default('browser'),
 
   UPLOAD_DIR: z.string().default('./storage/uploads'),
@@ -57,3 +68,6 @@ export const isTest = env.NODE_ENV === 'test';
 
 /** True when a real LLM provider is configured; otherwise the mock adapter is used. */
 export const hasLlm = env.ANTHROPIC_API_KEY.length > 0;
+
+/** Wikipedia is always available; this adds a general web-search provider on top. */
+export const hasGeneralWebSearch = env.WEB_SEARCH_ENABLED && env.WEB_SEARCH_API_KEY.length > 0;

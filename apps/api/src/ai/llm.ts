@@ -89,14 +89,26 @@ class MockLlmClient implements LlmClient {
       );
     }
 
-    const firstSnippet = sourceBlock
-      .split(/\n(?=\[\d+])/)[0]
-      ?.replace(/^\[\d+][^\n]*\n?/, '')
+    // Grab the first numbered source, skipping the "OFFICIAL SOURCES" /
+    // "WEB SOURCES" section headers. Cite it so the pipeline attributes it.
+    const blocks = sourceBlock
+      .split(/\n(?=\[\d+])/)
+      .map((b) => b.trim())
+      .filter((b) => /^\[\d+]/.test(b));
+    const first = blocks[0] ?? '';
+    const num = first.match(/^\[(\d+)]/)?.[1] ?? '1';
+    const isWeb = /WEB SOURCES/i.test(sourceBlock.split(`[${num}]`)[0] ?? '');
+    const snippet = first
+      .replace(/^\[\d+][^\n]*\n?/, '')
       .trim()
       .slice(0, 600);
 
+    const lead = isWeb
+      ? 'Based on general background from public sources'
+      : 'Based on the available official material';
+
     return (
-      `Based on the available official material:\n\n${firstSnippet}\n\n` +
+      `${lead} [${num}]:\n\n${snippet}\n\n` +
       '_(This is a limited offline response. Connect an AI provider for a fuller, ' +
       'plain-language answer in your language. Always confirm details with the official source.)_'
     );
