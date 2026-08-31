@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import type { KnowledgeCategory } from '@sahakar/shared';
 import { fetchSchemes, type SchemeFilters } from '../lib/content';
 import { QueryBoundary } from '../components/QueryBoundary';
-import { Breadcrumbs } from '../components/Breadcrumbs';
+import { PageHero } from '../components/PageHero';
 import { SchemeCard } from '../components/content/SchemeCard';
 
 export function SchemesPage() {
@@ -40,13 +40,15 @@ export function SchemesPage() {
   const count = query.data?.schemes.length ?? 0;
 
   return (
-    <div className="container-page">
-      <Breadcrumbs trail={[{ label: t('sections.schemes.title') }]} />
+    <>
+      <PageHero
+        eyebrow={t('sections.schemes.eyebrow')}
+        title={t('schemes.heroTitle')}
+        lead={t('sections.schemes.intro')}
+        size="large"
+      />
 
-      <h1 className="text-3xl sm:text-4xl">{t('sections.schemes.title')}</h1>
-      <p className="mt-4 max-w-prose text-lg text-ink-2">{t('sections.schemes.intro')}</p>
-
-      <div className="mt-10 grid gap-10 lg:grid-cols-[18rem_minmax(0,1fr)]">
+      <div className="container-wide section-tight section-divide grid grid-cols-1 gap-12 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-16">
         <aside>
           <h2 className="text-xl">{t('schemes.filterHeading')}</h2>
 
@@ -102,7 +104,7 @@ export function SchemesPage() {
           )}
         </aside>
 
-        <div>
+        <div className="min-w-0">
           <QueryBoundary
             isLoading={query.isLoading}
             isError={query.isError}
@@ -110,9 +112,9 @@ export function SchemesPage() {
           >
             {query.data && (
               <>
-                <p className="text-ink-2">{t('schemes.resultCount', { count })}</p>
+                <p className="text-sm text-ink-2">{t('schemes.resultCount', { count })}</p>
                 {count === 0 ? (
-                  <div className="notice notice--warn mt-4">
+                  <div className="notice notice--warn mt-6">
                     <p>{t('schemes.none')}</p>
                     <p className="mt-3">
                       <button
@@ -125,7 +127,7 @@ export function SchemesPage() {
                     </p>
                   </div>
                 ) : (
-                  <ul className="register mt-4">
+                  <ul className="mt-4 border-t border-line">
                     {query.data.schemes.map((s) => (
                       <li key={s.slug}>
                         <SchemeCard scheme={s} />
@@ -138,7 +140,7 @@ export function SchemesPage() {
           </QueryBoundary>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

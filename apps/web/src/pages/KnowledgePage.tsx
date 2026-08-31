@@ -1,37 +1,42 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Breadcrumbs } from '../components/Breadcrumbs';
-import { Signpost } from '../components/Signpost';
+import { PageHero } from '../components/PageHero';
+import { Icon } from '../components/Icon';
 
-const SECTIONS = [
-  { to: '/cooperative', key: 'cooperative_law', icon: 'knowledge' },
-  { to: '/pacs', key: 'pacs', icon: 'services' },
-  { to: '/money', key: 'financial_literacy', icon: 'scheme' },
-  { to: '/pmfby', key: 'pmfby', icon: 'grievance' },
-] as const;
+const SECTIONS = ['cooperative_law', 'pacs', 'financial_literacy', 'pmfby'] as const;
+const PATHS: Record<(typeof SECTIONS)[number], string> = {
+  cooperative_law: '/cooperative',
+  pacs: '/pacs',
+  financial_literacy: '/money',
+  pmfby: '/pmfby',
+};
 
 export function KnowledgePage() {
   const { t } = useTranslation();
   return (
-    <div className="container-page max-w-prose">
-      <Breadcrumbs trail={[{ label: t('nav.knowledge') }]} />
-      <h1 className="text-3xl sm:text-4xl">{t('knowledge.title')}</h1>
-      <p className="mt-4 text-lg text-ink-2">{t('knowledge.intro')}</p>
+    <>
+      <PageHero
+        eyebrow={t('nav.resources')}
+        title={t('knowledge.title')}
+        lead={t('knowledge.intro')}
+        size="large"
+      />
+      <div className="container-wide section-tight section-divide">
+        <div className="border-t border-line">
+          {SECTIONS.map((key, i) => (
+            <Link key={key} to={PATHS[key]} className="big-link group">
+              <span className="big-link__index">{String(i + 1).padStart(2, '0')}</span>
+              <span>
+                <span className="big-link__label">{t(`sections.${key}.title`)}</span>
+                <span className="big-link__desc">{t(`sections.${key}.intro`)}</span>
+              </span>
+              <Icon name="chevron" className="big-link__arrow h-5 w-5" />
+            </Link>
+          ))}
+        </div>
 
-      <div className="signpost-list mt-7">
-        {SECTIONS.map((s) => (
-          <Signpost
-            key={s.to}
-            to={s.to}
-            icon={s.icon}
-            label={t(`sections.${s.key}.title`)}
-            sub={t(`sections.${s.key}.intro`)}
-          />
-        ))}
+        <p className="mt-12 max-w-prose text-sm text-ink-2">{t('knowledge.sourceNote')}</p>
       </div>
-
-      <div className="notice mt-8">
-        <p>{t('knowledge.sourceNote')}</p>
-      </div>
-    </div>
+    </>
   );
 }

@@ -65,8 +65,8 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="container-page max-w-text">
-      <h1 className="text-3xl sm:text-4xl">{t('auth.registerTitle')}</h1>
+    <div className="container-wide max-w-form pb-20 pt-16 sm:pt-24">
+      <h1 className="font-display text-4xl tracking-tight sm:text-5xl">{t("auth.registerTitle")}</h1>
 
       <form className="mt-8 space-y-6" onSubmit={onSubmit} noValidate>
         <ErrorSummary errors={errors} />

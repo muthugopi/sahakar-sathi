@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Breadcrumbs } from '../components/Breadcrumbs';
+import { PageHero } from '../components/PageHero';
 
 const GROUPS = [
   { key: 'cooperative', links: [['/cooperative', 'sections.cooperative_law.title'], ['/pacs', 'sections.pacs.title']] },
@@ -14,37 +14,43 @@ const GROUPS = [
 export function ServicesPage() {
   const { t } = useTranslation();
   return (
-    <div className="container-page max-w-prose">
-      <Breadcrumbs trail={[{ label: t('nav.services') }]} />
-      <h1 className="text-3xl sm:text-4xl">{t('services.title')}</h1>
-      <p className="mt-4 text-lg text-ink-2">{t('services.intro')}</p>
+    <>
+      <PageHero
+        eyebrow={t('nav.services')}
+        title={t('services.title')}
+        lead={t('services.intro')}
+        size="large"
+      />
+      <div className="container-wide section-tight section-divide max-w-prose">
+        <div className="divide-y divide-line border-t border-line">
+          {GROUPS.map((g) => (
+            <section key={g.key} className="py-8">
+              <h2 className="font-display text-xl font-normal text-ink">
+                {t(`home.dir.${g.key}`)}
+              </h2>
+              <p className="mt-2 text-ink-2">{t(`services.desc.${g.key}`)}</p>
+              <ul className="mt-3 space-y-1">
+                {g.links.map(([to, labelKey]) => (
+                  <li key={to + labelKey}>
+                    <Link to={to} className="font-semibold">
+                      {t(labelKey)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
 
-      <div className="mt-8 space-y-7">
-        {GROUPS.map((g) => (
-          <section key={g.key} className="border-t border-line pt-6">
-            <h2 className="text-xl">{t(`home.dir.${g.key}`)}</h2>
-            <p className="mt-2 text-ink-2">{t(`services.desc.${g.key}`)}</p>
-            <ul className="mt-3 space-y-1">
-              {g.links.map(([to, labelKey]) => (
-                <li key={to + labelKey}>
-                  <Link to={to} className="font-semibold">
-                    {t(labelKey)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+        <div className="inset-brand mt-12">
+          <p>{t('services.assistantNote')}</p>
+          <p className="mt-3">
+            <Link to="/assistant" className="font-semibold">
+              {t('nav.askAssistant')}
+            </Link>
+          </p>
+        </div>
       </div>
-
-      <div className="inset-brand mt-8">
-        <p>{t('services.assistantNote')}</p>
-        <p className="mt-3">
-          <Link to="/assistant" className="font-semibold">
-            {t('nav.askAssistant')}
-          </Link>
-        </p>
-      </div>
-    </div>
+    </>
   );
 }

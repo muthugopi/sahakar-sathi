@@ -66,7 +66,7 @@ export function HomePage() {
 
       {/* 3 — THE SOLUTION (asymmetric split) ----------------------------- */}
       <section className="section section-divide">
-        <div className="container-wide grid gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-20">
+        <div className="container-wide grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-20">
           <Reveal>
             <div className="lg:sticky lg:top-28">
               <p className="eyebrow">{t('home.solution.eyebrow')}</p>

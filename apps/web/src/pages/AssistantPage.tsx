@@ -152,16 +152,16 @@ function AssistantView() {
   const suggestions = t('home.examples', { returnObjects: true }) as string[];
 
   return (
-    <div className="container-page flex max-w-prose flex-col">
+    <div className="mx-auto flex w-full max-w-[46rem] flex-col px-6 pb-16 pt-14 sm:px-8 sm:pt-20">
       <div className="flex items-baseline justify-between gap-4">
-        <h1 className="text-2xl sm:text-4xl">{t('assistant.title')}</h1>
+        <h1 className="font-display text-3xl tracking-tight sm:text-5xl">{t('assistant.title')}</h1>
         {messages.length > 0 && (
           <button type="button" onClick={newChat} className="btn-link shrink-0 text-sm">
             {t('assistant.newChat')}
           </button>
         )}
       </div>
-      <p className="mt-3 max-w-prose text-ink-2">{t('assistant.intro')}</p>
+      <p className="mt-4 text-ink-2">{t('assistant.intro')}</p>
 
       <div className="mt-5 flex flex-wrap items-end gap-x-8 gap-y-3">
         <div>
@@ -197,7 +197,7 @@ function AssistantView() {
 
       <div
         ref={scrollRef}
-        className="mt-5 max-h-[70vh] min-h-[18rem] flex-1 space-y-5 overflow-y-auto py-1"
+        className="mt-8 max-h-[68vh] min-h-[22rem] flex-1 space-y-6 overflow-y-auto py-1"
         aria-live="polite"
       >
         {messages.length === 0 && !busy && (

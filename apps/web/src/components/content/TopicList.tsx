@@ -4,7 +4,7 @@ import type { ContentTopic } from '@sahakar/shared';
 import { RichText } from '../RichText';
 import { AskAssistantLink } from '../AskAssistantLink';
 
-/** GOV.UK-style accordion: a bordered list of topics, each expandable. */
+/** A reference accordion — large serif topic titles, one open at a time to start. */
 export function TopicList({ topics, uiLang = 'en' }: { topics: ContentTopic[]; uiLang?: string }) {
   const [open, setOpen] = useState<Set<string>>(new Set(topics[0] ? [topics[0].slug] : []));
 
@@ -48,26 +48,35 @@ function TopicRow({
   const panelId = `topic-${topic.slug}`;
 
   return (
-    <div className="border-b border-line">
+    <div className="border-b border-line" id={topic.slug}>
       <h3 className="m-0">
         <button
           type="button"
           aria-expanded={open}
           aria-controls={panelId}
           onClick={onToggle}
-          className="flex w-full items-baseline justify-between gap-4 py-4 text-left"
+          className="flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-primary"
         >
-          <span className="text-lg font-bold text-primary underline">{topic.title}</span>
-          <span className="shrink-0 font-bold text-primary">
-            {open ? t('content.hide') : t('content.show')}
+          <span
+            className={`font-display text-xl tracking-tight sm:text-2xl ${
+              open ? 'text-primary' : 'text-ink'
+            }`}
+          >
+            {topic.title}
+          </span>
+          <span
+            aria-hidden
+            className="mt-1 shrink-0 text-2xl font-light leading-none text-ink-2"
+          >
+            {open ? '−' : '+'}
           </span>
         </button>
       </h3>
 
       {open && (
-        <div id={panelId} className="pb-6">
+        <div id={panelId} className="prose-block max-w-prose pb-9">
           {untranslated && (
-            <div className="notice notice--warn mb-4">
+            <div className="notice notice--warn mb-5">
               <p>{t('content.notTranslated')}</p>
               <p className="mt-2">
                 <AskAssistantLink question={topic.title} variant="plain" />
@@ -76,12 +85,16 @@ function TopicRow({
           )}
 
           {hasDetailed && (
-            <div className="mb-4 flex gap-4 text-base" role="group" aria-label={topic.title}>
+            <div className="mb-5 flex gap-5 text-sm" role="group" aria-label={topic.title}>
               <button
                 type="button"
                 aria-pressed={view === 'simple'}
                 onClick={() => setView('simple')}
-                className={view === 'simple' ? 'font-bold text-ink underline' : 'text-primary underline'}
+                className={
+                  view === 'simple'
+                    ? 'font-semibold text-ink underline underline-offset-4'
+                    : 'text-ink-2 underline underline-offset-4 hover:text-ink'
+                }
               >
                 {t('content.simple')}
               </button>
@@ -89,7 +102,11 @@ function TopicRow({
                 type="button"
                 aria-pressed={view === 'detailed'}
                 onClick={() => setView('detailed')}
-                className={view === 'detailed' ? 'font-bold text-ink underline' : 'text-primary underline'}
+                className={
+                  view === 'detailed'
+                    ? 'font-semibold text-ink underline underline-offset-4'
+                    : 'text-ink-2 underline underline-offset-4 hover:text-ink'
+                }
               >
                 {t('content.detailed')}
               </button>
@@ -105,20 +122,25 @@ function TopicRow({
           />
 
           {topic.example && (
-            <div className="mt-4 inset">
-              <p className="font-bold">{t('content.example')}</p>
+            <div className="inset mt-5">
+              <p className="font-semibold">{t('content.example')}</p>
               <div className="mt-2">
                 <RichText text={topic.example} />
               </div>
             </div>
           )}
 
-          <p className="mt-5 text-ink-2">
+          <p className="mt-6 text-sm text-ink-2">
             {t('content.sourceLine', { authority: topic.authority })}
             {topic.sourceUrl && (
               <>
                 {' — '}
-                <a href={topic.sourceUrl} target="_blank" rel="noreferrer noopener" className="font-bold">
+                <a
+                  href={topic.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="font-semibold"
+                >
                   {t('content.officialSource')}
                 </a>
               </>

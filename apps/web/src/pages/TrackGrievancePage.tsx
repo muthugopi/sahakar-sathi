@@ -13,7 +13,7 @@ import {
 } from '../lib/grievance';
 import { useAuth } from '../lib/auth';
 import { QueryBoundary } from '../components/QueryBoundary';
-import { Breadcrumbs } from '../components/Breadcrumbs';
+import { PageHero } from '../components/PageHero';
 import { StatusTimeline } from '../components/grievance/StatusTimeline';
 import { StatusBadge } from '../components/grievance/StatusBadge';
 
@@ -26,13 +26,16 @@ export function TrackGrievancePage() {
 
   if (!trackingId) {
     return (
-      <div className="container-page max-w-prose">
-        <Breadcrumbs trail={[{ label: t('grievance.trackTitle') }]} />
-        <h1 className="text-3xl sm:text-4xl">{t('grievance.trackTitle')}</h1>
-        <p className="mt-4 text-lg text-ink-2">{t('grievance.trackIntro')}</p>
-
+      <>
+      <PageHero
+        eyebrow={t('nav.short.grievance')}
+        title={t('grievance.trackTitle')}
+        lead={t('grievance.trackIntro')}
+        size="large"
+      />
+      <div className="container-wide section-tight section-divide max-w-prose">
         <form
-          className="mt-6"
+          className=""
           onSubmit={(e) => {
             e.preventDefault();
             const id = input.trim().toUpperCase();
@@ -58,13 +61,14 @@ export function TrackGrievancePage() {
         </form>
 
         <p className="mt-6">
-          <Link to="/grievance" className="font-bold">
+          <Link to="/grievance" className="font-semibold">
             {t('grievance.noIdYet')}
           </Link>
         </p>
 
         {authStatus === 'authenticated' && <MyGrievances />}
       </div>
+      </>
     );
   }
 
@@ -111,9 +115,9 @@ function TrackResult({ trackingId }: { trackingId: string }) {
   const grievance = query.data?.grievance;
 
   return (
-    <div className="container-page max-w-prose">
-      <p className="mb-6">
-        <Link to="/track" className="font-bold">
+    <div className="container-wide max-w-prose pb-20 pt-14 sm:pt-20">
+      <p className="mb-8">
+        <Link to="/track" className="font-semibold">
           {t('grievance.trackAnother')}
         </Link>
       </p>

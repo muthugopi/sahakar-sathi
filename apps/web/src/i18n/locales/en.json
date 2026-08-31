@@ -202,6 +202,7 @@
   },
   "grievance": {
     "title": "File a grievance",
+    "heroTitle": "Something isn't right?",
     "intro": "Raise a complaint about a cooperative society, a PACS, a scheme benefit, or related services. You will get a tracking number and can check the status any time.",
     "alreadyHaveId": "I already have a tracking number — check status",
     "steps": {
@@ -307,7 +308,16 @@
       "eyebrow": "Crop insurance",
       "title": "PMFBY — crop insurance help",
       "intro": "Common questions about Pradhan Mantri Fasal Bima Yojana — eligibility, premium, enrolment, reporting crop loss, checking a claim, and the important dates.",
-      "askExample": "Am I eligible for PMFBY crop insurance?"
+      "askExample": "Am I eligible for PMFBY crop insurance?",
+      "journeyTitle": "How PMFBY works, step by step",
+      "steps": [
+        "Check that your crop and area are notified for the season",
+        "Enrol before the cut-off date — through a bank, PACS or the portal",
+        "Pay your share of the premium (a small percentage of the sum insured)",
+        "Farm as usual; the season's yield is assessed by the authorities",
+        "If there is a loss, report it quickly — within about 72 hours for local damage",
+        "An eligible claim is paid into your bank account"
+      ]
     }
   },
   "content": {
@@ -325,6 +335,7 @@
     "notTranslated": "This topic hasn't been translated yet. Ask the assistant to explain it in your language."
   },
   "schemes": {
+    "heroTitle": "Find the support you may be eligible for.",
     "national": "All India",
     "search": "Search schemes",
     "forWhom": "Who can apply",

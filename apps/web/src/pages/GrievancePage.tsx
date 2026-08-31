@@ -14,7 +14,7 @@ import { useAuth } from '../lib/auth';
 import { Field, inputClass } from '../components/Field';
 import { DictationTextarea } from '../components/DictationTextarea';
 import { ErrorSummary, type FieldError } from '../components/ErrorSummary';
-import { Breadcrumbs } from '../components/Breadcrumbs';
+import { PageHero } from '../components/PageHero';
 
 const MAX_FILES = 5;
 const MAX_MB = 10;
@@ -97,11 +97,12 @@ export function GrievancePage() {
 
   if (result) {
     return (
-      <div className="container-page max-w-prose">
-        <Breadcrumbs trail={[{ label: t('grievance.title') }]} />
-        <h1 className="text-3xl sm:text-4xl">{t('grievance.title')}</h1>
-        <GrievanceSteps active={4} />
-        <div className="mt-10 notice border-primary/25 bg-primary-tint/40 text-center">
+      <>
+        <PageHero eyebrow={t('nav.short.grievance')} title={t('grievance.title')} size="large">
+          <GrievanceSteps active={4} />
+        </PageHero>
+        <div className="container-wide section-tight section-divide max-w-prose">
+        <div className="notice border-primary/25 bg-primary-tint/40 text-center">
           <p className="eyebrow text-primary">{t('grievance.submittedTitle')}</p>
           <p className="mt-3 font-display text-4xl font-semibold tracking-wide text-ink">
             {result.trackingId}
@@ -130,18 +131,23 @@ export function GrievancePage() {
             {t('common.backHome')}
           </Link>
         </div>
-      </div>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="container-page max-w-prose">
-      <Breadcrumbs trail={[{ label: t('grievance.title') }]} />
-
-      <h1 className="text-3xl sm:text-4xl">{t('grievance.title')}</h1>
+    <>
+    <PageHero
+      eyebrow={t('nav.short.grievance')}
+      title={t('grievance.heroTitle')}
+      lead={t('grievance.intro')}
+      size="large"
+    >
       <GrievanceSteps active={1} />
-      <p className="mt-8 text-lg text-ink-2">{t('grievance.intro')}</p>
-      <p className="mt-3">
+    </PageHero>
+    <div className="container-wide section-tight section-divide max-w-prose">
+      <p>
         <Link to="/track" className="font-semibold">
           {t('grievance.alreadyHaveId')}
         </Link>
@@ -262,6 +268,7 @@ export function GrievancePage() {
         </div>
       </form>
     </div>
+    </>
   );
 }
 
