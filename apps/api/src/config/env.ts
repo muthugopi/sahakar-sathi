@@ -7,11 +7,17 @@ import { z } from 'zod';
  */
 const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  // PaaS platforms inject PORT; fall back to API_PORT, then 4000.
   API_PORT: z.coerce.number().int().positive().default(4000),
+  PORT: z.coerce.number().int().positive().optional(),
   WEB_ORIGIN: z
     .string()
     .default('http://localhost:5173')
     .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
+
+  // When set to a directory, the API also serves that built SPA and falls back
+  // to its index.html for client-side routes (single-origin production deploy).
+  SERVE_WEB_DIR: z.string().optional(),
 
   DATABASE_URL: z.string().url(),
   // Non-pooled connection for Prisma migrations; defaults to DATABASE_URL.
@@ -62,6 +68,9 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+/** The port to bind — a platform-injected PORT wins over API_PORT. */
+export const port = env.PORT ?? env.API_PORT;
 
 export const isProd = env.NODE_ENV === 'production';
 export const isTest = env.NODE_ENV === 'test';

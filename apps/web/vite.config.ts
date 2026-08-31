@@ -8,6 +8,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // External registration script so a strict `script-src 'self'` CSP works.
+      injectRegister: 'script',
       includeAssets: ['favicon-32.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'Sahakar Sathi — Cooperative Support',

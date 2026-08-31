@@ -1,13 +1,13 @@
 import { createApp } from './app.js';
-import { env } from './config/env.js';
+import { port } from './config/env.js';
 import { logger } from './config/logger.js';
 import { prisma } from './config/prisma.js';
 import { warmupEmbeddings } from './ai/embeddings.js';
 
 const app = createApp();
 
-const server = app.listen(env.API_PORT, () => {
-  logger.info(`Sahakar Sathi API listening on http://localhost:${env.API_PORT}/api/v1`);
+const server = app.listen(port, () => {
+  logger.info(`Sahakar Sathi listening on http://localhost:${port}`);
   // Load the embedding model in the background so the first chat isn't slow.
   void warmupEmbeddings();
 });
@@ -15,7 +15,7 @@ const server = app.listen(env.API_PORT, () => {
 server.on('error', (err: NodeJS.ErrnoException) => {
   if (err.code === 'EADDRINUSE') {
     logger.error(
-      `Port ${env.API_PORT} is already in use. Stop the other process or set API_PORT to a free port.`,
+      `Port ${port} is already in use. Stop the other process or set PORT/API_PORT to a free port.`,
     );
   } else {
     logger.error({ err }, 'HTTP server error');

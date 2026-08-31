@@ -1,3 +1,4 @@
+import path from 'node:path';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -26,17 +27,35 @@ export function createApp() {
     }),
   );
 
-  // This service returns JSON only — lock the CSP right down and refuse framing.
+  const servingWeb = Boolean(env.SERVE_WEB_DIR);
+
+  // When the API also serves the SPA the CSP must allow the app's own assets;
+  // when it is a pure JSON API it stays locked all the way down.
   app.use(
     helmet({
       contentSecurityPolicy: {
         useDefaults: false,
-        directives: {
-          "default-src": ["'none'"],
-          "frame-ancestors": ["'none'"],
-          "base-uri": ["'none'"],
-          "form-action": ["'none'"],
-        },
+        directives: servingWeb
+          ? {
+              'default-src': ["'none'"],
+              'script-src': ["'self'"],
+              'style-src': ["'self'", "'unsafe-inline'"],
+              'img-src': ["'self'", 'data:'],
+              'font-src': ["'self'"],
+              'connect-src': ["'self'"],
+              'manifest-src': ["'self'"],
+              'worker-src': ["'self'"],
+              'base-uri': ["'self'"],
+              'form-action': ["'self'"],
+              'frame-ancestors': ["'none'"],
+              'object-src': ["'none'"],
+            }
+          : {
+              'default-src': ["'none'"],
+              'frame-ancestors': ["'none'"],
+              'base-uri': ["'none'"],
+              'form-action': ["'none'"],
+            },
       },
       crossOriginResourcePolicy: { policy: 'same-site' },
       referrerPolicy: { policy: 'no-referrer' },
@@ -65,6 +84,31 @@ export function createApp() {
   app.use(cookieParser());
 
   app.use('/api/v1', globalLimiter, apiRouter);
+
+  // Single-origin production deploy: serve the built SPA and fall back to
+  // index.html for client-side routes. Hashed assets are cached hard; the
+  // HTML shell and the service worker are always revalidated.
+  if (env.SERVE_WEB_DIR) {
+    const webDir = path.resolve(env.SERVE_WEB_DIR);
+    app.use(
+      express.static(webDir, {
+        index: false,
+        setHeaders(res, filePath) {
+          if (filePath.includes(`${path.sep}assets${path.sep}`)) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          } else {
+            res.setHeader('Cache-Control', 'no-cache');
+          }
+        },
+      }),
+    );
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api/')) return next();
+      res.setHeader('Cache-Control', 'no-cache');
+      res.sendFile(path.join(webDir, 'index.html'));
+    });
+    logger.info({ webDir }, 'serving SPA from the API process');
+  }
 
   app.use(notFoundHandler);
   app.use(errorHandler);

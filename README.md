@@ -95,10 +95,17 @@ Health check: <http://localhost:4000/api/v1/health/ready>
 | `npm test` | run API tests (Vitest) |
 | `npm run db:migrate` / `db:seed` / `db:studio` | Prisma tasks |
 
+## Deploying
+
+One Docker image serves the API and the built SPA from a single origin. See
+[`DEPLOY.md`](./DEPLOY.md) — a Render blueprint ([`render.yaml`](./render.yaml))
+is included, and the image runs on any Docker host.
+
 ## Documentation
 
+- [`DEPLOY.md`](./DEPLOY.md) — production deployment
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — architecture, RAG pipeline, data model, roadmap
-- [`docs/`](./docs) — per-milestone notes (added as milestones land)
+- [`docs/`](./docs) — design plan, hybrid knowledge & web search, security notes
 
 ## Milestone status
 

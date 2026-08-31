@@ -1,0 +1,59 @@
+# Render blueprint — https://render.com/docs/blueprint-spec
+# One Docker web service (API + SPA on a single origin). Bring your own Postgres
+# with pgvector (Neon works well and has a free tier).
+#
+#   1. Push this repo to GitHub.
+#   2. Render dashboard → New → Blueprint → pick the repo.
+#   3. Fill in the values marked `sync: false` (see DEPLOY.md).
+#   4. Create resources. First build takes ~5–8 min (it bakes the embedding model).
+#
+# The `free` plan has 512 MB RAM — enough for a demo, but if the local embedding
+# model makes it OOM, either bump `plan` to `standard`, or set
+# EMBEDDINGS_PROVIDER=voyage + VOYAGE_API_KEY to use hosted embeddings.
+
+services:
+  - type: web
+    name: sahakar-sathi
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: singapore
+    healthCheckPath: /api/v1/health/live
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WEB_SEARCH_ENABLED
+        value: "true"
+      - key: EMBEDDINGS_PROVIDER
+        value: local
+
+      # --- Postgres (Neon) — paste both the pooled and unpooled URLs ---
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+
+      # --- Auth — Render generates strong random values ---
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+
+      # --- First admin account (used by `npm run db:seed`) ---
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
+
+      # --- Public URL of THIS service, e.g. https://sahakar-sathi.onrender.com ---
+      - key: WEB_ORIGIN
+        sync: false
+
+      # --- Optional: real LLM synthesis + hosted embeddings + live web search ---
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: VOYAGE_API_KEY
+        sync: false
+      - key: WEB_SEARCH_API_KEY
+        sync: false
