@@ -19,10 +19,13 @@ RUN npm ci
 
 COPY . .
 
-# Build shared → api → web, generate the Prisma client, and bake the ~120 MB
-# embedding model into the image so cold starts are fast and offline-safe.
-RUN npm run build \
- && npm run db:generate --workspace apps/api \
+# Generate the Prisma client first — `npm ci` ran before `COPY . .` above (no
+# schema.prisma yet), so its postinstall `prisma generate` produced only a stub
+# client. Regenerate for real now that the schema is present, THEN typecheck/
+# build shared → api → web (tsc fails against the stub client otherwise), and
+# bake the ~120 MB embedding model so cold starts are fast and offline-safe.
+RUN npm run db:generate --workspace apps/api \
+ && npm run build \
  && node apps/api/scripts/warm-model.mjs
 
 # ---------- runtime -------------------------------------------------------
