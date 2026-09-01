@@ -1,6 +1,11 @@
 // Sahakar Sathi — data model
 // Vector search uses the pgvector extension; embedding columns are declared as
-// Unsupported("vector(384)") and queried via raw SQL in the retrieval service.
+// Unsupported("vector(512)") and queried via raw SQL in the retrieval service.
+// 512 matches Voyage's voyage-3-lite (its only supported output size — not
+// Matryoshka-capable, so it can't be trimmed to match a smaller dimension).
+// The local multilingual-e5-small provider outputs 384-dim vectors and is NOT
+// dimension-compatible with this column; EMBEDDINGS_PROVIDER=local requires
+// either a 384-dim column (an earlier migration) or a local model swap.
 
 generator client {
   provider        = "prisma-client-js"
@@ -238,7 +243,7 @@ model DocumentChunk {
   chunkIndex  Int
   content     String
   tokenCount  Int                          @default(0)
-  embedding   Unsupported("vector(384)")?
+  embedding   Unsupported("vector(512)")?
   createdAt   DateTime                     @default(now())
 
   @@unique([documentId, chunkIndex])

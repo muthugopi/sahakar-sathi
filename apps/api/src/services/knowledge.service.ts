@@ -124,7 +124,7 @@ export async function ingestDocument(input: IngestInput): Promise<{ documentId: 
     }
 
     return doc.id;
-  });
+  }, { timeout: 20_000 });
 
   logger.info({ documentId, title: input.title, chunks: chunks.length }, 'ingested knowledge document');
   return { documentId, chunks: chunks.length };
