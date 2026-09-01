@@ -1,10 +1,17 @@
 import { createApp } from './app.js';
 import { port } from './config/env.js';
 import { logger } from './config/logger.js';
-import { prisma } from './config/prisma.js';
+import { prisma, connectWithRetry } from './config/prisma.js';
 import { warmupEmbeddings } from './ai/embeddings.js';
 
 const app = createApp();
+
+// Warm the DB pool before accepting traffic so the first request doesn't race a
+// Neon cold start. A failure here is not fatal — the retry wrapper and the 503
+// path cover requests that arrive before the pool is ready.
+void connectWithRetry().catch(() => {
+  logger.warn('Starting without a confirmed DB connection — requests will retry');
+});
 
 const server = app.listen(port, () => {
   logger.info(`Sahakar Sathi listening on http://localhost:${port}`);

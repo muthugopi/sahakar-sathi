@@ -1,6 +1,7 @@
 import type { ContentSectionCode, ContentTopic, LanguageCode } from '@sahakar/shared';
 import { prisma } from '../config/prisma.js';
 import { AppError } from '../utils/AppError.js';
+import { withDbRetry } from '../utils/dbRetry.js';
 
 type TranslationFields = Partial<
   Pick<ContentTopic, 'title' | 'summary' | 'simpleExplanation' | 'detailedExplanation' | 'example'>
@@ -62,15 +63,19 @@ export async function listBySection(
   section: ContentSectionCode,
   lang: LanguageCode = 'en',
 ): Promise<ContentTopic[]> {
-  const rows = await prisma.contentTopic.findMany({
-    where: { section, isPublished: true },
-    orderBy: [{ order: 'asc' }, { title: 'asc' }],
-  });
+  const rows = await withDbRetry(() =>
+    prisma.contentTopic.findMany({
+      where: { section, isPublished: true },
+      orderBy: [{ order: 'asc' }, { title: 'asc' }],
+    }),
+  );
   return rows.map((r) => toDto(r as Row, lang));
 }
 
 export async function getTopic(slug: string, lang: LanguageCode = 'en'): Promise<ContentTopic> {
-  const row = await prisma.contentTopic.findFirst({ where: { slug, isPublished: true } });
+  const row = await withDbRetry(() =>
+    prisma.contentTopic.findFirst({ where: { slug, isPublished: true } }),
+  );
   if (!row) throw AppError.notFound('Topic not found.');
   return toDto(row as Row, lang);
 }
@@ -84,20 +89,22 @@ export interface UpdateItem {
 
 /** Most recently verified public information — for the homepage "Recently updated" list. */
 export async function recentUpdates(limit = 6): Promise<UpdateItem[]> {
-  const [schemes, topics] = await Promise.all([
-    prisma.scheme.findMany({
-      where: { isVerified: true, isArchived: false, verifiedAt: { not: null } },
-      orderBy: { verifiedAt: 'desc' },
-      take: limit,
-      select: { slug: true, title: true, category: true, verifiedAt: true },
-    }),
-    prisma.contentTopic.findMany({
-      where: { isPublished: true, verifiedAt: { not: null } },
-      orderBy: { verifiedAt: 'desc' },
-      take: limit,
-      select: { slug: true, title: true, section: true, verifiedAt: true },
-    }),
-  ]);
+  const [schemes, topics] = await withDbRetry(() =>
+    Promise.all([
+      prisma.scheme.findMany({
+        where: { isVerified: true, isArchived: false, verifiedAt: { not: null } },
+        orderBy: { verifiedAt: 'desc' },
+        take: limit,
+        select: { slug: true, title: true, category: true, verifiedAt: true },
+      }),
+      prisma.contentTopic.findMany({
+        where: { isPublished: true, verifiedAt: { not: null } },
+        orderBy: { verifiedAt: 'desc' },
+        take: limit,
+        select: { slug: true, title: true, section: true, verifiedAt: true },
+      }),
+    ]),
+  );
 
   const items: UpdateItem[] = [
     ...schemes.map((s) => ({

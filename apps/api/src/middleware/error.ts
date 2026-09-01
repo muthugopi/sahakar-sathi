@@ -2,6 +2,7 @@ import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { ZodError } from 'zod';
 import { Prisma } from '@prisma/client';
 import { AppError } from '../utils/AppError.js';
+import { isTransientDbError } from '../utils/dbRetry.js';
 import { logger } from '../config/logger.js';
 import { isProd } from '../config/env.js';
 
@@ -31,6 +32,22 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
         code: err.code,
         message: err.message,
         details: err.expose ? err.details : undefined,
+        requestId,
+      },
+    });
+    return;
+  }
+
+  // Transient connectivity — Neon compute waking from idle, a dropped pooled
+  // connection, a pool checkout timeout. Recoverable: tell the client to retry
+  // rather than emitting an alarming 500. Logged at warn, not error.
+  if (isTransientDbError(err)) {
+    logger.warn({ err, requestId }, 'Database temporarily unavailable');
+    res.setHeader('Retry-After', '3');
+    res.status(503).json({
+      error: {
+        code: 'SERVICE_UNAVAILABLE',
+        message: 'The service is briefly unavailable (database waking up). Please retry in a moment.',
         requestId,
       },
     });

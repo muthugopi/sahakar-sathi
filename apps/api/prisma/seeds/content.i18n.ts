@@ -9,11 +9,8 @@
  * English source and answers in the user's language. These translations only
  * cover the browsable reference pages.
  */
-import 'dotenv/config';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../src/config/prisma.js';
 import { TOPIC_TRANSLATIONS } from './content.i18n.data.js';
-
-const prisma = new PrismaClient();
 
 async function main() {
   const slugs = Object.keys(TOPIC_TRANSLATIONS);

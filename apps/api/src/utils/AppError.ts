@@ -7,6 +7,7 @@ const STATUS_BY_CODE: Record<ApiErrorCode, number> = {
   NOT_FOUND: 404,
   CONFLICT: 409,
   RATE_LIMITED: 429,
+  SERVICE_UNAVAILABLE: 503,
   AI_UNAVAILABLE: 503,
   AI_TIMEOUT: 504,
   NO_KNOWLEDGE_FOUND: 422,
@@ -47,5 +48,8 @@ export class AppError extends Error {
   }
   static validation(message: string, details?: unknown) {
     return new AppError('VALIDATION_ERROR', message, details);
+  }
+  static serviceUnavailable(message = 'The service is temporarily unavailable. Please retry.') {
+    return new AppError('SERVICE_UNAVAILABLE', message);
   }
 }

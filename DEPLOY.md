@@ -35,7 +35,8 @@ container entrypoint). You seed the content once — see step 4.
 | `SEED_ADMIN_EMAIL` | e.g. `admin@yourdomain.org` |
 | `SEED_ADMIN_PASSWORD` | a strong password for the first admin login |
 | `WEB_ORIGIN` | the public URL of the deployed service, e.g. `https://sahakar-sathi.onrender.com` |
-| `ANTHROPIC_API_KEY` | *(optional)* real plain-language answers; without it a grounded mock adapter is used |
+| `GEMINI_API_KEY` | *(optional)* real plain-language answers via Google Gemini (free tier: <https://aistudio.google.com/apikey>); without any LLM key a grounded mock adapter is used |
+| `ANTHROPIC_API_KEY` | *(optional)* alternative LLM provider; set `LLM_PROVIDER=anthropic` to use it |
 | `WEB_SEARCH_API_KEY` | *(optional)* [Tavily](https://tavily.com) key for the live "latest / current" web-search route; Wikipedia works without it |
 | `VOYAGE_API_KEY` | *(optional)* set with `EMBEDDINGS_PROVIDER=voyage` to skip the local model (lower memory) |
 
@@ -102,8 +103,8 @@ On Render: **Shell** tab of the service, or a **Job** with command
 
 - **Health:** `GET /api/v1/health/ready` → `database: ok`.
 - **Admin:** sign in at `/signin`, then `/admin`.
-- **LLM status:** `health/ready` shows `"llm":"anthropic"` once `ANTHROPIC_API_KEY`
-  is set, `"mock"` otherwise.
+- **LLM status:** `health/ready` shows `"llm":"gemini"` once `GEMINI_API_KEY` is set
+  (or `"anthropic"` with `LLM_PROVIDER=anthropic` + `ANTHROPIC_API_KEY`), `"mock"` otherwise.
 - **Updating:** push to the default branch — Render auto-deploys. Migrations
   apply automatically; seeds do not re-run.
 

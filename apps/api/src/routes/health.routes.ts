@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '../config/prisma.js';
-import { hasLlm, env } from '../config/env.js';
+import { llmProvider, env } from '../config/env.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const healthRouter = Router();
@@ -25,7 +25,7 @@ healthRouter.get(
     res.status(ready ? 200 : 503).json({
       status: ready ? 'ready' : 'degraded',
       env: env.NODE_ENV,
-      llm: hasLlm ? 'anthropic' : 'mock',
+      llm: llmProvider,
       embeddings: env.EMBEDDINGS_PROVIDER,
       checks,
     });

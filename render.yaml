@@ -51,6 +51,12 @@ services:
         sync: false
 
       # --- Optional: real LLM synthesis + hosted embeddings + live web search ---
+      # LLM_PROVIDER: auto | gemini | anthropic | mock (default auto)
+      - key: LLM_PROVIDER
+        value: gemini
+      # Google AI Studio key (free tier): https://aistudio.google.com/apikey
+      - key: GEMINI_API_KEY
+        sync: false
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: VOYAGE_API_KEY

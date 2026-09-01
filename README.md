@@ -17,7 +17,7 @@ input and read-aloud.
 | Web | React 18 + Vite + TypeScript + Tailwind, i18next, TanStack Query, PWA. "Wayfinding" design system (`docs/design-plan.md`): teal `#0b4f4a` + amber accent on pale grey, Archivo display / Noto Sans body (self-hosted; one Noto family for all three scripts), 2px radius, no shadows, signpost + notice primitives, full-screen mobile menu, text-size control, error-summary forms — for low-literacy rural users on cheap phones |
 | API | Node 22 + Express + TypeScript, Prisma |
 | DB | PostgreSQL 16 + `pgvector` |
-| AI | Anthropic Claude (generation) + local `multilingual-e5-small` embeddings, RAG over verified docs |
+| AI | Google Gemini or Anthropic Claude (generation) + local `multilingual-e5-small` embeddings, RAG over verified docs |
 | Voice | Browser Web Speech API (STT + TTS); server fallback pluggable |
 | Auth | JWT access + rotating refresh tokens, argon2id hashing |
 
@@ -43,7 +43,8 @@ cp .env.example apps/api/.env
 #   - set JWT_ACCESS_SECRET / JWT_REFRESH_SECRET
 #     node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 #   - set SEED_ADMIN_PASSWORD
-#   - (optional) set ANTHROPIC_API_KEY — without it the assistant uses a mock adapter
+#   - (optional) set GEMINI_API_KEY (free: https://aistudio.google.com/apikey)
+#     — without any LLM key the assistant uses a grounded mock adapter
 
 # 3. database
 npm run db:up                          # starts Postgres in Docker (or use a hosted DATABASE_URL)
@@ -60,11 +61,18 @@ npm run dev              # web on :5173, api on :4000
 
 ### AI provider
 
-Without `ANTHROPIC_API_KEY`, the assistant runs a **mock adapter**: it performs real
-retrieval over the knowledge base and returns the matched official text verbatim with a
-"limited offline response" note — it never invents facts. Set `ANTHROPIC_API_KEY` in
-`apps/api/.env` for full plain-language answers in the user's language. Model is
-`LLM_MODEL` (default `claude-sonnet-5`).
+With no LLM key set, the assistant runs a **mock adapter**: it performs real retrieval
+over the knowledge base and returns the matched official text verbatim with a "limited
+offline response" note — it never invents facts.
+
+For full plain-language answers in the user's language, set one key in `apps/api/.env`:
+
+- **`GEMINI_API_KEY`** — Google AI Studio, has a free tier: <https://aistudio.google.com/apikey>
+- **`ANTHROPIC_API_KEY`** — Anthropic Claude
+
+`LLM_PROVIDER` (`auto` \| `gemini` \| `anthropic` \| `mock`, default `auto`) picks the
+provider; `auto` uses Gemini if its key is present, else Anthropic, else the mock.
+`LLM_MODEL` overrides the model (defaults: `gemini-3.6-flash` / `claude-sonnet-5`).
 
 ### Hybrid Knowledge & Web Search
 

@@ -23,7 +23,7 @@ data/
 Greenfield repo (empty at start). Chosen: React 18 + Vite + TS + Tailwind on the
 frontend; Node 22 + Express + TS + Prisma on the backend; PostgreSQL 16 with `pgvector`
 for both relational data and embeddings (one datastore keeps rural/low-budget
-deployments simple). Anthropic Claude for generation behind an `LLMClient` interface
+deployments simple). Google Gemini or Anthropic Claude for generation behind an `LLMClient` interface
 with a deterministic mock adapter so the system runs with no API key. Embeddings from a
 local `multilingual-e5-small` model (384-dim, no key, ~120 MB one-time download) with a hosted Voyage
 option.
@@ -78,7 +78,7 @@ user question
         contacts; cite [n]; separate fact from plain-language explanation; cautious
         wording for legal/financial/agri; ask one clarifying question when needed;
         reply in the user's language)
-  → Claude (claude-sonnet-5 by default; deterministic mock adapter when no API key)
+  → LLM (Gemini gemini-3.6-flash or Claude claude-sonnet-5; deterministic mock adapter when no API key)
   → post-process: parse [n] → SourceRef[] cards (dedup by document),
        rule-based disclaimers[] by category, confidence from retrieval scores
        (HIGH ≥0.85 · MEDIUM ≥0.78 · LOW · NO_SOURCE)
@@ -165,12 +165,81 @@ Full audit + `npm audit` gate + dependency review scheduled for M8.
 | **M2** ✅ | Registration/login/refresh/logout, argon2id, rotating refresh tokens + reuse detection, role guards, admin seed, `/auth/me`, web auth flows |
 | **M3** ✅ | Knowledge doc model + ingestion (chunk → embed → pgvector), retrieval service, `/chat` grounded answers (cite-or-refuse, confidence, source cards, disclaimers), `/feedback`, seed KB, web chat UI (text, history, suggestions, category focus, loading/error/offline). PDF upload lands with admin (M7) |
 | **M4** ✅ | Browser Web Speech STT (dictation into the composer, auto-start from the home "Speak" button) + TTS (play/pause/stop/replay per answer, shared engine, "read aloud" toggle, markdown/citation stripping), `en-IN`/`ta-IN`/`hi-IN`; `GET /voice/config` capability descriptor + reserved `POST /voice/transcribe|speak` (501 until a hosted provider such as Bhashini is wired) |
-| **M5** ✅ | `Scheme` API (`GET /schemes` — who-can-apply / category / state / search filters + facets — and `GET /schemes/:slug`) plus a `ContentTopic` model with `GET /content/:section` and `/content/topics/:slug` serving Cooperative Law, PACS, Financial Literacy and PMFBY-FAQ (Simple + Detailed views, rural examples, official links). Public + cache-headed. Web: Scheme Explorer + detail pages, one generic `ContentSectionPage` + `TopicList` accordion, `AskAssistantLink` deep-links, popular schemes on the home page. `db:seed:content` seeds 5 schemes + 29 topics and ingests each into the KB so the assistant grounds on the same verified text |
+| **M5** ✅ | `Scheme` API (`GET /schemes` — who-can-apply / category / state / search filters + facets — and `GET /schemes/:slug`) plus a `ContentTopic` model with `GET /content/:section` and `/content/topics/:slug` serving Cooperative Law, PACS, Financial Literacy and PMFBY-FAQ (Simple + Detailed views, rural examples, official links). Public + cache-headed. Web: Scheme Explorer + detail pages, one generic `ContentSectionPage` + `TopicList` accordion, `AskAssistantLink` deep-links, popular schemes on the home page. `db:seed:content` seeds 19 schemes + 51 topics and ingests each into the KB so the assistant grounds on the same verified text |
 | **M6** ✅ | `utils/upload` (multer + MIME allowlist + **magic-byte** check + path guards), `grievance.service` (`GRV-XXXXXXXX` id, initial event, public-vs-owner/admin projections, validated transition map, orphan-attachment prune). Web: GrievancePage (voice-dictated description via `DictationTextarea`, up to 5 attachments), TrackGrievancePage (`/track`, `/track/:id`) with `StatusTimeline` + inline admin control. Anonymous tracking shows status + timeline only |
 | **M7** ✅ | Admin API (ADMIN-only, audit-logged): real analytics, knowledge management (create from pasted text **or** an uploaded text-based PDF via `unpdf`, verify, in-place re-ingest, delete), scheme management (create/edit/verify/archive with KB re-index), grievance management (filter, assign to an admin, validated status transitions + notes). Web `/admin` behind `ProtectedRoute roles={['ADMIN']}` — table-driven, no card grids: key-figures overview, filterable tables with inline actions, a grouped scheme editor, grievance detail + update panel |
 | **M8** ✅ | Route-level code-splitting (`React.lazy`; initial JS 248 KB → 144 KB, TanStack Query deferred). `vite-plugin-pwa`: manifest + generated icons + autoUpdate service worker (precache ~536 KiB shell; `NetworkFirst` runtime cache for `GET /content/*` and `/schemes*` only, `/api/` denylisted from the navigation fallback). Focus moves to `<main>` on route change. API `helmet` CSP locked to `default-src 'none'` + HSTS in prod; CORS is a strict allow-list callback; `urlencoded` 32 KB / `extended:false`. `SECURITY.md` + branch security review (no findings) |
 
-## 10. What is now stable (do not casually change)
+## 10. Hardware deployment — physical kiosk
+
+Many members the platform is for (older farmers, low-literacy users, anyone without a
+smartphone or a data plan) will never open the PWA on their own phone. The plan is to
+also install **physical touch-and-voice kiosks** at PACS offices, cooperative society
+counters, and gram panchayats — a shared terminal, not a personal device.
+
+**Status:** design target, not yet built. Nothing in this repo runs on hardware today;
+`POST /api/v1/voice/transcribe` and `POST /api/v1/voice/speak` are the reserved,
+currently-501 endpoints this kiosk is the reason for (see §7, §9 M4). This section
+records the intended architecture so the API keeps that integration point stable.
+
+### Bill of materials
+
+| Part | Role |
+|---|---|
+| **ESP32** (S3 variant — more RAM/PSRAM for touch + audio buffers) | On-site compute. A microcontroller, not a PC: it runs kiosk firmware, never the React app itself |
+| **Capacitive touchscreen** (SPI TFT, ~3.5–5") | Menu navigation, on-screen keyboard for typed questions, displays the assistant's reply |
+| **I2S MEMS microphone** (e.g. INMP441) | Captures the spoken question |
+| **I2S DAC + speaker** (e.g. MAX98357A amp) | Plays the spoken answer back — the read-aloud behaviour the web app gives via Web Speech API |
+| **Wi-Fi** (ESP32 built-in 802.11 b/g/n); optional **GSM/LTE module** (SIM800L / A7670) | Always-on link to the API — required, not optional (see Constraints) |
+| Small UPS / battery buffer | Rural PACS offices see frequent grid outages; the kiosk should survive short ones |
+
+### How it fits the existing system
+
+The kiosk is a **thin client that reuses the same API and the same grounded RAG
+pipeline** the web app uses — it is not a second backend, and it does not run its own
+copy of the knowledge base or embeddings (an ESP32 has nowhere near the RAM for that).
+Firmware renders a small native menu (LVGL or similar) instead of the browser SPA:
+
+```
+kiosk touch: type question  ─┐
+                              ├─→ POST /api/v1/chat  (same endpoint the web app calls)
+kiosk mic: speak question   ─┘        │
+  → I2S capture buffer                │  grounded reply text, sources, confidence
+  → POST /api/v1/voice/transcribe     ▼
+    (needs a hosted STT wired in —  reply text
+     e.g. Bhashini / Google STT;       │
+     currently 501)                    ▼
+                              POST /api/v1/voice/speak
+                                (needs a hosted TTS wired in;
+                                 currently 501)
+                                        │
+                                        ▼
+                              audio → I2S speaker playback
+                              + reply text/sources shown on the touchscreen
+```
+
+Browsable content (`GET /schemes`, `/content/:section`) and anonymous grievance
+tracking (`GET /grievances/:trackingId`) work the same way — plain REST calls rendered
+into the kiosk's native UI instead of React components.
+
+### Constraints this implies
+
+- **No offline mode on the kiosk**, unlike the PWA's offline-tolerant content pages —
+  retrieval and generation are both server-side, so a kiosk with no connectivity can't
+  answer anything. A visible "offline" state on-screen matters more here than on the web.
+- **The kiosk stays unauthenticated by default** (anonymous chat, anonymous
+  tracking-ID grievance lookup) — a public shared device is the wrong place for a
+  password-entry login flow. A QR code on-screen can deep-link a visitor's own phone to
+  the full PWA for anything that needs an account (filing a grievance tied to a member,
+  chat history).
+- **`SPEECH_PROVIDER`** (`src/config/env.ts`) governs which speech path is active;
+  wiring a real value beyond `browser` (e.g. `bhashini`) is what turns the kiosk's mic
+  and speaker on, without changing anything the web app does.
+- Kiosk traffic hits the same rate limits and CORS/API surface as everything else
+  (§8) — no separate trust tier exists for it yet; a per-device API key/header is a
+  reasonable future addition if kiosk abuse needs distinguishing from browser traffic.
+
+## 11. What is now stable (do not casually change)
 
 Once M1 is merged, treat these as the load-bearing contract:
 

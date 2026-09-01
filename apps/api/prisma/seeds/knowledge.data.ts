@@ -199,4 +199,72 @@ If you want to know a specific rule — for example the notice period for a gene
 
 ${VERIFIED_NOTE}`,
   },
+  {
+    title: 'Types of cooperative societies in India',
+    category: 'GOVERNANCE',
+    authority: 'State Cooperative Societies Acts / Ministry of Cooperation',
+    sourceUrl: 'https://cooperation.gov.in/',
+    language: 'en',
+    text: `Cooperative societies in India are registered for a specific purpose and classified by the State Cooperative Societies Act and model by-laws.
+
+Common types include: credit cooperatives (village-level Primary Agricultural Credit Societies, urban cooperative banks, salary-earners' credit societies); agricultural marketing cooperatives that pool and sell members' produce; producer and processing cooperatives such as dairy, sugar, oilseed, handloom and fishery societies; consumer cooperatives that run stores for members; housing cooperatives; and multipurpose societies that combine credit with input supply, storage and other services.
+
+Cooperatives are also organised in tiers. A primary society has individual members. A secondary or district society, such as a District Central Cooperative Bank, has primary societies as its members. An apex or State-level federation sits at the top. Cooperative banks are additionally regulated by the Reserve Bank of India.
+
+A society cannot carry on business outside its registered objects and area of operation without amending its by-laws with the approval of the general body and the Registrar.
+
+${VERIFIED_NOTE}`,
+  },
+  {
+    title: 'Audit and accountability of cooperative societies',
+    category: 'GOVERNANCE',
+    authority: 'State Cooperative Societies Acts / Registrar of Cooperative Societies',
+    sourceUrl: 'https://cooperation.gov.in/',
+    language: 'en',
+    text: `Every cooperative society must keep proper books of account and have them audited every year by an auditor of the cooperative audit department or an auditor from a panel approved for cooperatives. After the audit the society is given an audit classification (a grade).
+
+The society must place the audited accounts and the audit report before the general body at the annual general meeting, act on the audit objections and report the action taken, and file its annual return with the Registrar within the period the Act allows.
+
+A member can obtain a copy of the audited balance sheet and the audit report, usually on payment of a small fee. Persistent audit objections, a poor classification, or complaints of mismanagement can lead the Registrar to order a special audit, an inquiry or an inspection, and in serious cases to initiate surcharge proceedings against office-bearers for loss caused by their negligence or misconduct, or to supersede the managing committee for a limited period and appoint an administrator.
+
+Timelines, the format of the return, and the consequences of default are set by the State Act and Rules.
+
+${VERIFIED_NOTE}`,
+  },
+  {
+    title: 'Government micro-insurance and pension schemes (PMJJBY, PMSBY, APY, PM-KMY)',
+    category: 'FINANCIAL_LITERACY',
+    authority: 'Department of Financial Services / PFRDA, Government of India',
+    sourceUrl: 'https://jansuraksha.gov.in/',
+    language: 'en',
+    text: `Several central schemes give low-cost social security to people with a bank or post-office account. The exact premium and benefit amounts are revised by the Government from time to time and should be confirmed on the official portal.
+
+Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY) is a one-year renewable term life insurance for account holders aged 18 to 50, paying a lump sum to the nominee on death from any cause, with a small annual premium auto-debited from the account.
+
+Pradhan Mantri Suraksha Bima Yojana (PMSBY) is a one-year renewable accident insurance for account holders aged 18 to 70, paying on accidental death or permanent disability, with a very small annual premium.
+
+Atal Pension Yojana (APY) gives a guaranteed monthly pension of between 1,000 and 5,000 rupees from age 60 to subscribers who join between ages 18 and 40 and contribute regularly; since 1 October 2022 income-tax payers cannot join.
+
+Pradhan Mantri Kisan Maandhan Yojana (PM-KMY) is a voluntary contributory pension for small and marginal farmers aged 18 to 40 cultivating up to two hectares, paying 3,000 rupees a month after age 60, with an equal Government contribution to the fund during the paying years.
+
+Enrolment for all of these is through a bank, post office or Common Service Centre with Aadhaar, a bank account and nominee details.
+
+${VERIFIED_NOTE}`,
+  },
+  {
+    title: 'Interest subvention and the Kisan Credit Card credit limit',
+    category: 'PACS_SERVICE',
+    authority: 'Reserve Bank of India / NABARD / Department of Agriculture & Farmers Welfare',
+    sourceUrl: 'https://www.nabard.org/',
+    language: 'en',
+    text: `Short-term crop loans taken through a Kisan Credit Card, including from a Primary Agricultural Credit Society, are supported by a Government interest subvention scheme.
+
+Under the scheme as generally structured, the Government pays part of the interest to the lending institution so that the farmer receives crop loans up to a Government-notified limit at a concessional rate of interest. Farmers who repay on or before the due date receive an additional prompt-repayment incentive, which lowers the effective rate further. A separate sub-limit applies to Kisan Credit Card loans taken for animal husbandry and fisheries.
+
+The concessional rate, the loan-limit ceiling for the subvention, and the prompt-repayment incentive are decided by the Government and revised from year to year. There is no separate application for the benefit; it applies to eligible crop loans automatically, and the farmer should repay on time to also earn the incentive.
+
+Farmers should confirm the current rate, limit and incentive with their bank or PACS for the running year.
+
+${VERIFIED_NOTE}`,
+  },
 ];

@@ -5,14 +5,13 @@
  *
  *   npm run db:seed:content   (from apps/api)
  */
-import 'dotenv/config';
-import { PrismaClient, type KnowledgeCategory } from '@prisma/client';
+import type { KnowledgeCategory } from '@prisma/client';
+import { prisma } from '../../src/config/prisma.js';
 import { ingestDocument } from '../../src/services/knowledge.service.js';
 import { SEED_SCHEMES } from './schemes.data.js';
 import { SEED_TOPICS } from './content.data.js';
 import type { ContentSectionCode } from '@sahakar/shared';
 
-const prisma = new PrismaClient();
 const VERIFIED_AT = new Date('2026-08-29T00:00:00Z');
 
 const SECTION_TO_KB: Record<ContentSectionCode, KnowledgeCategory> = {

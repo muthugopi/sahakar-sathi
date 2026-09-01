@@ -28,8 +28,14 @@ const schema = z.object({
   ACCESS_TOKEN_TTL: z.string().default('15m'),
   REFRESH_TOKEN_TTL: z.string().default('30d'),
 
+  // Which chat model provider to use. 'auto' picks Gemini if GEMINI_API_KEY is
+  // set, else Anthropic if ANTHROPIC_API_KEY is set, else the offline mock.
+  LLM_PROVIDER: z.enum(['auto', 'gemini', 'anthropic', 'mock']).default('auto'),
   ANTHROPIC_API_KEY: z.string().optional().default(''),
-  LLM_MODEL: z.string().default('claude-sonnet-5'),
+  // Google AI Studio key (free tier): https://aistudio.google.com/apikey
+  GEMINI_API_KEY: z.string().optional().default(''),
+  // Optional model override. Defaults per provider: gemini-3.6-flash / claude-sonnet-5.
+  LLM_MODEL: z.string().optional(),
   LLM_MAX_TOKENS: z.coerce.number().int().positive().default(1024),
 
   EMBEDDINGS_PROVIDER: z.enum(['local', 'voyage']).default('local'),
@@ -75,8 +81,35 @@ export const port = env.PORT ?? env.API_PORT;
 export const isProd = env.NODE_ENV === 'production';
 export const isTest = env.NODE_ENV === 'test';
 
+/**
+ * The chat provider actually in effect, after applying LLM_PROVIDER and which
+ * API keys are present. Falls back to the offline mock when nothing is usable.
+ */
+export const llmProvider: 'gemini' | 'anthropic' | 'mock' = (() => {
+  switch (env.LLM_PROVIDER) {
+    case 'gemini':
+      return env.GEMINI_API_KEY ? 'gemini' : 'mock';
+    case 'anthropic':
+      return env.ANTHROPIC_API_KEY ? 'anthropic' : 'mock';
+    case 'mock':
+      return 'mock';
+    default:
+      if (env.GEMINI_API_KEY) return 'gemini';
+      if (env.ANTHROPIC_API_KEY) return 'anthropic';
+      return 'mock';
+  }
+})();
+
 /** True when a real LLM provider is configured; otherwise the mock adapter is used. */
-export const hasLlm = env.ANTHROPIC_API_KEY.length > 0;
+export const hasLlm = llmProvider !== 'mock';
+
+/** Model id for the active provider (explicit LLM_MODEL, else a per-provider default). */
+export const llmModel: string = (() => {
+  const m = env.LLM_MODEL?.trim();
+  if (llmProvider === 'gemini') return m && !/claude/i.test(m) ? m : 'gemini-3.6-flash';
+  if (llmProvider === 'anthropic') return m && !/gemini/i.test(m) ? m : 'claude-sonnet-5';
+  return m ?? 'mock';
+})();
 
 /** Wikipedia is always available; this adds a general web-search provider on top. */
 export const hasGeneralWebSearch = env.WEB_SEARCH_ENABLED && env.WEB_SEARCH_API_KEY.length > 0;

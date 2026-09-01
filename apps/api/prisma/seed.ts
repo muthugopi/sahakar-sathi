@@ -3,11 +3,8 @@
  * Content seeds (schemes, knowledge docs, financial-literacy lessons) are added
  * in later milestones under prisma/seeds/.
  */
-import 'dotenv/config';
 import argon2 from 'argon2';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../src/config/prisma.js';
 
 async function main() {
   const email = process.env.SEED_ADMIN_EMAIL;
